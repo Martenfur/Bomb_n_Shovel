@@ -5,15 +5,20 @@ import java.util.ArrayList;
 
 public class GameObject
 {
+  double x;
+  double y;
   public ArrayList<ObjCntrl.oid> objIndex = new ArrayList<ObjCntrl.oid>();
   
-  GameObject()
+  GameObject(double x_arg,double y_arg)
   {
+    x=x_arg;
+    y=y_arg;
     ObjCntrl.objects.add(this);
     ObjCntrl.objectsAm+=1;
     
     objIndex.add(ObjCntrl.oid.all);
   }
+  
   //EVENTS
   public void STEP_BEGIN() {}
   public void STEP()       {}

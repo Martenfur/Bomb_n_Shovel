@@ -34,12 +34,16 @@ public class ObjCntrl
     {objects.get(i).DRAW_END(gc);}
   }
   
+  ////////////////////////////////////////////////
   public static void objDestroy(GameObject obj)
   {
     objects.remove(obj);
     objectsAm-=1;
   }
+  ////////////////////////////////////////////////
   
+  
+  ////////////////////////////////////////////////
   public static int objCount(oid id)
   {
     int counter=0;
@@ -50,10 +54,16 @@ public class ObjCntrl
     }
     return counter;
   }
+  ////////////////////////////////////////////////
   
+  
+  ////////////////////////////////////////////////
   public static oid objIndexGet(GameObject obj)
   {return obj.objIndex.get(obj.objIndex.size()-1);}
+  ////////////////////////////////////////////////
   
+  
+  ////////////////////////////////////////////////
   public static boolean objIndexCmp(GameObject obj,oid id)
   {  
     int oidSize=obj.objIndex.size();
@@ -65,5 +75,5 @@ public class ObjCntrl
     
     return false;
   }
-  
+  ////////////////////////////////////////////////
 }

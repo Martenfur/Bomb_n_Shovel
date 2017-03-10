@@ -3,21 +3,21 @@ package pkg;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.shape.Line;
 
 import javafx.animation.AnimationTimer;
 
 public class Game extends Application
 {
   static int gameSpeed=30;
-  private double timeMul=1000000000.0;
+  private final double timeMul=1000000000.0;
   public static GraphicsContext gc;
   public static double currentTime=0;
   public static boolean create=true;
+  public static Pane root;
   
   public static int scr_w=640;
   public static int scr_h=480;
@@ -31,7 +31,7 @@ public class Game extends Application
     
     
     
-    StackPane root = new StackPane();
+    root = new Pane();
     Canvas canvas = new Canvas(scr_w,scr_h);
     GraphicsContext gc = canvas.getGraphicsContext2D();
 
@@ -40,9 +40,7 @@ public class Game extends Application
     primaryStage.setScene(scene);
     root.getChildren().add(canvas);
     
-    //Line line = new Line(0,0,100,32);
     //gc.rotate(45);
-    //root.getChildren().add(line);
     
     primaryStage.show();
     
