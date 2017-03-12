@@ -7,26 +7,94 @@ import javafx.scene.Node;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Polyline;
-import javafx.scene.shape.Shape;
+import javafx.geometry.Rectangle2D;
 
 public class DrawCntrl
 {
-  public static ArrayList<Node> drawable = new ArrayList<Node>();   
-  static Color currentColor = new Color(0,0,0,1);
-  static int   currentDepth = 0;
+  public static ArrayList<Node>[] drawlist;
+  public static ArrayList<Integer>[] depthlist;
+  
+  static Color    currentColor = new Color(0,0,0,1);
+  static int      currentDepth = 0;
   static Polyline currentPoly  = null;
-  static boolean isPolygon = false;
+  
+  public static enum df
+  {
+    BEGIN(0),
+    DEFAULT(1),
+    END(2);
+    
+    int val;
+    df(int val_arg) 
+    {val=val_arg;}
+    
+    public int get() 
+    {return val;}
+  }
+  
+  public static df drawFlag=df.DEFAULT;
+  
+  public static void CREATE()
+  {
+    drawlist = new ArrayList[3];
+    for(int i=0; i<3; i+=1)
+    {drawlist[i] = new ArrayList<>();}
+    
+    depthlist = new ArrayList[3];
+    for(int i=0; i<3; i+=1)
+    {depthlist[i] = new ArrayList<>();}
+  }
   
   public static void UPDATE()
   {
     Game.root.getChildren().clear();
     
-    for(int i=0; i<drawable.size(); i+=1)
-    {Game.root.getChildren().addAll(drawable.get(i));}
-    drawable.clear();
+    int size;
+    for(int k=0; k<3; k+=1)
+    {
+      size=drawlist[k].size();
+      for(int i=0; i<size; i+=1)
+      {Game.root.getChildren().addAll(drawlist[k].get(i));}
+      drawlist[k].clear();
+      depthlist[k].clear();
+    }
   }
+  
+  //////////////////////////////////////////////////////////////////////
+  public static void draw(Node dr)
+  {
+    ArrayList<Node>    listCur  = drawlist[drawFlag.get()];
+    ArrayList<Integer> depthCur = depthlist[drawFlag.get()];
+    listCur.add(dr);
+    depthCur.add(currentDepth);
+    
+    Node nodeBuf;
+    int depthBuf;
+    for(int i=listCur.size()-1; i>0; i-=1)
+    {
+      if (depthCur.get(i)>depthCur.get(i-1))
+      {
+        depthBuf=depthCur.get(i);
+        nodeBuf= listCur.get(i);
+        depthCur.set(i,depthCur.get(i-1));
+        listCur.set(i,listCur.get(i-1));
+        depthCur.set(i-1,depthBuf);
+        listCur.set(i-1,nodeBuf);
+      }
+      else
+      {break;}
+    }
+    
+  }
+  //////////////////////////////////////////////////////////////////////
+  
+  
+  //////////////////////////////////////////////////////////////////////
+  public static void setDepth(int depth)
+  {currentDepth=depth;}
+  //////////////////////////////////////////////////////////////////////
+  
   
   //////////////////////////////////////////////////////////////////////
   public static void setColor(Color c)
@@ -54,83 +122,93 @@ public class DrawCntrl
   
   
   //////////////////////////////////////////////////////////////////////
-  public static void draw(Node gr)
+  public static void drawSprite(Sprite spr,double frame,double x,double y)
   {
-    //Depth sorting goes here.
-    drawable.add(gr);
+    frame=Math.floor(frame);
+    spr.img.setX(x-spr.offset_x/2);
+    spr.img.setY(y-spr.offset_y/2);
+    
+    double vp_w=spr.getWidth()/spr.frames_h;
+    double vp_h=spr.getHeight()/spr.frames_v;
+    
+    double vp_x=(frame-Math.floor(frame/spr.frames_h)*spr.frames_h)*vp_w;
+    double vp_y=Math.floor(frame/spr.frames_h)*vp_h;
+
+    spr.img.setViewport(new Rectangle2D(vp_x,vp_y,vp_w,vp_h));
+    draw(spr.img);
   }
   //////////////////////////////////////////////////////////////////////
   
   
   //////////////////////////////////////////////////////////////////////
-  public static void drawLine(Line gr,double x1,double y1,
-                                      double x2,double y2)
-  { 
-    gr.setStroke(currentColor);
-    gr.setStartX(x1);
-    gr.setStartY(y1);
-    gr.setEndX  (x2);
-    gr.setEndY  (y2);
+  public static void drawLine(Line line,double x1,double y1,
+                                        double x2,double y2)
+  {  
+    line.setStartX(x1);
+    line.setStartY(y1);
+    line.setEndX  (x2);
+    line.setEndY  (y2);
     
-    draw(gr);
+    line.setStroke(currentColor);
+    
+    draw(line);
   }
   //////////////////////////////////////////////////////////////////////
   
   
   //////////////////////////////////////////////////////////////////////
-  public static void drawLineWidth(Line gr,double x1,double y1,
-                                           double x2,double y2,
-                                           int w)
-  { 
-    gr.setStartX(x1);
-    gr.setStartY(y1);
-    gr.setEndX  (x2);
-    gr.setEndY  (y2);
+  public static void drawLine(Line line,double x1,double y1,
+                                        double x2,double y2,
+                                        int w)
+  {   
+    line.setStartX(x1);
+    line.setStartY(y1);
+    line.setEndX  (x2);
+    line.setEndY  (y2);
     
-    gr.setStroke(currentColor);
-    gr.setStrokeWidth(w);
+    line.setStroke(currentColor);
+    line.setStrokeWidth(w);
     
-    draw(gr);
+    draw(line);
   }
   //////////////////////////////////////////////////////////////////////
   
   
   //////////////////////////////////////////////////////////////////////
-  public static void drawRectangle(Rectangle gr,double x1,double y1,
-                                                double x2,double y2,
-                                                boolean outline)
+  public static void drawRectangle(Rectangle rect,double x1,double y1,
+                                                  double x2,double y2,
+                                                  boolean outline)
   {
-    gr.setFill(currentColor);
-    gr.setX     (x1);
-    gr.setY     (y1);
-    gr.setWidth (x2-x1);
-    gr.setHeight(y2-y1); 
+    rect.setX     (x1);
+    rect.setY     (y1);
+    rect.setWidth (x2-x1);
+    rect.setHeight(y2-y1); 
     if (outline)
     {
-      gr.setStroke(currentColor);
-      gr.setFill(Color.rgb(0,0,0,0));
+      rect.setStroke(currentColor);
+      rect.setFill(Color.rgb(0,0,0,0));
     }
     else
-    {gr.setFill(currentColor);}
-    draw(gr);
+    {rect.setFill(currentColor);}
+    draw(rect);
   }
   //////////////////////////////////////////////////////////////////////
   
 
   //////////////////////////////////////////////////////////////////////
-  public static void drawCircle(Circle gr,double x,double y,double r,boolean outline)
+  public static void drawCircle(Circle circ,double x,double y,double r,boolean outline)
   {
-    gr.setCenterX(x);
-    gr.setCenterY(y);
-    gr.setRadius(r); 
+    circ.setCenterX(x);
+    circ.setCenterY(y);
+    circ.setRadius(r); 
     if (outline)
     {
-      gr.setStroke(currentColor);
-      gr.setFill(Color.rgb(0,0,0,0));
+      circ.setStroke(currentColor);
+      circ.setFill(Color.rgb(0,0,0,0));
     }
     else
-    {gr.setFill(currentColor);}
-    draw(gr);
+    {circ.setFill(currentColor);}
+    draw(circ);
   }
   //////////////////////////////////////////////////////////////////////  
 
@@ -150,6 +228,7 @@ public class DrawCntrl
   }
   //////////////////////////////////////////////////////////////////////
 
+  
   //////////////////////////////////////////////////////////////////////
   public static void drawPolyEnd()
   {

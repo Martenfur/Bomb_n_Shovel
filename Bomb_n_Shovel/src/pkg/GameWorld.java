@@ -9,6 +9,8 @@ public class GameWorld
   
   public static void CREATE()
   {
+    DrawCntrl.CREATE();
+    
     ObjTest o1 = new ObjTest(32.0,32.0);
     GameObject o2 = new GameObject(0.0,0.0);
     ObjTest o3 = new ObjTest(96.0,96.0);

@@ -5,7 +5,7 @@ import javafx.scene.canvas.GraphicsContext;
 
 public class ObjCntrl
 {
-  public static ArrayList<GameObject> objects = new ArrayList<GameObject>();
+  public static ArrayList<GameObject> objects = new ArrayList<>();
   static double objectsAm=0;
   
   public static enum oid
@@ -19,6 +19,7 @@ public class ObjCntrl
   */
   public static void UPDATE(GraphicsContext gc)
   {
+    DrawCntrl.drawFlag=DrawCntrl.df.DEFAULT;
     for(int i=0; i<objectsAm; i+=1)
     {objects.get(i).STEP_BEGIN();}
     for(int i=0; i<objectsAm; i+=1)
@@ -26,10 +27,13 @@ public class ObjCntrl
     for(int i=0; i<objectsAm; i+=1)
     {objects.get(i).STEP_END();}
     
+    DrawCntrl.drawFlag=DrawCntrl.df.BEGIN;
     for(int i=0; i<objectsAm; i+=1)
     {objects.get(i).DRAW_BEGIN(gc);}
+    DrawCntrl.drawFlag=DrawCntrl.df.DEFAULT;
     for(int i=0; i<objectsAm; i+=1)
     {objects.get(i).DRAW(gc);}
+    DrawCntrl.drawFlag=DrawCntrl.df.END;
     for(int i=0; i<objectsAm; i+=1)
     {objects.get(i).DRAW_END(gc);}
   }
