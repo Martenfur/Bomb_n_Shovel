@@ -8,7 +8,7 @@ public class GameObject
 {
   double x;
   double y;
-  public ArrayList<ObjCntrl.oid> objIndex = new ArrayList<ObjCntrl.oid>();
+  public ArrayList<ObjCntrl.oid> objIndex = new ArrayList<>();
   
   public GameObject(double x_arg,double y_arg)
   {

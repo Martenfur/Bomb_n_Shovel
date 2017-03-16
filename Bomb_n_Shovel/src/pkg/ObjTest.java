@@ -45,7 +45,7 @@ public class ObjTest extends GameObject
     
     DrawCntrl.drawSprite(sprtest,frame,32,32,Game.currentTime*30);
     DrawCntrl.setColor(Color.rgb(32,32,64));
-    DrawCntrl.drawCircle(rect,32,32,8,false);
+    DrawCntrl.drawCircle(rect,32,32,1,false);
     
     DrawCntrl.setDepth(-1);
     Polyline poly = new Polyline();

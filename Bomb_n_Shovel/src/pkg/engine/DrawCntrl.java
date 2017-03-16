@@ -164,10 +164,14 @@ public class DrawCntrl
   */
   public static void drawSprite(Sprite spr,double frame,double x,double y,double ang)
   {
+    ang-=Math.floor(ang/360)*360;
+   
     frame=Math.floor(frame);
-    double l=Mathe.pointDistance(0,0,spr.offset_x-spr.getWidth()/2,spr.offset_y-spr.getHeight()/2);
-    spr.img.setX(x-spr.getWidth()/2+Mathe.lcos(spr.offset_x+spr.getWidth()/2,-ang));
-    spr.img.setY(y-spr.getHeight()/2+Mathe.lsin(spr.offset_y+spr.getHeight()/2,-ang));
+    
+    spr.setOffset(spr.offset_x,spr.offset_y);
+    
+    spr.img.setX(x-spr.getWidth()/2+Mathe.lcos(spr.centerDist,spr.centerDir-ang));
+    spr.img.setY(y-spr.getHeight()/2+Mathe.lsin(spr.centerDist,spr.centerDir-ang));
     spr.img.setRotate(ang);
     
     double vp_w=spr.getWidth();

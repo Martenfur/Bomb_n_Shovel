@@ -29,8 +29,6 @@ public class Game extends Application
     final long timeStart=System.nanoTime();
     long timePrev=timeStart;
     
-    
-    
     root = new Pane();
     Canvas canvas = new Canvas(scr_w,scr_h);
     GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -39,8 +37,6 @@ public class Game extends Application
     Scene scene = new Scene(root,scr_w,scr_h);
     primaryStage.setScene(scene);
     root.getChildren().add(canvas);
-    
-    //gc.rotate(45);
     
     primaryStage.show();
     
