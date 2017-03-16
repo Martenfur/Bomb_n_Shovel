@@ -1,4 +1,6 @@
-package pkg;
+package pkg.engine;
+
+import pkg.GameObject;
 
 public class ObjIter
 {

@@ -1,8 +1,10 @@
-package pkg;
+package pkg.engine;
 
 
 import javafx.scene.paint.Color;
 import javafx.scene.canvas.GraphicsContext;
+
+import pkg.*;
 
 public class GameWorld
 {

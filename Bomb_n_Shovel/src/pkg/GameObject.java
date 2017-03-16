@@ -1,5 +1,6 @@
 package pkg;
 
+import pkg.engine.*;
 import javafx.scene.canvas.GraphicsContext;
 import java.util.ArrayList;
 
@@ -9,7 +10,7 @@ public class GameObject
   double y;
   public ArrayList<ObjCntrl.oid> objIndex = new ArrayList<ObjCntrl.oid>();
   
-  GameObject(double x_arg,double y_arg)
+  public GameObject(double x_arg,double y_arg)
   {
     x=x_arg;
     y=y_arg;

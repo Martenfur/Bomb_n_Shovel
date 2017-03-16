@@ -1,5 +1,7 @@
 package pkg;
 
+import pkg.engine.*;
+
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.shape.*;
 import javafx.scene.paint.Color;
@@ -17,7 +19,7 @@ public class ObjTest extends GameObject
   
   Sprite sprtest = new Sprite(Spr.animation); 
          
-  ObjTest(double x_arg,double y_arg)
+  public ObjTest(double x_arg,double y_arg)
   {
     super(x_arg,y_arg);
     objIndex.add(ObjCntrl.oid.objTest);
@@ -34,18 +36,16 @@ public class ObjTest extends GameObject
     DrawCntrl.drawRectangle(bkg,0,0,Game.scr_w,Game.scr_h,false);
     
     DrawCntrl.setDepth(0);
-    DrawCntrl.setColor(Color.rgb(32,32,64));
-    DrawCntrl.drawCircle(rect,0,0,300,false);
     DrawCntrl.setColor(Color.rgb(32,64,32));
     //DrawCntrl.drawLine(line,0,0,x,y);
     DrawCntrl.drawLine(line1,0,0,100,400);
-    //sprtest.setRotate(Game.currentTime*30);
     frame+=0.3;
     if (frame>=8)
     {frame-=8;}
-    DrawCntrl.drawSprite(sprtest,frame,32,32);
-     
     
+    DrawCntrl.drawSprite(sprtest,frame,32,32,Game.currentTime*30);
+    DrawCntrl.setColor(Color.rgb(32,32,64));
+    DrawCntrl.drawCircle(rect,32,32,8,false);
     
     DrawCntrl.setDepth(-1);
     Polyline poly = new Polyline();

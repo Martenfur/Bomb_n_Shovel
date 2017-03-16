@@ -1,4 +1,4 @@
-package pkg;
+package pkg.engine;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
@@ -36,8 +36,8 @@ public class Sprite
   }
   
   public double getWidth()
-  {return img.getImage().getWidth();}
+  {return img.getImage().getWidth()/frames_h;}
   
   public double getHeight()
-  {return img.getImage().getHeight();}
+  {return img.getImage().getHeight()/frames_v;}
 }

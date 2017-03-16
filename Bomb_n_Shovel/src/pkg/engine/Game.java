@@ -1,5 +1,5 @@
 
-package pkg;
+package pkg.engine;
 
 import javafx.application.Application;
 import javafx.scene.Scene;

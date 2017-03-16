@@ -1,4 +1,4 @@
-package pkg;
+package pkg.engine;
 
 import java.util.ArrayList;
 import javafx.scene.paint.Color;
@@ -120,8 +120,25 @@ public class DrawCntrl
   }
   //////////////////////////////////////////////////////////////////////
   
+  //////////////////////////////////////////////////////////////////////
+  /*
+  The most basic sprite function.
+  Just draws image as is. No rotation, no frames, no scale.
+  */
+  public static void drawSprite(Sprite spr,double x,double y)
+  {
+    spr.img.setX(x-spr.offset_x/2);
+    spr.img.setY(y-spr.offset_y/2);
+    
+    draw(spr.img);
+  }
+  //////////////////////////////////////////////////////////////////////
+  
   
   //////////////////////////////////////////////////////////////////////
+  /*
+  Draws sprite with given frame.
+  */
   public static void drawSprite(Sprite spr,double frame,double x,double y)
   {
     frame=Math.floor(frame);
@@ -135,6 +152,32 @@ public class DrawCntrl
     double vp_y=Math.floor(frame/spr.frames_h)*vp_h;
 
     spr.img.setViewport(new Rectangle2D(vp_x,vp_y,vp_w,vp_h));
+    
+    draw(spr.img);
+  }
+  //////////////////////////////////////////////////////////////////////
+  
+  
+  //////////////////////////////////////////////////////////////////////
+  /*
+  Draws sprite with given frame.
+  */
+  public static void drawSprite(Sprite spr,double frame,double x,double y,double ang)
+  {
+    frame=Math.floor(frame);
+    double l=Mathe.pointDistance(0,0,spr.offset_x-spr.getWidth()/2,spr.offset_y-spr.getHeight()/2);
+    spr.img.setX(x-spr.getWidth()/2+Mathe.lcos(spr.offset_x+spr.getWidth()/2,-ang));
+    spr.img.setY(y-spr.getHeight()/2+Mathe.lsin(spr.offset_y+spr.getHeight()/2,-ang));
+    spr.img.setRotate(ang);
+    
+    double vp_w=spr.getWidth();
+    double vp_h=spr.getHeight();
+    
+    double vp_x=(frame-Math.floor(frame/spr.frames_h)*spr.frames_h)*vp_w;
+    double vp_y=Math.floor(frame/spr.frames_h)*vp_h;
+
+    spr.img.setViewport(new Rectangle2D(vp_x,vp_y,vp_w,vp_h));
+    
     draw(spr.img);
   }
   //////////////////////////////////////////////////////////////////////

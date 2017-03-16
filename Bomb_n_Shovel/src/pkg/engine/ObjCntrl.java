@@ -1,12 +1,13 @@
-package pkg;
+package pkg.engine;
 
 import java.util.ArrayList;
 import javafx.scene.canvas.GraphicsContext;
+import pkg.GameObject;
 
 public class ObjCntrl
 {
   public static ArrayList<GameObject> objects = new ArrayList<>();
-  static double objectsAm=0;
+  public static double objectsAm=0;
   
   public static enum oid
   {
