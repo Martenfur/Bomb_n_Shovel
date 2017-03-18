@@ -1,7 +1,6 @@
 package pkg.engine;
 
 import java.util.ArrayList;
-import javafx.scene.canvas.GraphicsContext;
 import pkg.GameObject;
 
 public class ObjCntrl
@@ -18,7 +17,7 @@ public class ObjCntrl
   /*
   Performs events for all objects.
   */
-  public static void UPDATE(GraphicsContext gc)
+  public static void UPDATE()
   {
     DrawCntrl.drawFlag=DrawCntrl.df.DEFAULT;
     for(int i=0; i<objectsAm; i+=1)
@@ -30,13 +29,13 @@ public class ObjCntrl
     
     DrawCntrl.drawFlag=DrawCntrl.df.BEGIN;
     for(int i=0; i<objectsAm; i+=1)
-    {objects.get(i).DRAW_BEGIN(gc);}
+    {objects.get(i).DRAW_BEGIN();}
     DrawCntrl.drawFlag=DrawCntrl.df.DEFAULT;
     for(int i=0; i<objectsAm; i+=1)
-    {objects.get(i).DRAW(gc);}
+    {objects.get(i).DRAW();}
     DrawCntrl.drawFlag=DrawCntrl.df.END;
     for(int i=0; i<objectsAm; i+=1)
-    {objects.get(i).DRAW_END(gc);}
+    {objects.get(i).DRAW_END();}
   }
   
   ////////////////////////////////////////////////

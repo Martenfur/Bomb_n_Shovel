@@ -5,8 +5,6 @@ import pkg.engine.*;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.shape.*;
 import javafx.scene.paint.Color;
-import javafx.scene.image.*;
-import javafx.geometry.Rectangle2D;
 
 public class ObjTest extends GameObject
 {
@@ -26,12 +24,12 @@ public class ObjTest extends GameObject
   }
   
   @Override
-  public void DRAW(GraphicsContext gc)
+  public void DRAW()
   {
     
     x=Math.cos(Game.currentTime)*32;
     y=Math.sin(Game.currentTime)*32;
-    DrawCntrl.setColor(Color.rgb(208,137,255));
+    DrawCntrl.setColor(Color.rgb(200,200,200));
     DrawCntrl.setDepth(1);
     DrawCntrl.drawRectangle(bkg,0,0,Game.scr_w,Game.scr_h,false);
     
@@ -43,9 +41,11 @@ public class ObjTest extends GameObject
     if (frame>=8)
     {frame-=8;}
     
-    DrawCntrl.drawSprite(sprtest,frame,32,32,Game.currentTime*30);
+    //if (InputCntrl.mbCheck)
+    {DrawCntrl.drawSprite(sprtest,frame,0,0,Math.sin(Game.currentTime),Math.cos(Game.currentTime),Game.currentTime*30);}
     DrawCntrl.setColor(Color.rgb(32,32,64));
-    DrawCntrl.drawCircle(rect,32,32,1,false);
+    DrawCntrl.drawCircle(rect,200,200,1,false);
+    
     
     DrawCntrl.setDepth(-1);
     Polyline poly = new Polyline();
@@ -56,10 +56,13 @@ public class ObjTest extends GameObject
     DrawCntrl.polyAddPoint(100,100);
     DrawCntrl.drawPolyEnd();
     
+    Game.appsurf.setScaleX(0.5); 
+    Game.appsurf.setScaleY(0.5);
+
   }
   
   @Override
-  public void DRAW_END(GraphicsContext gc)
+  public void DRAW_END()
   {
     DrawCntrl.setDepth(10000);
     DrawCntrl.setColor(Color.rgb(0,0,0));

@@ -9,6 +9,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polyline;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.effect.BlendMode;
 
 public class DrawCntrl
 {
@@ -48,14 +49,14 @@ public class DrawCntrl
   
   public static void UPDATE()
   {
-    Game.root.getChildren().clear();
+    Game.appsurf.getChildren().clear();
     
     int size;
     for(int k=0; k<3; k+=1)
     {
       size=drawlist[k].size();
       for(int i=0; i<size; i+=1)
-      {Game.root.getChildren().addAll(drawlist[k].get(i));}
+      {Game.appsurf.getChildren().addAll(drawlist[k].get(i));}
       drawlist[k].clear();
       depthlist[k].clear();
     }
@@ -162,18 +163,22 @@ public class DrawCntrl
   /*
   Draws sprite with given frame.
   */
-  public static void drawSprite(Sprite spr,double frame,double x,double y,double ang)
+  public static void drawSprite(Sprite spr,double frame,double x,double y,double xscale,double yscale,double ang)
   {
     ang-=Math.floor(ang/360)*360;
    
     frame=Math.floor(frame);
     
     spr.setOffset(spr.offset_x,spr.offset_y);
+    spr.img.setBlendMode(BlendMode.DIFFERENCE);
+    double centerDir=Mathe.pointDirection(spr.offset_x*xscale,spr.offset_y*yscale,spr.getWidth()/2*xscale,spr.getHeight()/2*yscale);
+    double centerDist=Mathe.pointDistance(spr.offset_x*xscale,spr.offset_y*yscale,spr.getWidth()/2*xscale,spr.getHeight()/2*yscale);
     
-    spr.img.setX(x-spr.getWidth()/2+Mathe.lcos(spr.centerDist,spr.centerDir-ang));
-    spr.img.setY(y-spr.getHeight()/2+Mathe.lsin(spr.centerDist,spr.centerDir-ang));
+    spr.img.setX(x-spr.getWidth()/2+Mathe.lcos(centerDist,centerDir-ang));
+    spr.img.setY(y-spr.getHeight()/2+Mathe.lsin(centerDist,centerDir-ang));
     spr.img.setRotate(ang);
-    
+    spr.img.setScaleX(xscale);
+    spr.img.setScaleY(yscale);
     double vp_w=spr.getWidth();
     double vp_h=spr.getHeight();
     

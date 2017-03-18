@@ -1,9 +1,5 @@
 package pkg.engine;
 
-
-import javafx.scene.paint.Color;
-import javafx.scene.canvas.GraphicsContext;
-
 import pkg.*;
 
 public class GameWorld
@@ -11,6 +7,8 @@ public class GameWorld
   
   public static void CREATE()
   {
+    Mathe.randomize(); 
+    InputCntrl.CREATE();
     DrawCntrl.CREATE();
     
     ObjTest o1 = new ObjTest(32.0,32.0);
@@ -23,17 +21,25 @@ public class GameWorld
     {
       System.out.println(it.get());
     }
+    
   }
   
-  public static void UPDATE(GraphicsContext gc)
-  {
-    gc.setFill(Color.rgb(128,128,128));
-    gc.setStroke(Color.rgb(0,0,0,0.5));
-    gc.setLineWidth(5);
-    gc.fillRect(0,0,Game.scr_w,Game.scr_h);
-    //gc.strokeOval(32,32,60+Math.sin(Game.currentTime)*30,30);
-    //System.out.println(Game.currentTime);
-    ObjCntrl.UPDATE(gc);
+  public static void UPDATE()
+  { 
+    InputCntrl.UPDATE();
+    ObjCntrl.UPDATE();
     DrawCntrl.UPDATE();
   }
+  
+  public static void cameraSetPosition(double x,double y)
+  {
+    Game.appsurf.setTranslateX(x);
+    Game.appsurf.setTranslateY(y);
+  }
+  
+  public static double cameraGet_x()
+  {return -Game.appsurf.getTranslateX();}
+  
+  public static double cameraGet_y()
+  {return -Game.appsurf.getTranslateY();}
 }

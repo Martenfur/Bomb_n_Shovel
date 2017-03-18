@@ -17,26 +17,33 @@ public class Game extends Application
   public static GraphicsContext gc;
   public static double currentTime=0;
   public static boolean create=true;
-  public static Pane root;
+  public static Pane root,appsurf;
   
   public static int scr_w=640;
   public static int scr_h=480;
   
+  public static boolean inFocus;
+  
   @Override
   public void start(Stage primaryStage)
   {
-    
     final long timeStart=System.nanoTime();
     long timePrev=timeStart;
     
     root = new Pane();
+    appsurf=new Pane();
+    appsurf.setMinSize(scr_w,scr_h);
+    appsurf.setMaxSize(scr_w,scr_h);
+    appsurf.setRotate(60);
+    
     Canvas canvas = new Canvas(scr_w,scr_h);
-    GraphicsContext gc = canvas.getGraphicsContext2D();
-
-    primaryStage.setTitle("Love foxes or die.");
+    
     Scene scene = new Scene(root,scr_w,scr_h);
+    
     primaryStage.setScene(scene);
     root.getChildren().add(canvas);
+    root.getChildren().add(appsurf);
+    primaryStage.setTitle("Love foxes or die.");
     
     primaryStage.show();
     
@@ -54,8 +61,9 @@ public class Game extends Application
         long timePrev=System.nanoTime();
         
         currentTime=(System.nanoTime()-timeStart)/timeMul;
+        inFocus=root.getScene().getWindow().focusedProperty().get();
         
-        GameWorld.UPDATE(gc);
+        GameWorld.UPDATE();
         
         //WAITING.
         while((System.nanoTime()-timePrev)/timeMul < 1/gameSpeed){}

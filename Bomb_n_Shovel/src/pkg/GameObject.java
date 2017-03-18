@@ -21,13 +21,13 @@ public class GameObject
   }
   
   //EVENTS
-  public void STEP_BEGIN() {}
-  public void STEP()       {}
-  public void STEP_END()   {}
+  public void STEP_BEGIN(){}
+  public void STEP()      {}
+  public void STEP_END()  {}
   
-  public void DRAW_BEGIN(GraphicsContext gc) {}
-  public void DRAW(GraphicsContext gc)       {}
-  public void DRAW_END(GraphicsContext gc)   {}
+  public void DRAW_BEGIN(){}
+  public void DRAW()      {}
+  public void DRAW_END()  {}
   //EVENTS
 }
 
