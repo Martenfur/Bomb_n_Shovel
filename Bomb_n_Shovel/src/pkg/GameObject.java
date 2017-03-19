@@ -28,6 +28,8 @@ public class GameObject
   public void DRAW_BEGIN(){}
   public void DRAW()      {}
   public void DRAW_END()  {}
+  
+  public void DRAW_GUI()  {}
   //EVENTS
 }
 

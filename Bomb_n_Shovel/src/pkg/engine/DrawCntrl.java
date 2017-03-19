@@ -24,7 +24,8 @@ public class DrawCntrl
   {
     BEGIN(0),
     DEFAULT(1),
-    END(2);
+    END(2),
+    GUI(3);
     
     int val;
     df(int val_arg) 
@@ -38,19 +39,23 @@ public class DrawCntrl
   
   public static void CREATE()
   {
-    drawlist = new ArrayList[3];
-    for(int i=0; i<3; i+=1)
+    drawlist = new ArrayList[4];
+    for(int i=0; i<4; i+=1)
     {drawlist[i] = new ArrayList<>();}
     
-    depthlist = new ArrayList[3];
-    for(int i=0; i<3; i+=1)
+    depthlist = new ArrayList[4];
+    for(int i=0; i<4; i+=1)
     {depthlist[i] = new ArrayList<>();}
   }
   
   public static void UPDATE()
   {
+    //Clearing panes.
     Game.appsurf.getChildren().clear();
+    Game.gui.getChildren().clear();
+    //Clearing panes.
     
+    //Regular draw lists.
     int size;
     for(int k=0; k<3; k+=1)
     {
@@ -60,6 +65,16 @@ public class DrawCntrl
       drawlist[k].clear();
       depthlist[k].clear();
     }
+    //Reguler draw lists.
+    
+    //GUI layer.
+    size=drawlist[3].size();
+    for(int i=0; i<size; i+=1)
+    {Game.gui.getChildren().addAll(drawlist[3].get(i));}
+    drawlist[3].clear();
+    depthlist[3].clear();
+    //GUI layer.
+    
   }
   
   //////////////////////////////////////////////////////////////////////

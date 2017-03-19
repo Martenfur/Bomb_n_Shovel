@@ -17,7 +17,10 @@ public class Game extends Application
   public static GraphicsContext gc;
   public static double currentTime=0;
   public static boolean create=true;
-  public static Pane root,appsurf;
+  public static Pane root,       //Root surface.
+                     gui,        //For gui layer.
+                     rotatesurf, //For rotating appsurf.
+                     appsurf;    //For all the graphics.
   
   public static int scr_w=640;
   public static int scr_h=480;
@@ -30,20 +33,28 @@ public class Game extends Application
     final long timeStart=System.nanoTime();
     long timePrev=timeStart;
     
-    root = new Pane();
-    appsurf=new Pane();
+    root       = new Pane();
+    gui        = new Pane();
+    rotatesurf = new Pane();
+    appsurf    = new Pane();
+    
+    gui.setMinSize(scr_w,scr_h);
+    gui.setMaxSize(scr_w,scr_h);
+    rotatesurf.setMinSize(scr_w,scr_h);
+    rotatesurf.setMaxSize(scr_w,scr_h);
     appsurf.setMinSize(scr_w,scr_h);
     appsurf.setMaxSize(scr_w,scr_h);
-    appsurf.setRotate(60);
     
-    Canvas canvas = new Canvas(scr_w,scr_h);
-    
+    Canvas canvas = new Canvas(scr_w,scr_h);    
     Scene scene = new Scene(root,scr_w,scr_h);
     
     primaryStage.setScene(scene);
-    root.getChildren().add(canvas);
-    root.getChildren().add(appsurf);
     primaryStage.setTitle("Love foxes or die.");
+    root.getChildren().add(canvas);
+    
+    rotatesurf.getChildren().add(appsurf);
+    root.getChildren().add(rotatesurf);
+    root.getChildren().add(gui);
     
     primaryStage.show();
     

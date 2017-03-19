@@ -9,7 +9,8 @@ import javafx.scene.paint.Color;
 public class ObjTest extends GameObject
 {
   double frame=0;
-
+  double ang=0;
+  
   Line line = new Line();
   Line line1 = new Line();
   Circle rect = new Circle();
@@ -44,7 +45,7 @@ public class ObjTest extends GameObject
     //if (InputCntrl.mbCheck)
     {DrawCntrl.drawSprite(sprtest,frame,0,0,Math.sin(Game.currentTime),Math.cos(Game.currentTime),Game.currentTime*30);}
     DrawCntrl.setColor(Color.rgb(32,32,64));
-    DrawCntrl.drawCircle(rect,200,200,1,false);
+    
     
     
     DrawCntrl.setDepth(-1);
@@ -56,18 +57,31 @@ public class ObjTest extends GameObject
     DrawCntrl.polyAddPoint(100,100);
     DrawCntrl.drawPolyEnd();
     
-    Game.appsurf.setScaleX(0.5); 
-    Game.appsurf.setScaleY(0.5);
+    DrawCntrl.drawCircle(rect,InputCntrl.mouse_x,InputCntrl.mouse_y,4,false);
+    
+    GameWorld.cameraSetRotate(Game.currentTime*30);
+    ang+=1;
+    if (ang>360)
+    {ang-=360;}
+    double camX=Mathe.lsin(128,ang);
+    
+    GameWorld.cameraSetPosition(camX,0);
+    
+    double scale = Mathe.lsin(0.5,Game.currentTime*40)+0.5;
+    GameWorld.cameraSetScale(scale,scale);
+    
+    //DrawCntrl.drawCircle(rect,Game.scr_w/2+camX,Game.scr_h/2+0,4,false);
+    
 
   }
   
   @Override
-  public void DRAW_END()
+  public void DRAW_GUI()
   {
     DrawCntrl.setDepth(10000);
     DrawCntrl.setColor(Color.rgb(0,0,0));
     DrawCntrl.setAlpha(1);
-    DrawCntrl.drawLine(line,0,0,x*2,y*2);
+    DrawCntrl.drawLine(line,100,100,100+x*2,100+y*2);
   }
   
 }

@@ -34,10 +34,10 @@ public class Mathe
   public static double pi=3.14159265359;
   
   public static double lcos(double len,double dir)
-  {return  len*Math.cos(dir/359*(pi*2));}
+  {return  len*Math.cos(Math.toRadians(dir));}
 
   public static double lsin(double len,double dir)
-  {return -len*Math.sin(dir/359*(pi*2));}
+  {return -len*Math.sin(Math.toRadians(dir));}
 
   public static double pointDistance(double x1,double y1,double x2,double y2)
   {return Math.sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2));}

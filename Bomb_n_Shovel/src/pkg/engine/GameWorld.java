@@ -33,13 +33,40 @@ public class GameWorld
   
   public static void cameraSetPosition(double x,double y)
   {
-    Game.appsurf.setTranslateX(x);
-    Game.appsurf.setTranslateY(y);
+    Game.appsurf.setTranslateX(Math.round(-x*Game.appsurf.getScaleX()));
+    Game.appsurf.setTranslateY(Math.round(-y*Game.appsurf.getScaleY()));
   }
   
   public static double cameraGet_x()
-  {return -Game.appsurf.getTranslateX();}
+  {return -Game.appsurf.getTranslateX()/Game.appsurf.getScaleX();}
   
   public static double cameraGet_y()
-  {return -Game.appsurf.getTranslateY();}
+  {return -Game.appsurf.getTranslateY()/Game.appsurf.getScaleX();}
+  
+  
+  public static void cameraSetScale(double xscale,double yscale)
+  {
+    
+    Game.appsurf.setTranslateX(Game.appsurf.getTranslateX()/Game.appsurf.getScaleX());
+    Game.appsurf.setTranslateY(Game.appsurf.getTranslateY()/Game.appsurf.getScaleY());
+    
+    Game.appsurf.setScaleX(xscale);
+    Game.appsurf.setScaleY(yscale);
+    
+    Game.appsurf.setTranslateX(Game.appsurf.getTranslateX()*xscale);
+    Game.appsurf.setTranslateY(Game.appsurf.getTranslateY()*yscale);
+  }
+  
+  public static double cameraGetScale_x()
+  {return Game.appsurf.getScaleX();}
+  
+  public static double cameraGetScale_y()
+  {return Game.appsurf.getScaleY();}
+  
+  public static void cameraSetRotate(double rot)
+  {Game.rotatesurf.setRotate(rot);}
+  
+  public static double cameraGetRotate()
+  {return Game.rotatesurf.getRotate();}
+  
 }

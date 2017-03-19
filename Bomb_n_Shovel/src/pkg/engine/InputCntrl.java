@@ -53,9 +53,9 @@ public class InputCntrl
   {
     if (Game.inFocus)
     {
-      mouse_x=mouse_x_read;
-      mouse_y=mouse_y_read;
-    
+      mouse_x=mouse_x_read/Game.appsurf.getScaleX()+GameWorld.cameraGet_x()-(Game.root.getWidth()/Game.appsurf.getScaleX()-Game.appsurf.getWidth())/2;
+      mouse_y=mouse_y_read/Game.appsurf.getScaleY()+GameWorld.cameraGet_y()-(Game.root.getHeight()/Game.appsurf.getScaleY()-Game.appsurf.getHeight())/2;
+      
       mbCheck=mbCheck_read;
       mbCheckPress=mbCheckPress_read;
       mbCheckRelease=mbCheckRelease_read;

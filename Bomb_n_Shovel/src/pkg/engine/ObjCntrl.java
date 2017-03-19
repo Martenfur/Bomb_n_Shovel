@@ -36,6 +36,9 @@ public class ObjCntrl
     DrawCntrl.drawFlag=DrawCntrl.df.END;
     for(int i=0; i<objectsAm; i+=1)
     {objects.get(i).DRAW_END();}
+    DrawCntrl.drawFlag=DrawCntrl.df.GUI;
+    for(int i=0; i<objectsAm; i+=1)
+    {objects.get(i).DRAW_GUI();}
   }
   
   ////////////////////////////////////////////////
