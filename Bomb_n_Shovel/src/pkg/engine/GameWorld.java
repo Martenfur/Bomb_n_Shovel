@@ -11,17 +11,14 @@ public class GameWorld
     InputCntrl.CREATE();
     DrawCntrl.CREATE();
     
-    ObjTest o1 = new ObjTest(32.0,32.0);
-    GameObject o2 = new GameObject(0.0,0.0);
-    ObjTest o3 = new ObjTest(96.0,96.0);
-    ObjCntrl.objDestroy(o1);
-    //System.out.println(o1);
+    Field o1 = new Field(0,0);
     
+    /*
     for(ObjIter it = new ObjIter(ObjCntrl.oid.objTest); it.end(); it.inc())
     {
       System.out.println(it.get());
     }
-    
+    */
   }
   
   public static void UPDATE()
@@ -33,15 +30,15 @@ public class GameWorld
   
   public static void cameraSetPosition(double x,double y)
   {
-    Game.appsurf.setTranslateX(Math.round(-x*Game.appsurf.getScaleX()));
-    Game.appsurf.setTranslateY(Math.round(-y*Game.appsurf.getScaleY()));
+    Game.appsurf.setTranslateX(Math.round(-x*Game.appsurf.getScaleX()+(Game.root.getWidth()*Game.appsurf.getScaleX()-Game.appsurf.getWidth())/2));
+    Game.appsurf.setTranslateY(Math.round(-y*Game.appsurf.getScaleY()+(Game.root.getHeight()*Game.appsurf.getScaleY()-Game.appsurf.getHeight())/2));
   }
   
   public static double cameraGet_x()
-  {return -Game.appsurf.getTranslateX()/Game.appsurf.getScaleX();}
+  {return -Game.appsurf.getTranslateX()/Game.appsurf.getScaleX()-(Game.root.getWidth()/Game.appsurf.getScaleX()-Game.appsurf.getWidth())/2;}
   
   public static double cameraGet_y()
-  {return -Game.appsurf.getTranslateY()/Game.appsurf.getScaleX();}
+  {return -Game.appsurf.getTranslateY()/Game.appsurf.getScaleY()-(Game.root.getHeight()/Game.appsurf.getScaleY()-Game.appsurf.getHeight())/2;}
   
   
   public static void cameraSetScale(double xscale,double yscale)

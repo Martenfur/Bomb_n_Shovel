@@ -1,5 +1,6 @@
 package pkg.engine;
 
+import javafx.scene.effect.BlendMode;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 
@@ -19,12 +20,11 @@ public class Sprite
     frames_h=frh_arg;
     frames_v=frv_arg;
     setOffset(offx_arg,offy_arg);
-    //System.out.println(img.getImage().);
   }
   
   public Sprite(Sprite spr_arg)
   {
-    img=     spr_arg.img;
+    img=new ImageView(spr_arg.img.getImage());
     frames_h=spr_arg.frames_h;
     frames_v=spr_arg.frames_v;
     setOffset(spr_arg.offset_x,spr_arg.offset_y);
@@ -44,5 +44,12 @@ public class Sprite
   
   public final double getHeight()
   {return img.getImage().getHeight()/frames_v;}
+  
+  public void setBlendMode(BlendMode blend)
+  {img.setBlendMode(blend);}
+  
+  public void setAlpha(double alpha)
+  {img.setOpacity(alpha);}
+  
   
 }

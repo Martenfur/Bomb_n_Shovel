@@ -2,12 +2,10 @@ package pkg.engine;
 
 import javafx.scene.input.MouseEvent;
 import javafx.event.EventHandler;
-import javafx.scene.input.MouseButton;
-
 
 public class InputCntrl
 {
-  public static double mouse_x,mouse_y;
+  public static double mouse_x,mouse_y,mouse_xgui,mouse_ygui;
   public static boolean mbCheck,mbCheckPress,mbCheckRelease;
   
   static double mouse_x_read,mouse_y_read;
@@ -53,8 +51,11 @@ public class InputCntrl
   {
     if (Game.inFocus)
     {
-      mouse_x=mouse_x_read/Game.appsurf.getScaleX()+GameWorld.cameraGet_x()-(Game.root.getWidth()/Game.appsurf.getScaleX()-Game.appsurf.getWidth())/2;
-      mouse_y=mouse_y_read/Game.appsurf.getScaleY()+GameWorld.cameraGet_y()-(Game.root.getHeight()/Game.appsurf.getScaleY()-Game.appsurf.getHeight())/2;
+      mouse_x=mouse_x_read/Game.appsurf.getScaleX()+GameWorld.cameraGet_x();
+      mouse_y=mouse_y_read/Game.appsurf.getScaleY()+GameWorld.cameraGet_y();
+      
+      mouse_xgui=mouse_x_read;
+      mouse_ygui=mouse_y_read;
       
       mbCheck=mbCheck_read;
       mbCheckPress=mbCheckPress_read;

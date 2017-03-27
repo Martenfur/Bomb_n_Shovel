@@ -9,7 +9,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polyline;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.effect.BlendMode;
 
 public class DrawCntrl
 {
@@ -136,6 +135,7 @@ public class DrawCntrl
   }
   //////////////////////////////////////////////////////////////////////
   
+  
   //////////////////////////////////////////////////////////////////////
   /*
   The most basic sprite function.
@@ -178,14 +178,37 @@ public class DrawCntrl
   /*
   Draws sprite with given frame.
   */
-  public static void drawSprite(Sprite spr,double frame,double x,double y,double xscale,double yscale,double ang)
+  public static void drawSprite(Sprite spr,double frame,double x,double y,double alpha)
+  {
+    spr.img.setOpacity(alpha);
+    drawSprite(spr,frame,x,y);
+  }
+  //////////////////////////////////////////////////////////////////////
+  
+  //////////////////////////////////////////////////////////////////////
+  
+  public static void drawSprite(Sprite spr,double frame,double x,     double y,
+                                                        double xscale,double yscale,
+                                                        double ang,   double alpha)
+  {
+    spr.img.setOpacity(alpha);
+    drawSprite(spr,frame,x,y,xscale,yscale,ang);
+  }
+  //////////////////////////////////////////////////////////////////////
+  
+  //////////////////////////////////////////////////////////////////////
+  /*
+  Draws sprite with given frame.
+  */
+  public static void drawSprite(Sprite spr,double frame,double x,     double y,
+                                                        double xscale,double yscale,
+                                                        double ang)
   {
     ang-=Math.floor(ang/360)*360;
-   
+    
     frame=Math.floor(frame);
     
     spr.setOffset(spr.offset_x,spr.offset_y);
-    spr.img.setBlendMode(BlendMode.DIFFERENCE);
     double centerDir=Mathe.pointDirection(spr.offset_x*xscale,spr.offset_y*yscale,spr.getWidth()/2*xscale,spr.getHeight()/2*yscale);
     double centerDist=Mathe.pointDistance(spr.offset_x*xscale,spr.offset_y*yscale,spr.getWidth()/2*xscale,spr.getHeight()/2*yscale);
     

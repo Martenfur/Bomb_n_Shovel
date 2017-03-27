@@ -1,7 +1,6 @@
 package pkg;
 
 import pkg.engine.*;
-import javafx.scene.canvas.GraphicsContext;
 import java.util.ArrayList;
 
 public class GameObject

@@ -11,7 +11,8 @@ public class ObjCntrl
   public static enum oid
   {
     all,
-    objTest
+    objTest,
+    field
   }
   
   /*

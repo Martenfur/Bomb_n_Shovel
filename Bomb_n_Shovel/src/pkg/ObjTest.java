@@ -2,7 +2,6 @@ package pkg;
 
 import pkg.engine.*;
 
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.shape.*;
 import javafx.scene.paint.Color;
 
@@ -10,6 +9,10 @@ public class ObjTest extends GameObject
 {
   double frame=0;
   double ang=0;
+  Sprite[] sprArray;
+  Sprite animation;
+  int sprAm=50;
+  double deg=0;
   
   Line line = new Line();
   Line line1 = new Line();
@@ -22,12 +25,17 @@ public class ObjTest extends GameObject
   {
     super(x_arg,y_arg);
     objIndex.add(ObjCntrl.oid.objTest);
+    
+    animation=new Sprite(Spr.animation);
+    sprArray = new Sprite[sprAm];
+    for(int i=0; i<sprAm; i+=1)
+    {sprArray[i]=new Sprite(Spr.kitten);}
   }
   
   @Override
   public void DRAW()
   {
-    
+    /*
     x=Math.cos(Game.currentTime)*32;
     y=Math.sin(Game.currentTime)*32;
     DrawCntrl.setColor(Color.rgb(200,200,200));
@@ -38,12 +46,6 @@ public class ObjTest extends GameObject
     DrawCntrl.setColor(Color.rgb(32,64,32));
     //DrawCntrl.drawLine(line,0,0,x,y);
     DrawCntrl.drawLine(line1,0,0,100,400);
-    frame+=0.3;
-    if (frame>=8)
-    {frame-=8;}
-    
-    //if (InputCntrl.mbCheck)
-    {DrawCntrl.drawSprite(sprtest,frame,0,0,Math.sin(Game.currentTime),Math.cos(Game.currentTime),Game.currentTime*30);}
     DrawCntrl.setColor(Color.rgb(32,32,64));
     
     
@@ -56,32 +58,29 @@ public class ObjTest extends GameObject
     DrawCntrl.polyAddPoint(48,80);
     DrawCntrl.polyAddPoint(100,100);
     DrawCntrl.drawPolyEnd();
+    */
+    deg+=0.1;
+    double a=Mathe.lsin(1,deg);
     
-    DrawCntrl.drawCircle(rect,InputCntrl.mouse_x,InputCntrl.mouse_y,4,false);
-    
-    GameWorld.cameraSetRotate(Game.currentTime*30);
-    ang+=1;
-    if (ang>360)
-    {ang-=360;}
-    double camX=Mathe.lsin(128,ang);
-    
-    GameWorld.cameraSetPosition(camX,0);
-    
-    double scale = Mathe.lsin(0.5,Game.currentTime*40)+0.5;
-    GameWorld.cameraSetScale(scale,scale);
-    
-    //DrawCntrl.drawCircle(rect,Game.scr_w/2+camX,Game.scr_h/2+0,4,false);
-    
-
-  }
+    for(int i=0; i<sprAm; i+=1)
+    {
+      DrawCntrl.drawSprite(sprArray[i],0,Game.scr_w/2+i+a,Game.scr_h/2+32,i,i,i+deg*i,0.3);}
+      GameWorld.cameraSetScale(0.5,0.5);
+    }
   
   @Override
   public void DRAW_GUI()
   {
-    DrawCntrl.setDepth(10000);
-    DrawCntrl.setColor(Color.rgb(0,0,0));
+    DrawCntrl.setColor(Color.rgb(32,0,32));
     DrawCntrl.setAlpha(1);
-    DrawCntrl.drawLine(line,100,100,100+x*2,100+y*2);
+    DrawCntrl.drawCircle(rect,InputCntrl.mouse_xgui,InputCntrl.mouse_ygui,4,false);
+    GameWorld.cameraSetPosition((InputCntrl.mouse_xgui-Game.scr_w/2)*0.5,(InputCntrl.mouse_ygui-Game.scr_h/2)*0.5);
+  
+    frame+=0.3;
+    if (frame>=8)
+    {frame-=8;}
+    DrawCntrl.drawSprite(sprtest,frame,0,0,1,1,0);
+    
   }
   
 }
