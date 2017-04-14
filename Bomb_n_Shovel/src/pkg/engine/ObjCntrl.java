@@ -12,7 +12,8 @@ public class ObjCntrl
   {
     all,
     objTest,
-    field
+    field,
+    peasant
   }
   
   /*

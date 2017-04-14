@@ -20,6 +20,7 @@ public class Sprite
     frames_h=frh_arg;
     frames_v=frv_arg;
     setOffset(offx_arg,offy_arg);
+    
   }
   
   public Sprite(Sprite spr_arg)

@@ -3,7 +3,25 @@ package pkg.engine;
 import java.util.Random;
 
 public class Mathe
-{   
+{  
+  //0   -  1, 0 
+  //90  -  0,-1
+  //180 - -1, 0
+  //270 -  0, 1
+  public static final int rotate_x[]={1, 0,-1,0};
+  public static final int rotate_y[]={0,-1, 0,1};
+  
+  public static int rotateConvert(int x,int y)
+  {
+    for(int i=0; i<4; i+=1)
+    {
+      if (rotate_x[i]==x && rotate_y[i]==y)
+      {return i;}
+    }
+    return -1;
+  }
+  
+  
   //MATH/////////////////////////////////////////////////////////////////////////////
   public static double zerosign(double x)
   {

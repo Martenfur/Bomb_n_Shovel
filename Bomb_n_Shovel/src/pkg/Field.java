@@ -1,5 +1,6 @@
 package pkg;
 
+import java.util.ArrayList;
 import javafx.scene.paint.Color;
 import pkg.engine.*;
 import javafx.scene.shape.*;
@@ -11,13 +12,17 @@ public class Field extends GameObject
   
   double cam_mx,cam_my,cam_cx,cam_cy;
   
-  Circle cursor; 
+  int sx,sy,fx,fy;
+  
+  Circle cursor,pStart,pFinish; 
   Rectangle[][] rectArray;
   
   public Field(double x_arg,double y_arg)
   {
     super(x_arg,y_arg);
     objIndex.add(ObjCntrl.oid.field);
+    
+    new Peasant(32*4,32*5);
     
     field_w=128;
     field_h=128;
@@ -28,7 +33,7 @@ public class Field extends GameObject
     for(int i=0; i<field_w; i+=1)
     {
       for(int k=0; k<field_h; k+=1)
-      {field[i][k]=Mathe.irandom(1);}
+      {field[i][k]=1;}//Mathe.irandom(1);}
     }
     
     cursor = new Circle();
@@ -38,12 +43,21 @@ public class Field extends GameObject
       for(int k=0; k<128; k+=1)
       {rectArray[i][k]=new Rectangle();}
     }
+    sx=8;
+    sy=8;
+    
+    fx=15;
+    fy=6;
+    
+    pStart=new Circle();
+    pFinish=new Circle();
+    
   }
   
   @Override
   public void STEP()
   {
-    GameWorld.cameraSetScale(1+Mathe.lsin(0.5,Game.currentTime*5),1+Mathe.lsin(0.5,Game.currentTime*5));
+    //GameWorld.cameraSetScale(1+Mathe.lsin(0.5,Game.currentTime*5),1+Mathe.lsin(0.5,Game.currentTime*5));
     
     if (InputCntrl.mbCheckPress)
     {
@@ -55,22 +69,21 @@ public class Field extends GameObject
     
     if (InputCntrl.mbCheck)
     {
-      GameWorld.cameraSetPosition(cam_cx-(InputCntrl.mouse_x-GameWorld.cameraGet_x())+cam_mx,
-                                  cam_cy-(InputCntrl.mouse_y-GameWorld.cameraGet_y())+cam_my);
+    //  GameWorld.cameraSetPosition(cam_cx-(InputCntrl.mouse_x-GameWorld.cameraGet_x())+cam_mx,
+    //                              cam_cy-(InputCntrl.mouse_y-GameWorld.cameraGet_y())+cam_my);
     }
     
-    //GameWorld.cameraSetPosition(0,0);
-  
+    
   }
   
   @Override
   public void DRAW()
   { 
     
-    DrawCntrl.setColor(Color.BROWN);
+    DrawCntrl.setColor(Color.BLACK);
     
-    int draw_xstart=(int)Math.max(0,      Math.floor(GameWorld.cameraGet_x()            /cellSize));
-    int draw_ystart=(int)Math.max(0,      Math.floor(GameWorld.cameraGet_y()            /cellSize));
+    int draw_xstart=(int)Math.max(0,      Math.floor(GameWorld.cameraGet_x()/cellSize));
+    int draw_ystart=(int)Math.max(0,      Math.floor(GameWorld.cameraGet_y()/cellSize));
     int draw_xend=  (int)Math.min(field_w,Math.ceil((GameWorld.cameraGet_x()+Game.scr_w/GameWorld.cameraGetScale_x())/cellSize));
     int draw_yend=  (int)Math.min(field_w,Math.ceil((GameWorld.cameraGet_y()+Game.scr_h/GameWorld.cameraGetScale_y())/cellSize));
     
@@ -84,11 +97,18 @@ public class Field extends GameObject
         }
       }
     }
+    
+    DrawCntrl.setColor(Color.GREEN);
+    DrawCntrl.drawCircle(pStart,sx*cellSize+16,sy*cellSize+16,8,false);
+    
+    DrawCntrl.setColor(Color.RED);
+    DrawCntrl.drawCircle(pFinish,fx*cellSize+16,fy*cellSize+16,8,false);
    
+    
     DrawCntrl.setColor(Color.AQUAMARINE);
     DrawCntrl.drawCircle(cursor,InputCntrl.mouse_x,InputCntrl.mouse_y,8,false);
     
-    
+    //DrawCntrl.drawSprite(new Sprite(Spr.animation),0,0,0);
   }
   
 }

@@ -4,6 +4,7 @@ import pkg.*;
 
 public class GameWorld
 {
+  public static Field field;
   
   public static void CREATE()
   {
@@ -11,8 +12,8 @@ public class GameWorld
     InputCntrl.CREATE();
     DrawCntrl.CREATE();
     
-    Field o1 = new Field(0,0);
-    
+    field=new Field(0,0);
+    System.out.println(field);
     /*
     for(ObjIter it = new ObjIter(ObjCntrl.oid.objTest); it.end(); it.inc())
     {

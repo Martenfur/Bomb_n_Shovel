@@ -143,8 +143,8 @@ public class DrawCntrl
   */
   public static void drawSprite(Sprite spr,double x,double y)
   {
-    spr.img.setX(x-spr.offset_x/2);
-    spr.img.setY(y-spr.offset_y/2);
+    spr.img.setX(x-spr.offset_x);
+    spr.img.setY(y-spr.offset_y);
     
     draw(spr.img);
   }
@@ -158,11 +158,11 @@ public class DrawCntrl
   public static void drawSprite(Sprite spr,double frame,double x,double y)
   {
     frame=Math.floor(frame);
-    spr.img.setX(x-spr.offset_x/2);
-    spr.img.setY(y-spr.offset_y/2);
+    spr.img.setX(x-spr.offset_x);
+    spr.img.setY(y-spr.offset_y);
     
-    double vp_w=spr.getWidth()/spr.frames_h;
-    double vp_h=spr.getHeight()/spr.frames_v;
+    double vp_w=spr.getWidth();
+    double vp_h=spr.getHeight();
     
     double vp_x=(frame-Math.floor(frame/spr.frames_h)*spr.frames_h)*vp_w;
     double vp_y=Math.floor(frame/spr.frames_h)*vp_h;
@@ -175,8 +175,8 @@ public class DrawCntrl
   
   
   //////////////////////////////////////////////////////////////////////
-  /*
-  Draws sprite with given frame.
+  /**
+  Draws sprite with given frame and alpha.
   */
   public static void drawSprite(Sprite spr,double frame,double x,double y,double alpha)
   {
@@ -197,8 +197,15 @@ public class DrawCntrl
   //////////////////////////////////////////////////////////////////////
   
   //////////////////////////////////////////////////////////////////////
-  /*
-  Draws sprite with given frame.
+  /**
+  * Draws sprite with given frame, scale and rotation.
+  * @param spr - Sprite object.
+  * @param frame - Current frame.
+  * @param x - x position from top left corner of the appsurf.
+  * @param y - y position from top left corner of the appsurf.
+  * @param xscale - Horizontal scale.
+  * @param yscale - Vertical scale.
+  * @param ang - Rotation.
   */
   public static void drawSprite(Sprite spr,double frame,double x,     double y,
                                                         double xscale,double yscale,
