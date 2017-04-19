@@ -22,8 +22,8 @@ public class Game extends Application
                      rotatesurf, //For rotating appsurf.
                      appsurf;    //For all the graphics.
   
-  public static int scr_w=640;
-  public static int scr_h=480;
+  public static int scr_w=800;
+  public static int scr_h=600;
   
   public static boolean inFocus;
   

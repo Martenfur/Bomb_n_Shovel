@@ -18,7 +18,7 @@ public class Pathfinder
     wallGrid=grid_arg;   
   }
   
-  public ArrayList<PathPoint> pathFind(int sx,int sy,int fx,int fy)//PathPoint ptStart,PathCell ptFinish)
+  public PathPoint pathFind(int sx,int sy,int fx,int fy)//PathPoint ptStart,PathCell ptFinish)
   {
     ArrayList<PathCell> openList   = new ArrayList<>(); 
     ArrayList<PathCell> closedList = new ArrayList<>();  
@@ -54,10 +54,10 @@ public class Pathfinder
         }
       }
       
-      if (ptCheck.dist_f==1)
+      if (ptCheck.dist_f==0)
       {
-        ArrayList<PathPoint> pathBuf=pathConstruct(ptCheck);
-        pathBuf.add(new PathPoint(fx,fy,1));
+        PathPoint pathBuf=pathConstruct(ptCheck);
+        //pathBuf.add(fx,fy);
         return pathBuf;
       }
           
@@ -68,7 +68,7 @@ public class Pathfinder
     
   }  
   
-  ArrayList<PathPoint> pathConstruct(PathCell ptStart)
+  PathPoint pathConstruct(PathCell ptStart)
   {
     ArrayList<PathCell> resList=new ArrayList<>();
     resList.add(ptStart);
@@ -94,23 +94,21 @@ public class Pathfinder
           }
         }  
       }
+      
       if (ptLesser!=null)
       {
-        
         resList.add(ptLesser);
         ptBuf=ptLesser;
         if (ptLesser.dist_s==0)
         {
-          //Generating path.
-          ArrayList<PathPoint> resPath=new ArrayList<>();
+          //Generating path.  
+          PathCell cBuf=resList.get(resList.size()-2);
+          PathPoint resPath=new PathPoint(cBuf.x,cBuf.y);
           
-          int side_xprev=resList.get(resList.size()-1).x;
-          int side_yprev=resList.get(resList.size()-1).y;
-          
-          for(int i=resList.size()-2; i>=0; i-=1)
+          for(int i=resList.size()-3; i>=0; i-=1)
           {
-            PathCell cBuf=resList.get(i);     
-            resPath.add(new PathPoint(cBuf.x,cBuf.y,0));
+            cBuf=resList.get(i); 
+            resPath.add(cBuf.x,cBuf.y);
           }
           
           return resPath;

@@ -8,8 +8,15 @@ public class Mathe
   //90  -  0,-1
   //180 - -1, 0
   //270 -  0, 1
+  
+  //Plain.
   public static final int rotate_x[]={1, 0,-1,0};
   public static final int rotate_y[]={0,-1, 0,1};
+  
+  //Diagonal.
+  public static final int rotated_x[]={1,-1,-1,1};
+  public static final int rotated_y[]={-1,-1,1,1};
+  
   
   public static int rotateConvert(int x,int y)
   {
@@ -29,6 +36,14 @@ public class Mathe
     {return 1;}
     else
     {return Math.signum(x);}
+  }
+  
+  public static double lerp(double xp,double x,double xf)
+  {
+    if (xp==xf)
+    {return 0;}
+    else
+    {return (xp-x)/(xp-xf);}
   }
   
   public static boolean pointInRectangle(double xm,double ym,double x1,double y1,double x2,double y2)
@@ -94,8 +109,8 @@ public class Mathe
   
   public static void randomize()
   {
-    randomizer=new Random((long)Game.currentTime);
-    randomizerSeed=(long)Game.currentTime;
+    randomizer=new Random((long)System.nanoTime());
+    randomizerSeed=(long)System.nanoTime();
   }
   
   public static void randomSetSeed(long seed)
@@ -114,13 +129,13 @@ public class Mathe
   {return randomizer.nextDouble()*x;}
   
   public static double random(double x1, double x2)
-  {return x1-randomizer.nextDouble()*Math.abs(x2-x1);}
+  {return x1+randomizer.nextDouble()*Math.abs(x2-x1);}
   
   public static int irandom(int x)
   {return randomizer.nextInt(x+1);}
   
   public static int irandom(int x1,int x2)
-  {return x1-randomizer.nextInt(Math.abs(x2-x1));}
+  {return x1+randomizer.nextInt(Math.abs(x2-x1));}
   //RANDOM///////////////////////////////////////////////////////////////////////////
   
   

@@ -1,15 +1,18 @@
 package pkg;
 
-import java.util.ArrayList;
 import pkg.engine.*;
 import static pkg.engine.GameWorld.field;
 import pkg.pathfinder.*;
 
 public class Peasant extends GameObject
 {
-  ArrayList<PathPoint> pathList;
+  PathPoint pathList;
+   
+  int target_x,target_y;
+  boolean moving=false;
+  double prev_x,prev_y;
+  double z;
   
-  Field f;
   int team;
   
   Sprite spr;
@@ -27,33 +30,84 @@ public class Peasant extends GameObject
   @Override 
   public void STEP()
   {
-    if (InputCntrl.mbCheckPress)
+    if (moving)
+    { 
+    
+      double moveSpd=3;
+      
+      x-=Math.signum(x-pathList.x*field.cellSize)*moveSpd;
+      y-=Math.signum(y-pathList.y*field.cellSize)*moveSpd;
+      z=Mathe.lsin(8,180*(Mathe.lerp(prev_x,x,pathList.x*field.cellSize)+Mathe.lerp(prev_y,y,pathList.y*field.cellSize)));
+      
+      if (Mathe.pointDistance(x,y,pathList.x*field.cellSize,pathList.y*field.cellSize)<moveSpd)
+      {
+        x=pathList.x*field.cellSize;
+        y=pathList.y*field.cellSize;
+        prev_x=x;
+        prev_y=y;
+        z=0;
+        pathList=pathList.next;
+        if (pathList==null)
+        {moving=false;}
+      }
+
+      
+    }
+    
+    
+    //MOVING INPUTS/////////////////////////////////////////////
+    if (InputCntrl.mbCheckPress && !moving)
     {
       int cx,cy;
-      cx=(int)Math.floor(InputCntrl.mouse_x/field.cellSize);
-      cy=(int)Math.floor(InputCntrl.mouse_y/field.cellSize);
-      if (field.field[cx][cy]==1)
-      {field.field[cx][cy]=0;}
-      else
+      cx=(int)InputCntrl.mouse_x/field.cellSize;
+      cy=(int)InputCntrl.mouse_y/field.cellSize;
+ 
+      System.out.println(field.terrain[cx][cy]+" : "+field.terrainTile[cx][cy]);
+      
+      //if (field.terrain[cx][cy]==1)
+      //{field.terrain[cx][cy]=0;}
+      //else
       {
-        Pathfinder pathfinder=new Pathfinder(field.field,field.field_w,field.field_h);
-        int fx=(int)InputCntrl.mouse_x/field.cellSize;
-        int fy=(int)InputCntrl.mouse_y/field.cellSize;
-        pathList=pathfinder.pathFind((int)x/32,(int)y/32,fx,fy);
+        //Pathfinding.
+        if (pathList!=null)
+        {
+          PathPoint last=pathList.last();
+          
+          if (last.x==cx && last.y==cy)
+          {
+            prev_x=x;
+            prev_y=y;
+            moving=true;
+          }
+        }
+        
+        if (!moving)
+        {
+          Pathfinder pathfinder=new Pathfinder(field.terrain,field.terrain_w,field.terrain_h);
+          pathList=pathfinder.pathFind((int)x/32,(int)y/32,cx,cy);
+        }
+        //Pathfinding.
       }
     }
+    //MOVING INPUTS/////////////////////////////////////////////
   }
   
   @Override 
   public void DRAW()
   {
-    DrawCntrl.setDepth((int)-y);
-    DrawCntrl.drawSprite(spr,x+16,y+16);
-    
+    DrawCntrl.setDepth((int)(-y));
+    DrawCntrl.drawSprite(spr,x+16,y+16+z);
+    DrawCntrl.setDepth((int)(0));
+
     if (pathList!=null)
     {
-      for(int i=0; i<pathList.size(); i+=1)
-      {DrawCntrl.drawSprite(new Sprite(Spr.path),pathList.get(i).side,pathList.get(i).x*field.cellSize,pathList.get(i).y*field.cellSize);}
+      PathPoint p=pathList;
+      
+      while(p!=null)
+      {
+        DrawCntrl.drawSprite(new Sprite(Spr.path),(p.next==null)?1:0,p.x*field.cellSize,p.y*field.cellSize);
+        p=p.next;
+      }
     }
   }
 }
