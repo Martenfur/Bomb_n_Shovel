@@ -7,16 +7,16 @@ public class GameObject
 {
   double x;
   double y;
-  public ArrayList<ObjCntrl.oid> objIndex = new ArrayList<>();
+  public ArrayList<Obj.oid> objIndex = new ArrayList<>();
   
   public GameObject(double x_arg,double y_arg)
   {
     x=x_arg;
     y=y_arg;
-    ObjCntrl.objects.add(this);
-    ObjCntrl.objectsAm+=1;
+    Obj.objects.add(this);
+    Obj.objectsAm+=1;
     
-    objIndex.add(ObjCntrl.oid.all);
+    objIndex.add(Obj.oid.all);
   }
   
   //EVENTS

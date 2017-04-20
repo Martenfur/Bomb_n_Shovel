@@ -20,7 +20,7 @@ public class Peasant extends GameObject
   public Peasant(double x_arg,double y_arg)
   {
     super(x_arg,y_arg);
-    objIndex.add(ObjCntrl.oid.peasant);
+    objIndex.add(Obj.oid.peasant);
     
     team=0;
     
@@ -56,11 +56,11 @@ public class Peasant extends GameObject
     
     
     //MOVING INPUTS/////////////////////////////////////////////
-    if (InputCntrl.mbCheckPress && !moving)
+    if (Input.mbCheckPress && !moving)
     {
       int cx,cy;
-      cx=(int)InputCntrl.mouse_x/field.cellSize;
-      cy=(int)InputCntrl.mouse_y/field.cellSize;
+      cx=(int)Input.mouse_x/field.cellSize;
+      cy=(int)Input.mouse_y/field.cellSize;
  
       System.out.println(field.terrain[cx][cy]+" : "+field.terrainTile[cx][cy]);
       
@@ -95,9 +95,9 @@ public class Peasant extends GameObject
   @Override 
   public void DRAW()
   {
-    DrawCntrl.setDepth((int)(-y));
-    DrawCntrl.drawSprite(spr,x+16,y+16+z);
-    DrawCntrl.setDepth((int)(0));
+    Draw.setDepth((int)(-y));
+    Draw.drawSprite(spr,x+16,y+16+z);
+    Draw.setDepth((int)(0));
 
     if (pathList!=null)
     {
@@ -105,7 +105,7 @@ public class Peasant extends GameObject
       
       while(p!=null)
       {
-        DrawCntrl.drawSprite(new Sprite(Spr.path),(p.next==null)?1:0,p.x*field.cellSize,p.y*field.cellSize);
+        Draw.drawSprite(new Sprite(Spr.path),(p.next==null)?1:0,p.x*field.cellSize,p.y*field.cellSize);
         p=p.next;
       }
     }

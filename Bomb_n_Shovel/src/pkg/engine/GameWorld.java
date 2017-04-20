@@ -9,13 +9,13 @@ public class GameWorld
   public static void CREATE()
   {
     Mathe.randomize(); 
-    InputCntrl.CREATE();
-    DrawCntrl.CREATE();
+    Input.CREATE();
+    Draw.CREATE();
     
     field=new Field(0,0);
     System.out.println(field);
     /*
-    for(ObjIter it = new ObjIter(ObjCntrl.oid.objTest); it.end(); it.inc())
+    for(ObjIter it = new ObjIter(Obj.oid.objTest); it.end(); it.inc())
     {
       System.out.println(it.get());
     }
@@ -24,9 +24,9 @@ public class GameWorld
   
   public static void UPDATE()
   { 
-    InputCntrl.UPDATE();
-    ObjCntrl.UPDATE();
-    DrawCntrl.UPDATE();
+    Input.UPDATE();
+    Obj.UPDATE();
+    Draw.UPDATE();
   }
   
   public static void cameraSetPosition(double x,double y)

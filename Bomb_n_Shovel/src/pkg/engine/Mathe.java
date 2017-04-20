@@ -136,6 +136,9 @@ public class Mathe
   
   public static int irandom(int x1,int x2)
   {return x1+randomizer.nextInt(Math.abs(x2-x1));}
+  
+  public static <T> T choose(T... arr)
+  {return arr[irandom(arr.length-1)];}
   //RANDOM///////////////////////////////////////////////////////////////////////////
   
   

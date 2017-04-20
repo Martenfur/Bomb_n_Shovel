@@ -5,18 +5,18 @@ import pkg.GameObject;
 public class ObjIter
 {
   double counter=0;
-  ObjCntrl.oid type=ObjCntrl.oid.all;
+  Obj.oid type=Obj.oid.all;
   
-  public ObjIter(ObjCntrl.oid type_arg)
+  public ObjIter(Obj.oid type_arg)
   {
     type=type_arg;
     
-    while(!ObjCntrl.objIndexCmp(ObjCntrl.objects.get((int)counter),type))
+    while(!Obj.objIndexCmp(Obj.objects.get((int)counter),type))
     {
       counter+=1;
-      if (counter>=ObjCntrl.objectsAm)
+      if (counter>=Obj.objectsAm)
       {
-        counter=ObjCntrl.objectsAm;
+        counter=Obj.objectsAm;
         break;
       }
     }
@@ -24,13 +24,13 @@ public class ObjIter
  
   ////////////////////////////////////////////////
   public GameObject get()
-  {return ObjCntrl.objects.get((int)counter);}
+  {return Obj.objects.get((int)counter);}
   ////////////////////////////////////////////////
   
   
   ////////////////////////////////////////////////
   public boolean end()
-  {return (counter<ObjCntrl.objectsAm);}
+  {return (counter<Obj.objectsAm);}
   ////////////////////////////////////////////////
   
   
@@ -38,18 +38,18 @@ public class ObjIter
   public void inc()
   {
     counter+=1;
-    if (counter>=ObjCntrl.objectsAm)
+    if (counter>=Obj.objectsAm)
     {
-      counter=ObjCntrl.objectsAm;
+      counter=Obj.objectsAm;
       return;
     }
     
-    while(!ObjCntrl.objIndexCmp(ObjCntrl.objects.get((int)counter),type))
+    while(!Obj.objIndexCmp(Obj.objects.get((int)counter),type))
     {
       counter+=1;
-      if (counter>=ObjCntrl.objectsAm)
+      if (counter>=Obj.objectsAm)
       {
-        counter=ObjCntrl.objectsAm;
+        counter=Obj.objectsAm;
         break;
       }
     }
