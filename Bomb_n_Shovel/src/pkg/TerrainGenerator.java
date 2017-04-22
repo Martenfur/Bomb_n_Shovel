@@ -2,6 +2,9 @@ package pkg;
 
 import pkg.engine.*;
 
+/**
+ * Generates terrain.
+ */
 public class TerrainGenerator
 {
   int terrain_w,terrain_h;
@@ -18,6 +21,12 @@ public class TerrainGenerator
     pow2[3]=8;
   }
   
+  /**
+   * Strangely enough, it generates terrain. Yep.
+   * @param w
+   * @param h
+   * @return Fresh, ready-to-use terrain, yay!
+   */
   int[][] terrainGenerate(int w,int h)
   {
     int[][] terr=new int[w][h];  
@@ -105,6 +114,15 @@ public class TerrainGenerator
     return terr;
   }
   
+  /**
+   * Draws island spine.
+   * @param terr Terrain to draw on.
+   * @param spineDir Starting direction.
+   * @param bones Amount of lines to draw.
+   * @param x0 Starting point.
+   * @param y0 Starting point.
+   * @param hMax Starting height. determines island size.
+   */
   void terrainIslandSpineGenerate(int[][] terr,int spineDir,int bones,double x0,double y0,int hMax)
   {
     int spine_lmin=  4,
@@ -128,7 +146,11 @@ public class TerrainGenerator
     }
   }  
     
-  
+  /**
+   * Creates new grid with tile info. Used with terrain sprite only.
+   * @param terrain
+   * @return Tiled terrain.
+   */
   int[][] terrainAutotile(int[][] terrain)
   {
     int[][] terrBuf=new int[128][128];

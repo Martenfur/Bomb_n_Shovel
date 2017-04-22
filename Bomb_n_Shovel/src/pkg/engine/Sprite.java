@@ -4,6 +4,9 @@ import javafx.scene.effect.BlendMode;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 
+/**
+ * Game sprite class. Supports animation, offsets, blend modes and opacity.
+ */
 public class Sprite
 {
   public final ImageView img;
@@ -14,6 +17,14 @@ public class Sprite
   
   double centerDir,centerDist;
   
+  /**
+   * Long constructor. Use this if you want to load image from file.
+   * @param img_arg Image to work with.
+   * @param frh_arg Amount of horizontal frames.
+   * @param frv_arg Amount of vertical frames.
+   * @param offx_arg Horizontal offset.
+   * @param offy_arg Vertical offset.
+   */
   public Sprite(Image img_arg,int frh_arg,int frv_arg,int offx_arg,int offy_arg)
   {
     img=new ImageView(img_arg);
@@ -23,6 +34,11 @@ public class Sprite
     
   }
   
+  /**
+   * Short constructor. Copies previously created sprite.
+   * Works well with {@link pkg.engine.Spr}.
+   * @param spr_arg 
+   */
   public Sprite(Sprite spr_arg)
   {
     img=new ImageView(spr_arg.img.getImage());
@@ -32,6 +48,11 @@ public class Sprite
     
   }
   
+  /**
+   * Sets new offset to sprite.
+   * @param offx_arg
+   * @param offy_arg 
+   */
   public final void setOffset(int offx_arg,int offy_arg)
   { 
     offset_x=offx_arg;
@@ -40,17 +61,30 @@ public class Sprite
     centerDist=Mathe.pointDistance(offset_x,offset_y,getWidth()/2,getHeight()/2);
   }
   
+  /**
+   * @return Sprite width taking frames in account.
+   */
   public final double getWidth()
   {return img.getImage().getWidth()/frames_h;}
   
+  /**
+   * @return Sprite height taking frames in account.
+   */
   public final double getHeight()
   {return img.getImage().getHeight()/frames_v;}
   
+  /**
+   * Sets blend mode.
+   * @param blend Standard JavaFX blend mode object.
+   */
   public void setBlendMode(BlendMode blend)
   {img.setBlendMode(blend);}
   
+  /**
+   * Sets alpha.
+   * @param alpha Value between 0 and 1. 
+   */
   public void setAlpha(double alpha)
   {img.setOpacity(alpha);}
-  
   
 }

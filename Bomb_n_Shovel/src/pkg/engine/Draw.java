@@ -10,15 +10,23 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polyline;
 import javafx.geometry.Rectangle2D;
 
+/**
+ * Draws stuff on screen.
+ */
 public class Draw
 {
   public static ArrayList<Node>[] drawlist;
   public static ArrayList<Integer>[] depthlist;
   
-  static Color    currentColor = new Color(0,0,0,1);
-  static int      currentDepth = 0;
-  static Polyline currentPoly  = null;
+  static Color    currentColor=new Color(0,0,0,1);
+  static int      currentDepth=0;
+  static Polyline currentPoly= null;
   
+  /**
+   * Draw flag. Determines layer of draw event.
+   * So, node drawn in DRAW_END with depth 0 will still be
+   * drawn higher than node drawn in DRAW_BEGIN with depth -10000.
+   */
   public static enum df
   {
     BEGIN(0),
@@ -36,6 +44,9 @@ public class Draw
   
   public static df drawFlag=df.DEFAULT;
   
+  /**
+   * Init function.
+   */
   public static void CREATE()
   {
     drawlist = new ArrayList[4];
@@ -47,6 +58,9 @@ public class Draw
     {depthlist[i] = new ArrayList<>();}
   }
   
+  /**
+   * Drawing stuff.
+   */
   public static void UPDATE()
   {
     //Clearing panes.
@@ -72,11 +86,14 @@ public class Draw
     {Game.gui.getChildren().addAll(drawlist[3].get(i));}
     drawlist[3].clear();
     depthlist[3].clear();
-    //GUI layer.
-    
+    //GUI layer.   
   }
   
   //////////////////////////////////////////////////////////////////////
+  /**
+   * Universal draw function. Any node can use it.
+   * @param dr 
+   */
   public static void draw(Node dr)
   {
     ArrayList<Node>    listCur  = drawlist[drawFlag.get()];
@@ -99,25 +116,36 @@ public class Draw
       }
       else
       {break;}
-    }
-    
+    }  
   }
   //////////////////////////////////////////////////////////////////////
   
   
   //////////////////////////////////////////////////////////////////////
+  /**
+   * Sets depth.
+   * @param depth 
+   */
   public static void setDepth(int depth)
   {currentDepth=depth;}
   //////////////////////////////////////////////////////////////////////
   
   
   //////////////////////////////////////////////////////////////////////
+  /**
+   * Sets color.
+   * @param c 
+   */
   public static void setColor(Color c)
   {currentColor=c;}
   //////////////////////////////////////////////////////////////////////
   
   
   //////////////////////////////////////////////////////////////////////
+  /**
+   * Sets alpha.
+   * @param a 
+   */
   public static void setAlpha(double a)
   {
     if (a<0)
@@ -137,9 +165,12 @@ public class Draw
   
   
   //////////////////////////////////////////////////////////////////////
-  /*
-  The most basic sprite function.
-  Just draws image as is. No rotation, no frames, no scale.
+  /**
+  * The most basic sprite function.
+  * Just draws image as is. No rotation, no frames, no scale.
+  * @param spr
+  * @param x
+  * @param y
   */
   public static void drawSprite(Sprite spr,double x,double y)
   {
@@ -152,9 +183,13 @@ public class Draw
   
   
   //////////////////////////////////////////////////////////////////////
-  /*
-  Draws sprite with given frame.
-  */
+  /**
+   * Draws sprite with given frame.
+   * @param spr
+   * @param frame
+   * @param x
+   * @param y 
+   */
   public static void drawSprite(Sprite spr,double frame,double x,double y)
   {
     frame=Math.floor(frame);
@@ -176,8 +211,13 @@ public class Draw
   
   //////////////////////////////////////////////////////////////////////
   /**
-  Draws sprite with given frame and alpha.
-  */
+   * Draws sprite with given frame and alpha.
+   * @param spr
+   * @param frame
+   * @param x
+   * @param y
+   * @param alpha 
+   */
   public static void drawSprite(Sprite spr,double frame,double x,double y,double alpha)
   {
     spr.img.setOpacity(alpha);
@@ -186,7 +226,17 @@ public class Draw
   //////////////////////////////////////////////////////////////////////
   
   //////////////////////////////////////////////////////////////////////
-  
+  /**
+  * Draws sprite with given frame, scale, rotation and alpha.
+  * @param spr 
+  * @param frame
+  * @param x
+  * @param y
+  * @param xscale
+  * @param yscale
+  * @param ang
+  * @param alpha
+  */
   public static void drawSprite(Sprite spr,double frame,double x,     double y,
                                                         double xscale,double yscale,
                                                         double ang,   double alpha)
@@ -199,13 +249,13 @@ public class Draw
   //////////////////////////////////////////////////////////////////////
   /**
   * Draws sprite with given frame, scale and rotation.
-  * @param spr - Sprite object.
-  * @param frame - Current frame.
-  * @param x - x position from top left corner of the appsurf.
-  * @param y - y position from top left corner of the appsurf.
-  * @param xscale - Horizontal scale.
-  * @param yscale - Vertical scale.
-  * @param ang - Rotation.
+  * @param spr 
+  * @param frame
+  * @param x
+  * @param y
+  * @param xscale
+  * @param yscale
+  * @param ang
   */
   public static void drawSprite(Sprite spr,double frame,double x,     double y,
                                                         double xscale,double yscale,
@@ -238,6 +288,14 @@ public class Draw
   
   
   //////////////////////////////////////////////////////////////////////
+  /**
+   * Draws line between two points.
+   * @param line
+   * @param x1
+   * @param y1
+   * @param x2
+   * @param y2 
+   */
   public static void drawLine(Line line,double x1,double y1,
                                         double x2,double y2)
   {  
@@ -254,6 +312,15 @@ public class Draw
   
   
   //////////////////////////////////////////////////////////////////////
+  /**
+   * Draws wide line between two points.
+   * @param line
+   * @param x1
+   * @param y1
+   * @param x2
+   * @param y2
+   * @param w 
+   */
   public static void drawLine(Line line,double x1,double y1,
                                         double x2,double y2,
                                         int w)
@@ -272,6 +339,15 @@ public class Draw
   
   
   //////////////////////////////////////////////////////////////////////
+  /**
+   * Draws rectangle.
+   * @param rect
+   * @param x1
+   * @param y1
+   * @param x2
+   * @param y2
+   * @param outline 
+   */
   public static void drawRectangle(Rectangle rect,double x1,double y1,
                                                   double x2,double y2,
                                                   boolean outline)
@@ -293,6 +369,14 @@ public class Draw
   
 
   //////////////////////////////////////////////////////////////////////
+  /**
+   * Draws circle.
+   * @param circ
+   * @param x
+   * @param y
+   * @param r
+   * @param outline 
+   */
   public static void drawCircle(Circle circ,double x,double y,double r,boolean outline)
   {
     circ.setCenterX(x);
@@ -311,6 +395,11 @@ public class Draw
 
   
   //////////////////////////////////////////////////////////////////////
+  /**
+   * Starts drawing polygon.
+   * @param poly
+   * @param outline 
+   */
   public static void drawPolyBegin(Polyline poly,boolean outline)
   {
     currentPoly=poly;
@@ -327,6 +416,9 @@ public class Draw
 
   
   //////////////////////////////////////////////////////////////////////
+  /**
+   * Ends drawing polygon.
+   */
   public static void drawPolyEnd()
   {
     if (currentPoly!=null)
@@ -339,6 +431,11 @@ public class Draw
 
   
   //////////////////////////////////////////////////////////////////////
+  /**
+   * Adds vertex to current polygon.
+   * @param x
+   * @param y 
+   */
   public static void polyAddPoint(double x,double y)
   {
     if (currentPoly!=null)

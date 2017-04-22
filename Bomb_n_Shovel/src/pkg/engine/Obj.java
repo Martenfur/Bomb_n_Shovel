@@ -3,11 +3,18 @@ package pkg.engine;
 import java.util.ArrayList;
 import pkg.GameObject;
 
+/**
+ * Object controller. All the magic happens here.
+ */
 public class Obj
 {
   public static ArrayList<GameObject> objects = new ArrayList<>();
   public static double objectsAm=0;
   
+  /**
+   * This list determines object types. 
+   * One object can have many.
+   */
   public static enum oid
   {
     all,
@@ -16,9 +23,9 @@ public class Obj
     peasant
   }
   
-  /*
-  Performs events for all objects.
-  */
+  /**
+   * Performs events for all game objects.
+   */
   public static void UPDATE()
   {
     Draw.drawFlag=Draw.df.DEFAULT;
@@ -44,6 +51,10 @@ public class Obj
   }
   
   ////////////////////////////////////////////////
+  /**
+   * Removes object with given index from object list.
+   * @param obj 
+   */
   public static void objDestroy(GameObject obj)
   {
     objects.remove(obj);
@@ -53,6 +64,11 @@ public class Obj
   
   
   ////////////////////////////////////////////////
+  /**
+   * Counts objects of given type.
+   * @param id
+   * @return 
+   */
   public static int objCount(oid id)
   {
     int counter=0;
@@ -67,12 +83,23 @@ public class Obj
   
   
   ////////////////////////////////////////////////
+  /**
+   * Retrieves top object index.
+   * @param obj
+   * @return 
+   */
   public static oid objIndexGet(GameObject obj)
   {return obj.objIndex.get(obj.objIndex.size()-1);}
   ////////////////////////////////////////////////
   
   
   ////////////////////////////////////////////////
+  /**
+   * Compares object with object index.
+   * @param obj
+   * @param id
+   * @return 
+   */
   public static boolean objIndexCmp(GameObject obj,oid id)
   {  
     int oidSize=obj.objIndex.size();

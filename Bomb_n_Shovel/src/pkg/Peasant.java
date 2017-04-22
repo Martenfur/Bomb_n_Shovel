@@ -62,7 +62,7 @@ public class Peasant extends GameObject
       cx=(int)Input.mouse_x/field.cellSize;
       cy=(int)Input.mouse_y/field.cellSize;
  
-      System.out.println(field.terrain[cx][cy]+" : "+field.terrainTile[cx][cy]);
+      //System.out.println(field.terrain[cx][cy]+" : "+field.terrainTile[cx][cy]);
       
       //if (field.terrain[cx][cy]==1)
       //{field.terrain[cx][cy]=0;}
@@ -83,7 +83,7 @@ public class Peasant extends GameObject
         
         if (!moving)
         {
-          Pathfinder pathfinder=new Pathfinder(field.terrain,field.terrain_w,field.terrain_h);
+          Pathfinder pathfinder=new Pathfinder(field.terrain);
           pathList=pathfinder.pathFind((int)x/32,(int)y/32,cx,cy);
         }
         //Pathfinding.

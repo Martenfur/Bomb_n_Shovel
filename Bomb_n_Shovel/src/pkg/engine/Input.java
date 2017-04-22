@@ -3,6 +3,9 @@ package pkg.engine;
 import javafx.scene.input.MouseEvent;
 import javafx.event.EventHandler;
 
+/**
+ * Controls mouse input.
+ */
 public class Input
 {
   public static double mouse_x,mouse_y,mouse_xgui,mouse_ygui;
@@ -11,6 +14,9 @@ public class Input
   static double mouse_x_read,mouse_y_read;
   static boolean mbCheck_read,mbCheckPress_read,mbCheckRelease_read;
   
+  /**
+   * Initializes some mouse events.
+   */
   public static void CREATE()
   {
     Game.root.addEventFilter(MouseEvent.ANY,new EventHandler<MouseEvent>() 
@@ -47,6 +53,9 @@ public class Input
     
   }    
   
+  /**
+   * Updates mouse. Don't use yourself.
+   */
   public static void UPDATE()
   {
     if (Game.inFocus)
@@ -70,6 +79,9 @@ public class Input
     //Clearing values.
   }
   
+  /**
+   * Clears mouse button states for current step.
+   */
   public static void mouseClear()
   {
     mbCheck=       false;

@@ -3,12 +3,20 @@ package pkg;
 import pkg.engine.*;
 import java.util.ArrayList;
 
+/**
+ * Parent class for every engine object.
+ * Provides some basic interfaces for correct fps-mounting.
+ */
 public class GameObject
 {
-  double x;
-  double y;
-  public ArrayList<Obj.oid> objIndex = new ArrayList<>();
+  double x,y;
+  public ArrayList<Obj.oid> objIndex=new ArrayList<>();
   
+  /**
+   * Main constructor. Add new object to main object array. 
+   * @param x_arg x
+   * @param y_arg y
+   */
   public GameObject(double x_arg,double y_arg)
   {
     x=x_arg;

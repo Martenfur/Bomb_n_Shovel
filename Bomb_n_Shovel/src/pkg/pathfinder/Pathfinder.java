@@ -3,25 +3,41 @@ package pkg.pathfinder;
 import java.util.ArrayList;
 import pkg.engine.*;
 
+/**
+ * Generates path on given int[][] array.
+ * Treats any non-zero value as an obstacle.
+ * Ignores diagonals.
+ * Returns {@link pkg.pathfinder.PathPoint} or null, if path wasn't constructed.
+ */
 public class Pathfinder
 {
   int[][] wallGrid;
   int grid_w,grid_h;
   
   
-  
-  public Pathfinder(int[][] grid_arg,int grid_w_arg,int grid_h_arg)
+  /**
+   * Main constructor.
+   * @param grid_arg grid for which you want to find path.
+   */
+  public Pathfinder(int[][] grid_arg)
   {
-    grid_w=grid_w_arg;
-    grid_h=grid_h_arg;
-     
     wallGrid=grid_arg;   
+    grid_w=  wallGrid.length;
+    grid_h=  wallGrid[0].length;
   }
   
-  public PathPoint pathFind(int sx,int sy,int fx,int fy)//PathPoint ptStart,PathCell ptFinish)
+  /**
+   * A* pathfinding. Treats non-zero values as obstacles.
+   * @param sx x of start point.
+   * @param sy y of start point.
+   * @param fx x of finish point.
+   * @param fy y of finish point.
+   * @return Path list or null, if path wasn't found.
+   */
+  public PathPoint pathFind(int sx,int sy,int fx,int fy)
   {
-    ArrayList<PathCell> openList   = new ArrayList<>(); 
-    ArrayList<PathCell> closedList = new ArrayList<>();  
+    ArrayList<PathCell> openList  =new ArrayList<>(); 
+    ArrayList<PathCell> closedList=new ArrayList<>();  
     
     PathCell[][] pathGrid=new PathCell[grid_w][grid_h];
     pathGrid[sx][sy]=new PathCell(sx,sy,0,getDist(sx,sy,fx,fy));
@@ -68,6 +84,11 @@ public class Pathfinder
     
   }  
   
+  /**
+   * Constructs path using precalculated {@link pkg.pathfinder.PathCell} array.
+   * @param ptStart Starting point in grid.
+   * @return Path list or null, if path wasn't found.
+   */
   PathPoint pathConstruct(PathCell ptStart)
   {
     ArrayList<PathCell> resList=new ArrayList<>();
@@ -123,7 +144,11 @@ public class Pathfinder
     }
   }
   
-  
+  /**
+   * Finds lesser element of {link pkg.pathfinding.PathCell} array.
+   * @param list
+   * @return Lesser element.
+   */
   PathCell listFindLesser(ArrayList<PathCell> list)
   {
     if (list.isEmpty())
@@ -131,8 +156,8 @@ public class Pathfinder
     
     PathCell ptLesser=list.get(0);
     PathCell ptBuffer;
-    int s=list.size();
-    int iLesser=0;
+    int s=list.size(),
+        iLesser=0;
     for(int i=1; i<s; i+=1)
     {
       ptBuffer=list.get(i);
@@ -146,7 +171,15 @@ public class Pathfinder
     
     return ptLesser;
   }
-   
+  
+  /**
+   * Quick distance finding for grid.
+   * @param sx x of start point.
+   * @param sy y of start point.
+   * @param fx x of finish point.
+   * @param fy y of finish point.
+   * @return Rough distance between two points. Not accurate, but good enough.
+   */
   int getDist(int sx,int sy,int fx,int fy)
   {return Math.abs(sx-fx)+Math.abs(sy-fy);}
   
