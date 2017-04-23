@@ -36,6 +36,20 @@ public class Pathfinder
    */
   public PathPoint pathFind(int sx,int sy,int fx,int fy)
   {
+    //If points are THAT close to each other, no need in fancy pathfinding.
+    if (Mathe.pointDistance(sx,sy,fx,fy)==1)
+    {
+      if (wallGrid[fx][fy]==0)
+      {return new PathPoint(fx,fy);}
+      return null;
+    }
+    //If points are THAT close to each other, no need in fancy pathfinding.
+    
+    //And if they are even closer... you got it.
+    if (sx==fx && sy==fy)
+    {return null;}
+    //And if they are even closer... you got it.
+    
     ArrayList<PathCell> openList  =new ArrayList<>(); 
     ArrayList<PathCell> closedList=new ArrayList<>();  
     
@@ -70,10 +84,12 @@ public class Pathfinder
         }
       }
       
-      if (ptCheck.dist_f==0)
+      if (ptCheck.dist_f==1)
       {
         PathPoint pathBuf=pathConstruct(ptCheck);
-        //pathBuf.add(fx,fy);
+        
+        if (wallGrid[fx][fy]==0)
+        {pathBuf.add(fx,fy);}
         return pathBuf;
       }
           

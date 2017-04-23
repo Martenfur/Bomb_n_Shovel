@@ -13,13 +13,6 @@ public class GameWorld
     Draw.CREATE();
     
     field=new Field(0,0);
-    System.out.println(field);
-    /*
-    for(ObjIter it = new ObjIter(Obj.oid.objTest); it.end(); it.inc())
-    {
-      System.out.println(it.get());
-    }
-    */
   }
   
   public static void UPDATE()

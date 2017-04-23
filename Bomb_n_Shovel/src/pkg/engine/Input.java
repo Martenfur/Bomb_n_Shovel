@@ -45,9 +45,8 @@ public class Input
       @Override
       public void handle(MouseEvent event) 
       {
-        if (event.isPrimaryButtonDown())
-        {mbCheckPress_read=true;}
-        mbCheck_read=false;
+        mbCheckRelease_read=true;
+        mbCheck_read=false;   
       }
     });
     

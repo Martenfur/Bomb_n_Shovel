@@ -1,5 +1,6 @@
 package pkg;
 
+import java.util.ArrayList;
 import pkg.engine.*;
 
 /**
@@ -7,6 +8,7 @@ import pkg.engine.*;
  */
 public class TerrainGenerator
 {
+  ArrayList<int[]> islandCenters;
   int terrain_w,terrain_h;
   int[] pow2;
   TerrainGenerator(int w,int h)
@@ -14,11 +16,26 @@ public class TerrainGenerator
     terrain_w=w;
     terrain_h=h;
     
+    islandCenters=new ArrayList<>();
+    
     pow2=new int[4];
     pow2[0]=1;
     pow2[1]=2;
     pow2[2]=4;
     pow2[3]=8;
+  }
+  
+  /**
+   * Adds new center point for generating.
+   * @param x
+   * @param y 
+   */
+  void islandAdd(int x,int y)
+  {
+    int[] buf=new int[2];
+    buf[0]=x;
+    buf[1]=y;
+    islandCenters.add(buf);
   }
   
   /**
@@ -31,38 +48,43 @@ public class TerrainGenerator
   {
     int[][] terr=new int[w][h];  
     
-    for(int i=0; i<w; i+=1)
-    {
-      for(int k=0; k<h; k+=1)
-      {terr[i][k]=0;}
-    }
-    
     int spineDir;
     int hMax=10;
     
-    for(int i=0; i<4; i+=1)
-    {
-      double x0=w/2+Mathe.irandom(-32,32),
-             y0=h/2+Mathe.irandom(-32,32);
-      
+    for(int i=0; i<islandCenters.size(); i+=1)
+    { 
       spineDir=Mathe.irandom(359);
     
+      int x0=islandCenters.get(i)[0],
+          y0=islandCenters.get(i)[1];
+      
       terrainIslandSpineGenerate(terr,spineDir,3,x0,y0,hMax);
-      terrainIslandSpineGenerate(terr,spineDir+180+Mathe.irandom(-90,90),3,x0,y0,hMax);
+      terrainIslandSpineGenerate(terr,spineDir+180+Mathe.irandom(-90,90),Mathe.irandom(3,5),x0,y0,hMax);
     }
     
     //Beefing up the spine.
     for(int n=hMax; n>1; n-=1)
     {
-      for(int i=1; i<w-1; i+=1)
+      for(int i=0; i<w; i+=1)
       {
-        for(int k=1; k<h-1; k+=1)
+        for(int k=0; k<h; k+=1)
         {
           if (terr[i][k]>=n)
           {
-            for(int c=0; c<4; c+=1)
+            int[] sides=new int[4];
+            int sidesAm=Mathe.irandom(2,4);
+            int del;
+            for(int c=0; c<4-sidesAm; c+=1)
             {
-              if ((Mathe.irandom(2)!=0 || n==hMax) && terr[i+Mathe.rotate_x[c]][k+Mathe.rotate_y[c]]==0)
+              del=Mathe.irandom(3-c);
+              while(sides[del]==1)
+              {del+=1;}
+              sides[del]=1;
+            }
+            
+            for(int c=0; c<4; c+=1)
+            {        
+              if (sides[c]==0 && Field.get(terr,i+Mathe.rotate_x[c],k+Mathe.rotate_y[c])==0)
               {terr[i+Mathe.rotate_x[c]][k+Mathe.rotate_y[c]]=n-1;}
             }
           }
@@ -79,7 +101,12 @@ public class TerrainGenerator
         if (terr[i][k]==0)
         {terr[i][k]=2;}
         else
-        {terr[i][k]=0;}
+        {
+          if (terr[i][k]<4 && Mathe.irandom(3)!=0) //DEBUG
+          {terr[i][k]=1;}     //DEBUG
+          else
+          {terr[i][k]=0;}
+        }
       }
     }
     //Converting terrain from heights to tiles.
@@ -96,13 +123,11 @@ public class TerrainGenerator
           for(int c=0; c<4; c+=1)
           {
             int ii=i+Mathe.rotate_x[c];
-            int kk=k+Mathe.rotate_y[c];
-             
-            if (ii>=0 && kk>=0 && ii<terrain_w && kk<terrain_h)
-            {
-              if (terr[ii][kk]!=2) 
-              {buf+=pow2[c];}
-            }
+            int kk=k+Mathe.rotate_y[c]; 
+            
+            if (Field.get(terr,ii,kk)!=2) 
+            {buf+=pow2[c];}
+            
           }
           if (buf==5 || buf==10 || buf==7 || buf==11 || buf==13 || buf==14 || buf==15)
           {terr[i][k]=0;}
@@ -125,20 +150,21 @@ public class TerrainGenerator
    */
   void terrainIslandSpineGenerate(int[][] terr,int spineDir,int bones,double x0,double y0,int hMax)
   {
-    int spine_lmin=  4,
-        spine_lmax=  6,
-        diradd_min=-90,
-        diradd_max= 90;
+    int spine_lmin=  8,
+        spine_lmax=  10,
+        diradd_min= 30,
+        diradd_max=120;
     
     for(int b=0; b<bones; b+=1)
     {
-      int spine_l=Mathe.irandom(spine_lmin,spine_lmax);
+      int spine_l=Mathe.irandom(spine_lmin,spine_lmax)*Mathe.choose(1,-1);
       
       double lx=Mathe.lcos(1,spineDir),
              ly=Mathe.lsin(1,spineDir);
       for(int i=0; i<spine_l; i+=1)
       {
-        terr[(int)x0][(int)y0]=hMax;
+        if (Field.get(terr,(int)x0,(int)y0)!=2)
+        {terr[(int)x0][(int)y0]=hMax;}
         x0+=lx;
         y0+=ly;
       }
@@ -147,11 +173,11 @@ public class TerrainGenerator
   }  
     
   /**
-   * Creates new grid with tile info. Used with terrain sprite only.
-   * @param terrain
-   * @return Tiled terrain.
+   * Creates new grid with tile info. Used with terr sprite only.
+   * @param terr
+   * @return Tiled terr.
    */
-  int[][] terrainAutotile(int[][] terrain)
+  int[][] terrainAutotile(int[][] terr)
   {
     int[][] terrBuf=new int[128][128];
     
@@ -160,7 +186,7 @@ public class TerrainGenerator
       for(int k=0; k<terrain_h; k+=1)
       {
         
-        if (terrain[i][k]==2)
+        if (terr[i][k]==2)
         {
           terrBuf[i][k]=0;
           
@@ -171,7 +197,7 @@ public class TerrainGenerator
             int kk=k+Mathe.rotate_y[c];
           
             if (ii>=0 && kk>=0 && ii<terrain_w && kk<terrain_h)
-            if (terrain[ii][kk]!=2) 
+            if (terr[ii][kk]!=2) 
             {terrBuf[i][k]+=pow2[c];}
           }
           //Default autotiling.
@@ -186,7 +212,7 @@ public class TerrainGenerator
           
               if (ii>=0 && kk>=0 && ii<terrain_w && kk<terrain_h)
               {
-                if (terrain[ii][kk]!=2)
+                if (terr[ii][kk]!=2)
                 {
                   terrBuf[i][k]=15-pow2[c];
                   break;

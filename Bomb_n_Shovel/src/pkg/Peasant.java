@@ -17,6 +17,8 @@ public class Peasant extends GameObject
   
   Sprite spr;
   
+  int cx_prev,cy_prev;
+  
   public Peasant(double x_arg,double y_arg)
   {
     super(x_arg,y_arg);
@@ -35,14 +37,14 @@ public class Peasant extends GameObject
     
       double moveSpd=3;
       
-      x-=Math.signum(x-pathList.x*field.cellSize)*moveSpd;
-      y-=Math.signum(y-pathList.y*field.cellSize)*moveSpd;
-      z=Mathe.lsin(8,180*(Mathe.lerp(prev_x,x,pathList.x*field.cellSize)+Mathe.lerp(prev_y,y,pathList.y*field.cellSize)));
+      x-=Math.signum(x-pathList.x*Field.cellSize)*moveSpd;
+      y-=Math.signum(y-pathList.y*Field.cellSize)*moveSpd;
+      z=Mathe.lsin(8,180*(Mathe.lerp(prev_x,x,pathList.x*Field.cellSize)+Mathe.lerp(prev_y,y,pathList.y*Field.cellSize)));
       
-      if (Mathe.pointDistance(x,y,pathList.x*field.cellSize,pathList.y*field.cellSize)<moveSpd)
+      if (Mathe.pointDistance(x,y,pathList.x*Field.cellSize,pathList.y*Field.cellSize)<moveSpd)
       {
-        x=pathList.x*field.cellSize;
-        y=pathList.y*field.cellSize;
+        x=pathList.x*Field.cellSize;
+        y=pathList.y*Field.cellSize;
         prev_x=x;
         prev_y=y;
         z=0;
@@ -56,11 +58,11 @@ public class Peasant extends GameObject
     
     
     //MOVING INPUTS/////////////////////////////////////////////
-    if (Input.mbCheckPress && !moving)
+    if (Input.mbCheckRelease && !moving && !Field.camMove)
     {
       int cx,cy;
-      cx=(int)Input.mouse_x/field.cellSize;
-      cy=(int)Input.mouse_y/field.cellSize;
+      cx=(int)Input.mouse_x/Field.cellSize;
+      cy=(int)Input.mouse_y/Field.cellSize;
  
       //System.out.println(field.terrain[cx][cy]+" : "+field.terrainTile[cx][cy]);
       
@@ -73,7 +75,7 @@ public class Peasant extends GameObject
         {
           PathPoint last=pathList.last();
           
-          if (last.x==cx && last.y==cy)
+          if (cx_prev==cx && cy_prev==cy)
           {
             prev_x=x;
             prev_y=y;
@@ -83,8 +85,10 @@ public class Peasant extends GameObject
         
         if (!moving)
         {
-          Pathfinder pathfinder=new Pathfinder(field.terrain);
+          Pathfinder pathfinder=new Pathfinder(Field.terrain);
           pathList=pathfinder.pathFind((int)x/32,(int)y/32,cx,cy);
+          cx_prev=cx;
+          cy_prev=cy;
         }
         //Pathfinding.
       }
@@ -105,7 +109,7 @@ public class Peasant extends GameObject
       
       while(p!=null)
       {
-        Draw.drawSprite(new Sprite(Spr.path),(p.next==null)?1:0,p.x*field.cellSize,p.y*field.cellSize);
+        Draw.drawSprite(new Sprite(Spr.path),(p.next==null)?1:0,p.x*Field.cellSize,p.y*Field.cellSize);
         p=p.next;
       }
     }

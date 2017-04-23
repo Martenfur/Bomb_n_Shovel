@@ -7,10 +7,10 @@ import pkg.engine.*;
 
 public class Field extends GameObject
 {
-  public int[][] terrain;
-  public int[][] terrainTile;
+  public static int[][] terrain;
+  public static int[][] terrainTile;
   
-  public int terrain_w,terrain_h,cellSize;
+  public static int terrain_w,terrain_h,cellSize;
   
   Canvas[][] chunk;
   int chunkSize;
@@ -19,7 +19,9 @@ public class Field extends GameObject
   
   ArrayList<Sprite> terrainCellSpr;
   
-  double cam_mx,cam_my,cam_cx,cam_cy;
+  double cam_mx,   cam_my,
+         cam_mxgui,cam_mygui;
+  public static boolean camMove=false;
   
   public Field(double x_arg,double y_arg)
   {
@@ -27,14 +29,13 @@ public class Field extends GameObject
     objIndex.add(Obj.oid.field);
     
     //////////////////////////////////////////////////
-    new Peasant(32*64,32*64);
     GameWorld.cameraSetPosition(64*32-320,64*32-240);
     GameWorld.cameraSetScale(0.25,0.25);    
     //////////////////////////////////////////////////
     
     
-    terrain_w=128;
-    terrain_h=128;
+    terrain_w=96;
+    terrain_h=96;
     cellSize=  32;
     chunkSize= 16;
     
@@ -59,6 +60,46 @@ public class Field extends GameObject
     
     //Generator.
     TerrainGenerator gen=new TerrainGenerator(terrain_w,terrain_h);
+    
+    //ISLANDS
+    int island_lmin=16;
+    int island_lmax=32;
+    int island_diradd=30;
+    
+    double l,d;
+   
+    int basePt1_x,basePt1_y,basePt2_x,basePt2_y;
+    
+    l=Mathe.random(island_lmin,island_lmax);
+    d=Mathe.random(360);
+    basePt1_x=terrain_w/2+(int)Mathe.lcos(l,d);
+    basePt1_y=terrain_h/2+(int)Mathe.lsin(l,d);
+    gen.islandAdd(basePt1_x,basePt1_y);
+    
+    d+=180+Mathe.irandom(-island_diradd,island_diradd);
+    basePt2_x=terrain_w/2+(int)Mathe.lcos(l,d);
+    basePt2_y=terrain_h/2+(int)Mathe.lsin(l,d);
+    gen.islandAdd(basePt2_x,basePt2_y);
+    
+    gen.islandAdd(terrain_w/2,terrain_h/2);
+    
+    int ptC_x=(basePt1_x+basePt2_x+terrain_w/2)/3,
+        ptC_y=(basePt1_y+basePt2_y+terrain_h/2)/3;
+    
+    double baseDir=Mathe.pointDirection(basePt1_x,basePt1_y,basePt2_x,basePt2_y)+90;
+    
+    for(int i=0; i<4; i+=1)
+    {
+      l=Mathe.random(island_lmin/2,island_lmax/2);
+      d=baseDir+180*Mathe.irandom(1)+Mathe.irandom(-45,45);
+      gen.islandAdd(ptC_x+(int)Mathe.lcos(l,d),ptC_y+(int)Mathe.lsin(l,d));
+    }
+    
+    new Peasant(basePt1_x*32,basePt1_y*32);
+    new Peasant(basePt2_x*32,basePt2_y*32);
+    //ISLANDS
+     
+    
     terrain=gen.terrainGenerate(terrain_w,terrain_h);
     terrainTile=gen.terrainAutotile(terrain);
     //Generator. 
@@ -72,18 +113,35 @@ public class Field extends GameObject
     
     if (Input.mbCheckPress)
     {
-      cam_mx=Input.mouse_x-GameWorld.cameraGet_x();
-      cam_my=Input.mouse_y-GameWorld.cameraGet_y();
-      cam_cx=GameWorld.cameraGet_x();
-      cam_cy=GameWorld.cameraGet_y();
+      cam_mx=   Input.mouse_x;
+      cam_my=   Input.mouse_y;
+      cam_mxgui=Input.mouse_xgui;
+      cam_mygui=Input.mouse_ygui;
     }
     
     if (Input.mbCheck)
     {
-      GameWorld.cameraSetPosition(cam_cx-(Input.mouse_x-GameWorld.cameraGet_x())+cam_mx,
-                                  cam_cy-(Input.mouse_y-GameWorld.cameraGet_y())+cam_my);
+      if (!camMove && Mathe.pointDistance(Input.mouse_xgui,Input.mouse_ygui,cam_mxgui,cam_mygui)>32)
+      {
+        camMove=true;
+        cam_mx=   Input.mouse_x;
+        cam_my=   Input.mouse_y;
+        cam_mxgui=Input.mouse_xgui;
+        cam_mygui=Input.mouse_ygui;
+      }
+      
+      if (camMove)
+      {
+        GameWorld.cameraSetPosition((cam_mx-(Input.mouse_x-GameWorld.cameraGet_x())),
+                                    cam_my-(Input.mouse_y-GameWorld.cameraGet_y()));
+        
+      }
     }
-    
+    else
+    {
+      if (!Input.mbCheckRelease) //Using this little trick we can activate this next step mouse was released. 
+      {camMove=false;}
+    }
     
   }
   
@@ -156,13 +214,40 @@ public class Field extends GameObject
         tid=terrainTile[x*chunkSize+i][y*chunkSize+k];
         yy=tid/4;
         xx=tid-yy*4;
-        
-        //System.out.println("tid: "+tid+" x: "+xx+" y: "+yy);
-          
+   
         surf.drawImage(terrImg,xx*cellSize,yy*cellSize,cellSize,cellSize,i*cellSize,k*cellSize,cellSize,cellSize);
         //x,y,w,h,x1,y1,x2,y2
       }
     }
+  }
+  
+  /**
+   * Safely gets value out of terrain. 
+   * @param x
+   * @param y
+   * @return Terrain value or 2 if out of bounds.
+   */
+  public static int tget(int x,int y)
+  {
+    try
+    {return terrain[x][y];}
+    catch(Exception e)
+    {return 2;}
+  }
+  
+  /**
+   * Safely gets value out of array. 
+   * @param terr
+   * @param x
+   * @param y
+   * @return Array value or 2 if out of bounds.
+   */
+  public static int get(int[][] terr,int x,int y)
+  {
+    try
+    {return terr[x][y];}
+    catch(Exception e)
+    {return 2;}
   }
   
 }

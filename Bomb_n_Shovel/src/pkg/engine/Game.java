@@ -5,18 +5,16 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.canvas.Canvas;
 
 import javafx.animation.AnimationTimer;
 
 public class Game extends Application
 {
-  static int gameSpeed=30;
+  static int gameSpeed=                30;
   private final double timeMul=1000000000.0;
-  public static GraphicsContext gc;
-  public static double currentTime=0;
-  public static boolean create=true;
+  public static double currentTime=     0;
+  public static boolean create=      true;
   public static Pane root,       //Root surface.
                      gui,        //For gui layer.
                      rotatesurf, //For rotating appsurf.
@@ -45,13 +43,13 @@ public class Game extends Application
     appsurf.setMinSize(scr_w,scr_h);
     appsurf.setMaxSize(scr_w,scr_h);
     
-    Canvas canvas = new Canvas(scr_w,scr_h);    
-    Scene scene = new Scene(root,scr_w,scr_h);
+    Canvas canvas=new Canvas(scr_w,scr_h);    
+    Scene scene=new Scene(root,scr_w,scr_h);
     
     primaryStage.setScene(scene);
-    primaryStage.setTitle("Love foxes or die.");
-    root.getChildren().add(canvas);
+    primaryStage.setTitle("Bomb n' Shovel.");
     
+    root.getChildren().add(canvas);
     rotatesurf.getChildren().add(appsurf);
     root.getChildren().add(rotatesurf);
     root.getChildren().add(gui);
@@ -59,8 +57,7 @@ public class Game extends Application
     primaryStage.show();
     
     new AnimationTimer()
-    { 
-      
+    {      
       @Override
       public void handle(long timeCur)
       {
@@ -69,9 +66,10 @@ public class Game extends Application
           GameWorld.CREATE();
           Game.create=false;  
         }
-        long timePrev=System.nanoTime();
         
+        long timePrev=System.nanoTime();    
         currentTime=(System.nanoTime()-timeStart)/timeMul;
+        
         inFocus=root.getScene().getWindow().focusedProperty().get();
         
         GameWorld.UPDATE();
@@ -79,9 +77,6 @@ public class Game extends Application
         //WAITING.
         while((System.nanoTime()-timePrev)/timeMul < 1/gameSpeed){}
         //WAITING.
-        
-        //timePrev=System.nanoTime();
-        
       }
     }.start();
     
@@ -89,9 +84,7 @@ public class Game extends Application
   }
 
   public static void main(String[] args)
-  {
-    launch(args);
-  }
+  {launch(args);}
   
 }
 
