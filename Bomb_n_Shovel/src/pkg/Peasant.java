@@ -1,23 +1,29 @@
 package pkg;
 
+import pkg.turns.Player;
 import pkg.engine.*;
-import static pkg.engine.GameWorld.field;
 import pkg.pathfinder.*;
+import pkg.turns.PlayerCmd;
 
 public class Peasant extends GameObject
 {
-  PathPoint pathList;
+  public Player myPlayer=null;
+  public int tid=-1;
+  public boolean initiative=false;
+  public PlayerCmd command;
+  
+  public PathPoint pathList;
    
   int target_x,target_y;
-  boolean moving=false;
-  double prev_x,prev_y;
+  public boolean moving=false;
+  double x_prev,y_prev;
   double z;
   
-  int team;
+  public int team;
   
   Sprite spr;
   
-  int cx_prev,cy_prev;
+  public int cx_prev,cy_prev;
   
   public Peasant(double x_arg,double y_arg)
   {
@@ -37,20 +43,23 @@ public class Peasant extends GameObject
     
       double moveSpd=3;
       
-      x-=Math.signum(x-pathList.x*Field.cellSize)*moveSpd;
-      y-=Math.signum(y-pathList.y*Field.cellSize)*moveSpd;
-      z=Mathe.lsin(8,180*(Mathe.lerp(prev_x,x,pathList.x*Field.cellSize)+Mathe.lerp(prev_y,y,pathList.y*Field.cellSize)));
+      x-=Math.signum(x-pathList.x*Terrain.cellSize)*moveSpd;
+      y-=Math.signum(y-pathList.y*Terrain.cellSize)*moveSpd;
+      z=Mathe.lsin(8,180*(Mathe.lerp(x_prev,x,pathList.x*Terrain.cellSize)+Mathe.lerp(y_prev,y,pathList.y*Terrain.cellSize)));
       
-      if (Mathe.pointDistance(x,y,pathList.x*Field.cellSize,pathList.y*Field.cellSize)<moveSpd)
+      if (Mathe.pointDistance(x,y,pathList.x*Terrain.cellSize,pathList.y*Terrain.cellSize)<moveSpd)
       {
-        x=pathList.x*Field.cellSize;
-        y=pathList.y*Field.cellSize;
-        prev_x=x;
-        prev_y=y;
+        x=pathList.x*Terrain.cellSize;
+        y=pathList.y*Terrain.cellSize;
+        x_prev=x;
+        y_prev=y;
         z=0;
         pathList=pathList.next;
         if (pathList==null)
-        {moving=false;}
+        {
+          moving=false;
+          myPlayer.endTurn();
+        }
       }
 
       
@@ -58,41 +67,58 @@ public class Peasant extends GameObject
     
     
     //MOVING INPUTS/////////////////////////////////////////////
-    if (Input.mbCheckRelease && !moving && !Field.camMove)
-    {
-      int cx,cy;
-      cx=(int)Input.mouse_x/Field.cellSize;
-      cy=(int)Input.mouse_y/Field.cellSize;
+    //if (initiative && !moving && Input.mbCheckRelease && !Terrain.camMove)
+    //{
+      //int cx,cy;
+      //cx=(int)Input.mouse_x/Terrain.cellSize;
+      //cy=(int)Input.mouse_y/Terrain.cellSize;
  
-      //System.out.println(field.terrain[cx][cy]+" : "+field.terrainTile[cx][cy]);
-      
-      //if (field.terrain[cx][cy]==1)
-      //{field.terrain[cx][cy]=0;}
-      //else
+ 
+      if (command!=null)
       {
-        //Pathfinding.
-        if (pathList!=null)
+        if (command.get()==PlayerCmd.cmd.move)
         {
-          PathPoint last=pathList.last();
-          
-          if (cx_prev==cx && cy_prev==cy)
-          {
-            prev_x=x;
-            prev_y=y;
-            moving=true;
-          }
+          x_prev=x;
+          y_prev=y;
+          moving=true;
         }
         
-        if (!moving)
+        if (command.get()==PlayerCmd.cmd.setpath)
         {
-          Pathfinder pathfinder=new Pathfinder(Field.terrain);
-          pathList=pathfinder.pathFind((int)x/32,(int)y/32,cx,cy);
+          int cx=(int)command.getarg(0),
+              cy=(int)command.getarg(1);
+          
+          Pathfinder pathfinder=new Pathfinder(Terrain.terrain);
+          pathList=pathfinder.pathFind((int)x/Terrain.cellSize,(int)y/Terrain.cellSize,cx,cy);
           cx_prev=cx;
           cy_prev=cy;
         }
-        //Pathfinding.
+        
+        command=null;
       }
-    }
+      
+      /*
+      //Pathfinding.
+      if (pathList!=null)
+      {   
+        if (cx_prev==cx && cy_prev==cy)
+        {
+          x_prev=x;
+          y_prev=y;
+          moving=true;
+        }
+      }
+        
+      if (!moving)
+      {
+        Pathfinder pathfinder=new Pathfinder(Terrain.terrain);
+        pathList=pathfinder.pathFind((int)x/32,(int)y/32,cx,cy);
+        cx_prev=cx;
+        cy_prev=cy;
+      }
+      //Pathfinding.
+      */
+    //}
     //MOVING INPUTS/////////////////////////////////////////////
   }
   
@@ -109,7 +135,7 @@ public class Peasant extends GameObject
       
       while(p!=null)
       {
-        Draw.drawSprite(new Sprite(Spr.path),(p.next==null)?1:0,p.x*Field.cellSize,p.y*Field.cellSize);
+        Draw.drawSprite(new Sprite(Spr.path),(p.next==null)?1:0,p.x*Terrain.cellSize,p.y*Terrain.cellSize);
         p=p.next;
       }
     }

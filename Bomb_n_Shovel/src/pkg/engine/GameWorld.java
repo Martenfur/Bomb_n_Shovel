@@ -4,7 +4,7 @@ import pkg.*;
 
 public class GameWorld
 {
-  public static Field field;
+  public static Terrain field;
   
   public static void CREATE()
   {
@@ -12,7 +12,7 @@ public class GameWorld
     Input.CREATE();
     Draw.CREATE();
     
-    field=new Field(0,0);
+    field=new Terrain();
   }
   
   public static void UPDATE()

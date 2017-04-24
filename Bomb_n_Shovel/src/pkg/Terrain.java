@@ -1,11 +1,13 @@
 package pkg;
 
+import pkg.turns.TurnManager;
+import pkg.turns.Player;
 import java.util.ArrayList;
 import javafx.scene.canvas.*;
 import javafx.scene.image.Image;
 import pkg.engine.*;
 
-public class Field extends GameObject
+public class Terrain extends GameObject
 {
   public static int[][] terrain;
   public static int[][] terrainTile;
@@ -22,10 +24,12 @@ public class Field extends GameObject
   double cam_mx,   cam_my,
          cam_mxgui,cam_mygui;
   public static boolean camMove=false;
+  int camDragAl=  -1,
+      camDragTime=30;
   
-  public Field(double x_arg,double y_arg)
+  public Terrain()
   {
-    super(x_arg,y_arg);
+    super(0,0);
     objIndex.add(Obj.oid.field);
     
     //////////////////////////////////////////////////
@@ -95,8 +99,18 @@ public class Field extends GameObject
       gen.islandAdd(ptC_x+(int)Mathe.lcos(l,d),ptC_y+(int)Mathe.lsin(l,d));
     }
     
-    new Peasant(basePt1_x*32,basePt1_y*32);
-    new Peasant(basePt2_x*32,basePt2_y*32);
+    TurnManager tm=new TurnManager();
+    Player p1=new Player(0);
+    Player p2=new Player(0);
+    tm.playerAdd(p1);
+    tm.playerAdd(p2);
+    
+    for(int i=0; i<4; i+=1) 
+    {p1.peasantAdd(new Peasant((basePt1_x+Mathe.rotate_x[i])*32,(basePt1_y+Mathe.rotate_y[i])*32));}
+   
+    for(int i=0; i<4; i+=1) 
+    {p2.peasantAdd(new Peasant((basePt2_x+Mathe.rotate_x[i])*32,(basePt2_y+Mathe.rotate_y[i])*32));}
+   
     //ISLANDS
      
     
@@ -110,18 +124,22 @@ public class Field extends GameObject
   public void STEP()
   {
     //GameWorld.cameraSetScale(1+Mathe.lsin(0.5,Game.currentTime*5),1+Mathe.lsin(0.5,Game.currentTime*5));
-    
+    //CAMERA
     if (Input.mbCheckPress)
     {
       cam_mx=   Input.mouse_x;
       cam_my=   Input.mouse_y;
       cam_mxgui=Input.mouse_xgui;
       cam_mygui=Input.mouse_ygui;
+      camDragAl=camDragTime;
     }
     
     if (Input.mbCheck)
     {
-      if (!camMove && Mathe.pointDistance(Input.mouse_xgui,Input.mouse_ygui,cam_mxgui,cam_mygui)>32)
+      if (camDragAl>-1) 
+      {camDragAl-=1;}
+      
+      if (!camMove && (Mathe.pointDistance(Input.mouse_xgui,Input.mouse_ygui,cam_mxgui,cam_mygui)>32 || camDragAl==0))
       {
         camMove=true;
         cam_mx=   Input.mouse_x;
@@ -142,6 +160,7 @@ public class Field extends GameObject
       if (!Input.mbCheckRelease) //Using this little trick we can activate this next step mouse was released. 
       {camMove=false;}
     }
+    //CAMERA
     
   }
   

@@ -28,6 +28,10 @@ public class Obj
    */
   public static void UPDATE()
   {
+    Draw.drawFlag=Draw.df.GUI;
+    for(int i=0; i<objectsAm; i+=1)
+    {objects.get(i).DRAW_GUI();}
+    
     Draw.drawFlag=Draw.df.DEFAULT;
     for(int i=0; i<objectsAm; i+=1)
     {objects.get(i).STEP_BEGIN();}
@@ -45,9 +49,6 @@ public class Obj
     Draw.drawFlag=Draw.df.END;
     for(int i=0; i<objectsAm; i+=1)
     {objects.get(i).DRAW_END();}
-    Draw.drawFlag=Draw.df.GUI;
-    for(int i=0; i<objectsAm; i+=1)
-    {objects.get(i).DRAW_GUI();}
   }
   
   ////////////////////////////////////////////////

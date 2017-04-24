@@ -84,7 +84,7 @@ public class TerrainGenerator
             
             for(int c=0; c<4; c+=1)
             {        
-              if (sides[c]==0 && Field.get(terr,i+Mathe.rotate_x[c],k+Mathe.rotate_y[c])==0)
+              if (sides[c]==0 && Terrain.get(terr,i+Mathe.rotate_x[c],k+Mathe.rotate_y[c])==0)
               {terr[i+Mathe.rotate_x[c]][k+Mathe.rotate_y[c]]=n-1;}
             }
           }
@@ -125,7 +125,7 @@ public class TerrainGenerator
             int ii=i+Mathe.rotate_x[c];
             int kk=k+Mathe.rotate_y[c]; 
             
-            if (Field.get(terr,ii,kk)!=2) 
+            if (Terrain.get(terr,ii,kk)!=2) 
             {buf+=pow2[c];}
             
           }
@@ -163,7 +163,7 @@ public class TerrainGenerator
              ly=Mathe.lsin(1,spineDir);
       for(int i=0; i<spine_l; i+=1)
       {
-        if (Field.get(terr,(int)x0,(int)y0)!=2)
+        if (Terrain.get(terr,(int)x0,(int)y0)!=2)
         {terr[(int)x0][(int)y0]=hMax;}
         x0+=lx;
         y0+=ly;
