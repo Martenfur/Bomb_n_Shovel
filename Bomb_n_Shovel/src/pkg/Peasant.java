@@ -19,18 +19,17 @@ public class Peasant extends GameObject
   double x_prev,y_prev;
   double z;
   
-  public int team;
-  
   Sprite spr;
   
   public int cx_prev,cy_prev;
+  
+  int tileStored=0; 
   
   public Peasant(double x_arg,double y_arg)
   {
     super(x_arg,y_arg);
     objIndex.add(Obj.oid.peasant);
     
-    team=0;
     
     spr=new Sprite(Spr.peasant);
   }
@@ -67,58 +66,43 @@ public class Peasant extends GameObject
     
     
     //MOVING INPUTS/////////////////////////////////////////////
-    //if (initiative && !moving && Input.mbCheckRelease && !Terrain.camMove)
-    //{
-      //int cx,cy;
-      //cx=(int)Input.mouse_x/Terrain.cellSize;
-      //cy=(int)Input.mouse_y/Terrain.cellSize;
- 
- 
-      if (command!=null)
+   
+    if (command!=null)
+    {
+      if (command.get()==PlayerCmd.cmd.move)
       {
-        if (command.get()==PlayerCmd.cmd.move)
-        {
-          x_prev=x;
-          y_prev=y;
-          moving=true;
-        }
-        
-        if (command.get()==PlayerCmd.cmd.setpath)
-        {
-          int cx=(int)command.getarg(0),
-              cy=(int)command.getarg(1);
-          
-          Pathfinder pathfinder=new Pathfinder(Terrain.terrain);
-          pathList=pathfinder.pathFind((int)x/Terrain.cellSize,(int)y/Terrain.cellSize,cx,cy);
-          cx_prev=cx;
-          cy_prev=cy;
-        }
-        
-        command=null;
-      }
-      
-      /*
-      //Pathfinding.
-      if (pathList!=null)
-      {   
-        if (cx_prev==cx && cy_prev==cy)
-        {
-          x_prev=x;
-          y_prev=y;
-          moving=true;
-        }
+        x_prev=x;
+        y_prev=y;
+        moving=true;
       }
         
-      if (!moving)
+      if (command.get()==PlayerCmd.cmd.setpath)
       {
+        int cx=(int)command.getarg(0),
+            cy=(int)command.getarg(1);
+        
+        for(ObjIter it=new ObjIter(Obj.oid.peasant); it.end(); it.inc())
+        {
+          if (it.get()!=this)
+          {((Peasant)it.get()).tileStore();}
+        }
+        
         Pathfinder pathfinder=new Pathfinder(Terrain.terrain);
-        pathList=pathfinder.pathFind((int)x/32,(int)y/32,cx,cy);
+        pathList=pathfinder.pathFind((int)x/Terrain.cellSize,(int)y/Terrain.cellSize,cx,cy);
+        
+        for(ObjIter it=new ObjIter(Obj.oid.peasant); it.end(); it.inc())
+        {
+          if (it.get()!=this)
+          {((Peasant)it.get()).tileRestore();}
+        }
+        
         cx_prev=cx;
         cy_prev=cy;
       }
-      //Pathfinding.
-      */
-    //}
+        
+      command=null;
+    }
+     
     //MOVING INPUTS/////////////////////////////////////////////
   }
   
@@ -126,18 +110,47 @@ public class Peasant extends GameObject
   public void DRAW()
   {
     Draw.setDepth((int)(-y));
-    Draw.drawSprite(spr,x+16,y+16+z);
+    Draw.drawSprite(spr,tid,x+16,y+16+z);
     Draw.setDepth((int)(0));
 
     if (pathList!=null)
     {
       PathPoint p=pathList;
       
+      int add,i=0;
       while(p!=null)
       {
-        Draw.drawSprite(new Sprite(Spr.path),(p.next==null)?1:0,p.x*Terrain.cellSize,p.y*Terrain.cellSize);
+        if (i<10)
+        {add=0;}
+        else
+        {add=2;}
+        i+=1;
+        Draw.drawSprite(new Sprite(Spr.path),((p.next==null)?1:0)+add,p.x*Terrain.cellSize,p.y*Terrain.cellSize);
         p=p.next;
       }
     }
+  }
+  
+  /**
+   * Memorizes current tile and replaces it with unpassable wall.
+   */
+  private void tileStore()
+  {
+    int xx=(int)x/Terrain.cellSize,
+        yy=(int)y/Terrain.cellSize;
+    tileStored=Terrain.terrain[xx][yy];
+    Terrain.terrain[xx][yy]=1;
+    System.out.println("sup");
+  }
+  
+  /**
+   * Restores back stored tile.
+   */
+  private void tileRestore()
+  {
+    int xx=(int)x/Terrain.cellSize,
+        yy=(int)y/Terrain.cellSize;
+    Terrain.terrain[xx][yy]=tileStored;
+    tileStored=0;
   }
 }

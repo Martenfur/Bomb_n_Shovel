@@ -3,11 +3,13 @@ package pkg;
 import java.util.ArrayList;
 import pkg.engine.*;
 
+
 /**
  * Generates terrain.
  */
 public class TerrainGenerator
 {
+ 
   ArrayList<int[]> islandCenters;
   int terrain_w,terrain_h;
   int[] pow2;
@@ -26,15 +28,17 @@ public class TerrainGenerator
   }
   
   /**
-   * Adds new center point for generating.
-   * @param x
-   * @param y 
+   * Adds new island for generating.
+   * @param x Center x of island.
+   * @param y Center y of island.
+   * @param h Starting height. Determines island size.
    */
-  void islandAdd(int x,int y)
+  void islandAdd(int x,int y,int h)
   {
-    int[] buf=new int[2];
+    int[] buf=new int[3];
     buf[0]=x;
     buf[1]=y;
+    buf[2]=h;
     islandCenters.add(buf);
   }
   
@@ -49,8 +53,8 @@ public class TerrainGenerator
     int[][] terr=new int[w][h];  
     
     int spineDir;
-    int hMax=10;
-    
+    int h0=0;
+    //Generating spine.
     for(int i=0; i<islandCenters.size(); i+=1)
     { 
       spineDir=Mathe.irandom(359);
@@ -58,12 +62,15 @@ public class TerrainGenerator
       int x0=islandCenters.get(i)[0],
           y0=islandCenters.get(i)[1];
       
-      terrainIslandSpineGenerate(terr,spineDir,3,x0,y0,hMax);
-      terrainIslandSpineGenerate(terr,spineDir+180+Mathe.irandom(-90,90),Mathe.irandom(3,5),x0,y0,hMax);
+      h0=islandCenters.get(i)[2];
+      
+      terrainIslandSpineGenerate(terr,spineDir,3,x0,y0,h0);
+      terrainIslandSpineGenerate(terr,spineDir+180+Mathe.irandom(-90,90),Math.max(1,Mathe.irandom(h0/3,h0/2)),x0,y0,h0);
     }
+    //Generating spine.
     
     //Beefing up the spine.
-    for(int n=hMax; n>1; n-=1)
+    for(int n=10; n>1; n-=1)
     {
       for(int i=0; i<w; i+=1)
       {
@@ -102,9 +109,9 @@ public class TerrainGenerator
         {terr[i][k]=2;}
         else
         {
-          if (terr[i][k]<4 && Mathe.irandom(3)!=0) //DEBUG
-          {terr[i][k]=1;}     //DEBUG
-          else
+          //if (terr[i][k]<4 && Mathe.irandom(3)!=0) //DEBUG
+         // {terr[i][k]=1;}     //DEBUG
+         // else
           {terr[i][k]=0;}
         }
       }
@@ -136,6 +143,19 @@ public class TerrainGenerator
       }
     }
     //Getting rid of restricted combinations.
+    
+    //Generating bridges.
+    for(int i=0; i<islandCenters.size(); i+=1)
+    {
+      for(int k=i+1; k<islandCenters.size(); k+=1)
+      {
+        terrainBridgeAdd(terr,islandCenters.get(i)[0],islandCenters.get(i)[1],
+                              islandCenters.get(k)[0],islandCenters.get(k)[1]);
+      }
+    }    
+    //Generating bridges.
+       
+       
     return terr;
   }
   
@@ -174,60 +194,150 @@ public class TerrainGenerator
     
   /**
    * Creates new grid with tile info. Used with terr sprite only.
-   * @param terr
+   * @param terr Reference terrain.
+   * @param terrSpr Empty Sprite array.
    * @return Tiled terr.
    */
-  int[][] terrainAutotile(int[][] terr)
+  int[][] terrainAutotile(int[][] terr,Sprite[][] terrSpr)
   {
-    int[][] terrBuf=new int[128][128];
+   
+    int[][] terrTiles=new int[terr.length][terr[0].length];
     
-    for(int i=0; i<terrain_w; i+=1)
+    for(int i=0; i<terr.length; i+=1)
     {
-      for(int k=0; k<terrain_h; k+=1)
+      for(int k=0; k<terr[0].length; k+=1)
       {
         
-        if (terr[i][k]==2)
+        //TILING ISLANDS/////////////////////////////////////////////////////////
+        if (!TileProp.isGround(terr[i][k]))
         {
-          terrBuf[i][k]=0;
+          terrTiles[i][k]=0;
           
           //Default autotiling.
           for(int c=0; c<4; c+=1)
           {
             int ii=i+Mathe.rotate_x[c];
             int kk=k+Mathe.rotate_y[c];
-          
-            if (ii>=0 && kk>=0 && ii<terrain_w && kk<terrain_h)
-            if (terr[ii][kk]!=2) 
-            {terrBuf[i][k]+=pow2[c];}
+             
+            if (TileProp.isGround(Terrain.get(terr,ii,kk)))
+            {terrTiles[i][k]+=pow2[c];}
           }
           //Default autotiling.
           
           //Diagonals check.
-          if (terrBuf[i][k]==0)
+          if (terrTiles[i][k]==0)
           {
             for(int c=0; c<4; c+=1)
             {
               int ii=i+Mathe.rotated_x[c];
               int kk=k+Mathe.rotated_y[c];
           
-              if (ii>=0 && kk>=0 && ii<terrain_w && kk<terrain_h)
+              if (TileProp.isGround(Terrain.get(terr,ii,kk)))
               {
-                if (terr[ii][kk]!=2)
-                {
-                  terrBuf[i][k]=15-pow2[c];
-                  break;
-                }
+                terrTiles[i][k]=15-pow2[c];
+                break;
               }
-            }
-            
+              
+            }  
           }
           //Diagonals check.
         }
         else
-        {terrBuf[i][k]=15;}  
+        {terrTiles[i][k]=15;}  
+        //TILING ISLANDS/////////////////////////////////////////////////////////
+        
+        if (TileProp.getSpr(terr[i][k])!=null)
+        {terrSpr[i][k]=new Sprite(TileProp.getSpr(terr[i][k]));}
+        
+        //TILING COASTS/////////////////////////////////////////////////////////
+        if (terr[i][k]==3)
+        {
+          //Tiling bridges.
+          int tileBuf=0;
+          for(int c=0; c<4; c+=1)
+          {
+            int ii=i+Mathe.rotate_x[c];
+            int kk=k+Mathe.rotate_y[c];
+             
+            if (Terrain.get(terr,ii,kk)==3)
+            {tileBuf+=pow2[c];}
+          }
+          //Tiling bridges.
+          
+          if (tileBuf==15)
+          {terrTiles[i][k]=15+4+1;}
+          else
+          {  
+            if (tileBuf/5*5==tileBuf) //Straight parts.
+            {terrTiles[i][k]=15+5;}
+            else
+            {
+              if (tileBuf/3*3==tileBuf) //Corners.
+              {terrTiles[i][k]=15+tileBuf/3;}
+              else
+              {terrTiles[i][k]=15+4+1;}
+            }  
+          }
+          
+          if (terrTiles[i][k]!=0)
+          {
+            //terrSpr[i][k]=new Sprite();
+          }
+          
+          
+        }
+        //TILING COASTS/////////////////////////////////////////////////////////
+        
       }
+        
     }
     
-    return terrBuf;   
+    
+    for(int i=0; i<terr.length; i+=1)
+    {
+      for(int k=0; k<terr[0].length-1; k+=1)
+      {
+        if (terrTiles[i][k]==20 && terr[i][k+1]==2) //20 - bridge tile id.
+        {terrTiles[i][k+1]=15+4+2;}
+      }  
+    }
+    
+    return terrTiles;   
   }
+  
+  void terrainBridgeAdd(int[][] terr,int sx,int sy,int fx,int fy)
+  {
+    boolean is_h=Mathe.choose(true,false);
+    
+    int dx=(int)Math.signum(fx-sx),
+        dy=(int)Math.signum(fy-sy),
+        tc=0; //Turn counter. If reaches 2, cycle ends.
+    
+    while(tc<2)
+    {
+      if (terr[sx][sy]==2)
+      {terr[sx][sy]=3;}
+      //Moving.
+      if (is_h)
+      {
+        sx+=dx;
+        if (sx==fx)
+        {
+          tc+=1;
+          is_h=false;
+        }
+      }
+      else
+      {
+        sy+=dy;
+        if (sy==fy)
+        {
+          tc+=1;
+          is_h=true;
+        }
+      }
+      //Moving.
+    }
+  }
+  
 }

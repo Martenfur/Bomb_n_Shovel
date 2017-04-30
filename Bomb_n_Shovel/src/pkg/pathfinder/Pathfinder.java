@@ -1,6 +1,8 @@
 package pkg.pathfinder;
 
 import java.util.ArrayList;
+import pkg.Terrain;
+import pkg.TileProp;
 import pkg.engine.*;
 
 /**
@@ -68,7 +70,7 @@ public class Pathfinder
       {
         px=ptCheck.x+Mathe.rotate_x[i];
         py=ptCheck.y+Mathe.rotate_y[i];
-        if (wallGrid[px][py]==0)
+        if (TileProp.isPassable(Terrain.get(wallGrid,px,py)))
         {
           if (pathGrid[px][py]==null)
           {
@@ -88,7 +90,7 @@ public class Pathfinder
       {
         PathPoint pathBuf=pathConstruct(ptCheck);
         
-        if (wallGrid[fx][fy]==0)
+        if (TileProp.isPassable(wallGrid[fx][fy]))
         {pathBuf.add(fx,fy);}
         return pathBuf;
       }

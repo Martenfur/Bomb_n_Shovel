@@ -67,6 +67,7 @@ public class Player extends GameObject
     peasants.add(peasant);
     peasant.myPlayer=this;
     peasant.tid=tid;
+    System.out.println(tid);
   }
   
   /**

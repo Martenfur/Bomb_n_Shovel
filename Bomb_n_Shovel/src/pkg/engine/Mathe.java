@@ -228,7 +228,12 @@ public class Mathe
    * @return Value between x1 and x2.
    */
   public static double random(double x1, double x2)
-  {return x1+randomizer.nextDouble()*Math.abs(x2-x1);}
+  {
+    if (x1!=x2)
+    {return x1+randomizer.nextDouble()*Math.abs(x2-x1);}
+    else
+    {return x1;}
+  }
   
   /**
    * @return Integer value between 0 and x.
@@ -243,7 +248,12 @@ public class Mathe
    * @return Integer value between x1 and x2.
    */
   public static int irandom(int x1,int x2)
-  {return x1+randomizer.nextInt(Math.abs(x2-x1));}
+  {
+    if (x1!=x2)
+    {return x1+randomizer.nextInt(Math.abs(x2-x1));}
+    else
+    {return x1;}
+  }
   
   /**
    * Returns one of given arguments. Can be used with any type.

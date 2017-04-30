@@ -8,6 +8,8 @@ public class GameWorld
   
   public static void CREATE()
   {
+    TileProp.init();
+    
     Mathe.randomize(); 
     Input.CREATE();
     Draw.CREATE();

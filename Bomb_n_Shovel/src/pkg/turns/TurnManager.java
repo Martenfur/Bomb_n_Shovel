@@ -16,7 +16,6 @@ public class TurnManager extends GameObject
   {
     super(0,0);
     players=new ArrayList<>();
-    
   }  
   
   @Override
@@ -34,6 +33,7 @@ public class TurnManager extends GameObject
   {
     players.add(player);
     player.turnManager=this;
+    player.tid=players.size()-1;
   }
   
   /**

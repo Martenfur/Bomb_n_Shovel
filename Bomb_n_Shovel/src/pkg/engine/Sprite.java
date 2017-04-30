@@ -19,15 +19,15 @@ public class Sprite
   
   /**
    * Long constructor. Use this if you want to load image from file.
-   * @param img_arg Image to work with.
+   * @param img_arg Image name.
    * @param frh_arg Amount of horizontal frames.
    * @param frv_arg Amount of vertical frames.
    * @param offx_arg Horizontal offset.
    * @param offy_arg Vertical offset.
    */
-  public Sprite(Image img_arg,int frh_arg,int frv_arg,int offx_arg,int offy_arg)
+  public Sprite(String img_arg,int frh_arg,int frv_arg,int offx_arg,int offy_arg)
   {
-    img=new ImageView(img_arg);
+    img=new ImageView(new Image(Spr.resPath+img_arg,true));
     frames_h=frh_arg;
     frames_v=frv_arg;
     setOffset(offx_arg,offy_arg);
