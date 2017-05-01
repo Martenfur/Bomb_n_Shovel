@@ -1,5 +1,6 @@
 package pkg.engine;
 
+import javafx.geometry.Rectangle2D;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
@@ -27,11 +28,10 @@ public class Sprite
    */
   public Sprite(String img_arg,int frh_arg,int frv_arg,int offx_arg,int offy_arg)
   {
-    img=new ImageView(new Image(Spr.resPath+img_arg,true));
+    img=new ImageView(new Image(Spr.resPath+img_arg,false));
     frames_h=frh_arg;
     frames_v=frv_arg;
     setOffset(offx_arg,offy_arg);
-    
   }
   
   /**
@@ -87,4 +87,18 @@ public class Sprite
   public void setAlpha(double alpha)
   {img.setOpacity(alpha);}
   
+  /**
+   * Sets frame to sprite so it can be drawn with it with basic Draw functions.
+   * @param frame 
+   */
+  public void setFrame(double frame)
+  {
+    double vp_w=getWidth();
+    double vp_h=getHeight();
+    
+    double vp_x=(frame-Math.floor(frame/frames_h)*frames_h)*vp_w;
+    double vp_y=Math.floor(frame/frames_h)*vp_h;
+
+    img.setViewport(new Rectangle2D(vp_x,vp_y,vp_w,vp_h));
+  }
 }

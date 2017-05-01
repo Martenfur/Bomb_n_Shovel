@@ -1,8 +1,8 @@
 package pkg.pathfinder;
 
 import java.util.ArrayList;
-import pkg.Terrain;
-import pkg.TileProp;
+import pkg.terrain.Terrain;
+import pkg.terrain.TileProp;
 import pkg.engine.*;
 
 /**
@@ -38,13 +38,14 @@ public class Pathfinder
    */
   public PathPoint pathFind(int sx,int sy,int fx,int fy)
   {
+    //Beginning path from wall cell? Seriously?
+    if (!TileProp.isPassable(wallGrid[sx][sy]))
+    {return null;}
+    //Beginning path from wall cell? Seriously?
+    
     //If points are THAT close to each other, no need in fancy pathfinding.
     if (Mathe.pointDistance(sx,sy,fx,fy)==1)
-    {
-      if (wallGrid[fx][fy]==0)
-      {return new PathPoint(fx,fy);}
-      return null;
-    }
+    {return new PathPoint(fx,fy);}
     //If points are THAT close to each other, no need in fancy pathfinding.
     
     //And if they are even closer... you got it.
@@ -59,6 +60,9 @@ public class Pathfinder
     pathGrid[sx][sy]=new PathCell(sx,sy,0,getDist(sx,sy,fx,fy));
     
     openList.add(pathGrid[sx][sy]);
+    
+    try
+    {
     
     while(!openList.isEmpty())
     { 
@@ -92,12 +96,23 @@ public class Pathfinder
         
         if (TileProp.isPassable(wallGrid[fx][fy]))
         {pathBuf.add(fx,fy);}
+        
+        
         return pathBuf;
       }
+      
           
       ///////////////////////////////////////////////////
 
     }
+    
+    }
+    catch(OutOfMemoryError e)
+    {
+      System.out.println("OUTOFMEMORY");
+      return null;
+    }
+    
     return null;
     
   }  

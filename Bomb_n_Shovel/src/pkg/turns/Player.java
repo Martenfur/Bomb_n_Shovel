@@ -9,7 +9,7 @@ import pkg.engine.*;
 import java.util.ArrayList;
 import pkg.GameObject;
 import pkg.Peasant;
-import pkg.Terrain;
+import pkg.terrain.Terrain;
 
 /**
  * Controls 4 peasants.

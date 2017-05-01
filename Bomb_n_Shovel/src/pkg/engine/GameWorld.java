@@ -1,5 +1,7 @@
 package pkg.engine;
 
+import pkg.terrain.Terrain;
+import pkg.terrain.TileProp;
 import pkg.*;
 
 public class GameWorld

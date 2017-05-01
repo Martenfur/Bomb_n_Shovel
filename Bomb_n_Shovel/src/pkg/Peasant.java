@@ -1,5 +1,6 @@
 package pkg;
 
+import pkg.terrain.Terrain;
 import pkg.turns.Player;
 import pkg.engine.*;
 import pkg.pathfinder.*;
@@ -140,7 +141,6 @@ public class Peasant extends GameObject
         yy=(int)y/Terrain.cellSize;
     tileStored=Terrain.terrain[xx][yy];
     Terrain.terrain[xx][yy]=1;
-    System.out.println("sup");
   }
   
   /**
@@ -154,3 +154,5 @@ public class Peasant extends GameObject
     tileStored=0;
   }
 }
+
+
