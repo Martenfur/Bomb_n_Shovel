@@ -40,7 +40,10 @@ public class TurnManager extends GameObject
    * Gives initiative to current player.
    */
   void initiativeGive()
-  {players.get(playerCur).initiative=true;}  
+  {
+    initiative=false;
+    players.get(playerCur).initiative=true;
+  }  
   
   /**
    * Takes initiative back from current player.

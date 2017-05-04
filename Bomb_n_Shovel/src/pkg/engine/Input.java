@@ -59,8 +59,8 @@ public class Input
   {
     if (Game.inFocus)
     {
-      mouse_x=mouse_x_read/Game.appsurf.getScaleX()+GameWorld.cameraGet_x();
-      mouse_y=mouse_y_read/Game.appsurf.getScaleY()+GameWorld.cameraGet_y();
+      mouse_x=mouse_x_read/Game.appsurf.getScaleX()+Camera.get_x();
+      mouse_y=mouse_y_read/Game.appsurf.getScaleY()+Camera.get_y();
       
       mouse_xgui=mouse_x_read;
       mouse_ygui=mouse_y_read;

@@ -70,8 +70,8 @@ public class TerrainGenerator
         {terr[i][k]=2;}
         else
         {
-          if (terr[i][k]<3 && Mathe.irandom(2)==0) //DEBUG
-          {terr[i][k]=1;}     //DEBUG
+          if (terr[i][k]<3 && Mathe.irandom(2)==0)
+          {terr[i][k]=1;}
           else
           {terr[i][k]=0;}
         }
@@ -105,10 +105,21 @@ public class TerrainGenerator
     }
     //Getting rid of restricted combinations.
     
-    
     //Generating trees.
     treesGenerate(terr);
     //Generating trees.
+    
+    //Cleaning some space around starting points.
+    for(int i=0; i<terr.length; i+=1)
+    {
+      for(int k=0; k<terr[0].length; k+=1)
+      {
+        if (Mathe.pointDistance(i,k,islandCenters.get(0)[0],islandCenters.get(0)[1])<4
+        ||  Mathe.pointDistance(i,k,islandCenters.get(1)[0],islandCenters.get(1)[1])<4)
+        {terr[i][k]=0;}
+      }
+    }
+    //Cleaning some space around starting points.
     
     //Generating bridges.
     for(int i=0; i<islandCenters.size(); i+=1)

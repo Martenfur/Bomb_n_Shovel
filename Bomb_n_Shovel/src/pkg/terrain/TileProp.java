@@ -41,7 +41,7 @@ public class TileProp
     tileAdd(GROUND,PASSABLE);              //Grass.
     tileAdd(GROUND,UNPASSABLE,Spr.tree,0); //Tree.
     tileAdd(WATER,UNPASSABLE);             //Water.
-    tileAdd(WATER,PASSABLE,null,1);       //Bridge.  
+    tileAdd(WATER,PASSABLE,null,2);       //Bridge.  
   }
   
   final static void tileAdd(boolean ground,boolean passable,Sprite spr,int depth)

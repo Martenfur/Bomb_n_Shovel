@@ -74,7 +74,12 @@ public class Player extends GameObject
    * Gives initiative to current player.
    */
   void initiativeGive()
-  {peasants.get(peasantCur).initiative=true;} 
+  {
+    initiative=false;
+    peasants.get(peasantCur).initiative=true;
+    peasants.get(peasantCur).staminaRefill();
+    Camera.viewer=peasants.get(peasantCur);
+  } 
   
   /**
    * Ends this player's turn.

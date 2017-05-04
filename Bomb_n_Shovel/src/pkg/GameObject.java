@@ -9,7 +9,7 @@ import java.util.ArrayList;
  */
 public class GameObject
 {
-  double x,y;
+  public double x,y;
   public ArrayList<Obj.oid> objIndex=new ArrayList<>();
   
   /**

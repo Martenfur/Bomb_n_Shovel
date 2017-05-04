@@ -9,28 +9,35 @@ import pkg.turns.PlayerCmd;
 public class Peasant extends GameObject
 {
   public Player myPlayer=null;
-  public int tid=-1;
+  public PlayerCmd command=null;
+  
   public boolean initiative=false;
-  public PlayerCmd command;
+  public int tid=-1;
   
   public PathPoint pathList;
    
+  //Movement.
   int target_x,target_y;
   public boolean moving=false;
   double x_prev,y_prev;
   double z;
   
-  Sprite spr;
-  
   public int cx_prev,cy_prev;
   
-  int tileStored=0; 
+  int tileStored=0;
   
+  double moveSpd=        3,
+         moveStaminaMax=10,
+         moveStamina=    0;
+      
+  //Movement.
+  
+  Sprite spr;
+
   public Peasant(double x_arg,double y_arg)
   {
     super(x_arg,y_arg);
     objIndex.add(Obj.oid.peasant);
-    
     
     spr=new Sprite(Spr.peasant);
   }
@@ -40,9 +47,6 @@ public class Peasant extends GameObject
   {
     if (moving)
     { 
-    
-      double moveSpd=3;
-      
       x-=Math.signum(x-pathList.x*Terrain.cellSize)*moveSpd;
       y-=Math.signum(y-pathList.y*Terrain.cellSize)*moveSpd;
       z=Mathe.lsin(8,180*(Mathe.lerp(x_prev,x,pathList.x*Terrain.cellSize)+Mathe.lerp(y_prev,y,pathList.y*Terrain.cellSize)));
@@ -55,7 +59,10 @@ public class Peasant extends GameObject
         y_prev=y;
         z=0;
         pathList=pathList.next;
-        if (pathList==null)
+        
+        moveStamina-=1;
+        
+        if (pathList==null || moveStamina==0)
         {
           moving=false;
           myPlayer.endTurn();
@@ -72,6 +79,8 @@ public class Peasant extends GameObject
     {
       if (command.get()==PlayerCmd.cmd.move)
       {
+        Camera.viewer=this;
+        
         x_prev=x;
         y_prev=y;
         moving=true;
@@ -112,16 +121,17 @@ public class Peasant extends GameObject
   {
     Draw.setDepth((int)(-y));
     Draw.drawSprite(spr,tid,x+16,y+16+z);
-    Draw.setDepth((int)(0));
 
-    if (pathList!=null)
+    if (initiative && pathList!=null)
     {
       PathPoint p=pathList;
       
       int add,i=0;
       while(p!=null)
       {
-        if (i<10)
+        Draw.setDepth((int)-p.y*Terrain.cellSize+1);
+        
+        if (i<moveStamina)
         {add=0;}
         else
         {add=2;}
@@ -153,6 +163,12 @@ public class Peasant extends GameObject
     Terrain.terrain[xx][yy]=tileStored;
     tileStored=0;
   }
+  
+  /**
+   * Restores stamina.
+   */
+  public void staminaRefill()
+  {moveStamina=moveStaminaMax;}
 }
 
 

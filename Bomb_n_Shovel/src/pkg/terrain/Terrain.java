@@ -130,8 +130,8 @@ public class Terrain extends GameObject
     
     
     //////////////////////////////////////////////////
-    GameWorld.cameraSetPosition(basePt1_x*32-320,basePt1_y*32-240);
-    GameWorld.cameraSetScale(0.25,0.25);    
+    Camera.setPosition(basePt1_x*32-320,basePt1_y*32-240);
+    //Camera.setScale(0.25,0.25);    
     //////////////////////////////////////////////////
     
    }
@@ -165,8 +165,9 @@ public class Terrain extends GameObject
       
       if (camMove)
       {
-        GameWorld.cameraSetPosition((cam_mx-(Input.mouse_x-GameWorld.cameraGet_x())),
-                                    cam_my-(Input.mouse_y-GameWorld.cameraGet_y()));
+        Camera.viewer=null;
+        Camera.setPosition((cam_mx-(Input.mouse_x-Camera.get_x())),
+                            cam_my-(Input.mouse_y-Camera.get_y()));
         
       }
     }
@@ -184,15 +185,15 @@ public class Terrain extends GameObject
   { 
     Draw.setDepth(10001);
     Draw.setColor(c_water);
-    Draw.drawRectangle(bkg,GameWorld.cameraGet_x(),           GameWorld.cameraGet_y(),
-                           GameWorld.cameraGet_x()+Game.scr_w/GameWorld.cameraGetScale_x(),
-                           GameWorld.cameraGet_y()+Game.scr_h/GameWorld.cameraGetScale_y(),false);
+    Draw.drawRectangle(bkg,Camera.get_x(),           Camera.get_y(),
+                           Camera.get_x()+Game.scr_w/Camera.getScale_x(),
+                           Camera.get_y()+Game.scr_h/Camera.getScale_y(),false);
     
     
-    int draw_xstart=(int)Math.max(0,      Math.floor(GameWorld.cameraGet_x()/cellSize));
-    int draw_ystart=(int)Math.max(0,      Math.floor(GameWorld.cameraGet_y()/cellSize));
-    int draw_xend=  (int)Math.min(terrain_w,Math.ceil((GameWorld.cameraGet_x()+Game.scr_w/GameWorld.cameraGetScale_x())/cellSize)+1);
-    int draw_yend=  (int)Math.min(terrain_h,Math.ceil((GameWorld.cameraGet_y()+Game.scr_h/GameWorld.cameraGetScale_y())/cellSize)+1);
+    int draw_xstart=(int)Math.max(0,      Math.floor(Camera.get_x()/cellSize));
+    int draw_ystart=(int)Math.max(0,      Math.floor(Camera.get_y()/cellSize));
+    int draw_xend=  (int)Math.min(terrain_w,Math.ceil((Camera.get_x()+Game.scr_w/Camera.getScale_x())/cellSize)+1);
+    int draw_yend=  (int)Math.min(terrain_h,Math.ceil((Camera.get_y()+Game.scr_h/Camera.getScale_y())/cellSize)+1);
     
     for(int k=draw_ystart; k<draw_yend; k+=1)
     {   
@@ -218,10 +219,10 @@ public class Terrain extends GameObject
       {g=true;}
     }
     
-    draw_xstart=(int)Math.max(0,      Math.floor(GameWorld.cameraGet_x()/(cellSize*chunkSize)));
-    draw_ystart=(int)Math.max(0,      Math.floor(GameWorld.cameraGet_y()/(cellSize*chunkSize)));
-    draw_xend=  (int)Math.min(chunk.length,Math.ceil((GameWorld.cameraGet_x()+Game.scr_w/GameWorld.cameraGetScale_x())/(cellSize*chunkSize)));
-    draw_yend=  (int)Math.min(chunk[0].length,Math.ceil((GameWorld.cameraGet_y()+Game.scr_h/GameWorld.cameraGetScale_y())/(cellSize*chunkSize)));
+    draw_xstart=(int)Math.max(0,      Math.floor(Camera.get_x()/(cellSize*chunkSize)));
+    draw_ystart=(int)Math.max(0,      Math.floor(Camera.get_y()/(cellSize*chunkSize)));
+    draw_xend=  (int)Math.min(chunk.length,Math.ceil((Camera.get_x()+Game.scr_w/Camera.getScale_x())/(cellSize*chunkSize)));
+    draw_yend=  (int)Math.min(chunk[0].length,Math.ceil((Camera.get_y()+Game.scr_h/Camera.getScale_y())/(cellSize*chunkSize)));
    
     for(int i=draw_xstart; i<draw_xend; i+=1)
     {
