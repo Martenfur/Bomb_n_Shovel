@@ -1,15 +1,15 @@
 package pkg;
 
+import pkg.net.Cmd;
 import pkg.terrain.Terrain;
 import pkg.turns.Player;
 import pkg.engine.*;
 import pkg.pathfinder.*;
-import pkg.turns.PlayerCmd;
 
 public class Peasant extends GameObject
 {
   public Player myPlayer=null;
-  public PlayerCmd command=null;
+  public Cmd command=null;
   
   public boolean initiative=false;
   public int tid=-1;
@@ -77,7 +77,7 @@ public class Peasant extends GameObject
    
     if (command!=null)
     {
-      if (command.get()==PlayerCmd.cmd.move)
+      if (command.cmp("move"))
       {
         Camera.viewer=this;
         
@@ -86,10 +86,10 @@ public class Peasant extends GameObject
         moving=true;
       }
         
-      if (command.get()==PlayerCmd.cmd.setpath)
+      if (command.cmp("setpath"))
       {
-        int cx=(int)command.getarg(0),
-            cy=(int)command.getarg(1);
+        int cx=(int)command.get(0),
+            cy=(int)command.get(1);
         
         for(ObjIter it=new ObjIter(Obj.oid.peasant); it.end(); it.inc())
         {

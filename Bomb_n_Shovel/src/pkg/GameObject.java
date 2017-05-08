@@ -27,6 +27,19 @@ public class GameObject
     objIndex.add(Obj.oid.all);
   }
   
+  /**
+   * Short constructor. Use it, if you don't care about object's coordinates.
+   */
+  public GameObject()
+  {
+    x=0;
+    y=0;
+    Obj.objects.add(this);
+    Obj.objectsAm+=1;
+    
+    objIndex.add(Obj.oid.all);
+  }
+  
   //EVENTS
   public void STEP_BEGIN(){}
   public void STEP()      {}

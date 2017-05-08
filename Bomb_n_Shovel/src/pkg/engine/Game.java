@@ -8,6 +8,8 @@ import javafx.stage.Stage;
 import javafx.scene.canvas.Canvas;
 
 import javafx.animation.AnimationTimer;
+import javafx.event.EventHandler;
+import javafx.stage.WindowEvent;
 
 public class Game extends Application
 {
@@ -79,6 +81,19 @@ public class Game extends Application
         //WAITING.
       }
     }.start();
+    
+    //Closing additional thread;
+    primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>()
+    {
+      @Override
+      public void handle(WindowEvent event) 
+      {
+        System.out.println("Sup^^");
+        if (GameWorld.client!=null)
+        {GameWorld.client.reader.running=false;}
+      }
+    });
+    //Closing additional thread.
     
     
   }

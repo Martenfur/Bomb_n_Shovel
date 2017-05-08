@@ -9,7 +9,6 @@ import pkg.engine.*;
 import java.util.ArrayList;
 import pkg.GameObject;
 import pkg.Peasant;
-import pkg.terrain.Terrain;
 
 /**
  * Controls 4 peasants.
@@ -18,16 +17,17 @@ import pkg.terrain.Terrain;
 public class Player extends GameObject
 {
   public TurnManager turnManager;
-  int mode;                    //0 -local, 1 - CPU, 2 - remote.
   public int tid=0;            //Team id.
   ArrayList<Peasant> peasants; //List of peasants.
   int peasantCur=0;            //Current peasant.
+  
   public boolean initiative=false;
   
-  public Player(int mode_arg)
+  boolean firstTurn=true;
+  
+  public Player()
   {
     super(0,0);
-    mode=mode_arg;
     peasants=new ArrayList<>();
   }
   
@@ -38,24 +38,6 @@ public class Player extends GameObject
     if (initiative && !peasants.isEmpty())
     {initiativeGive();}
     
-    if (isMyTurn())
-    {
-      Peasant pCur=peasants.get(peasantCur);
-      
-      if (pCur.initiative && !pCur.moving && Input.mbCheckRelease && !Terrain.camMove)
-      {
-        int cx,cy;
-        cx=(int)Input.mouse_x/Terrain.cellSize;
-        cy=(int)Input.mouse_y/Terrain.cellSize;
-      
-        //Pathfinding.
-        if (pCur.pathList!=null && pCur.cx_prev==cx && pCur.cy_prev==cy)
-        {pCur.command=new PlayerCmd(PlayerCmd.cmd.move);}
-        else
-        {pCur.command=new PlayerCmd(PlayerCmd.cmd.setpath,cx,cy);}
-        //Pathfinding.
-      }
-    }
   }
   
   /**
@@ -67,7 +49,6 @@ public class Player extends GameObject
     peasants.add(peasant);
     peasant.myPlayer=this;
     peasant.tid=tid;
-    System.out.println(tid);
   }
   
   /**
@@ -78,6 +59,11 @@ public class Player extends GameObject
     initiative=false;
     peasants.get(peasantCur).initiative=true;
     peasants.get(peasantCur).staminaRefill();
+    if (tid==0 && firstTurn)
+    {
+      Camera.setPosition(peasants.get(peasantCur).x-Game.scr_w/2,peasants.get(peasantCur).y-Game.scr_h/2);
+      firstTurn=false;
+    }
     Camera.viewer=peasants.get(peasantCur);
   } 
   

@@ -1,11 +1,14 @@
 package pkg.engine;
 
+import pkg.Lobby;
+import pkg.net.Client;
 import pkg.terrain.Terrain;
 import pkg.terrain.TileProp;
 
 public class GameWorld
 {
-  public static Terrain field;
+  public static Terrain terrain;
+  public static Client client;
   
   public static void CREATE()
   {
@@ -15,7 +18,10 @@ public class GameWorld
     Input.CREATE();
     Draw.CREATE();
     
-    field=new Terrain();
+    new Lobby();
+    //client=new Client();
+    //terrain=new Terrain(client.seed,client.turnManager);
+    
   }
   
   public static void UPDATE()

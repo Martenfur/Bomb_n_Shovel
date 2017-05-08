@@ -14,10 +14,12 @@ public class TerrainGenerator
   ArrayList<int[]> islandCenters;
   int terrain_w,terrain_h;
   int[] pow2;
-  TerrainGenerator(int w,int h)
+  long seed;
+  TerrainGenerator(int w,int h,long seed_arg)
   {
     terrain_w=w;
     terrain_h=h;
+    seed_arg=seed;
     
     islandCenters=new ArrayList<>();
     
@@ -51,6 +53,9 @@ public class TerrainGenerator
    */
   int[][] terrainGenerate(int w,int h)
   {
+    Mathe.randomPush();
+    Mathe.randomSetSeed(seed);
+    
     int[][] terr=new int[w][h];  
     
     //Generating spine.
@@ -136,7 +141,8 @@ public class TerrainGenerator
       }
     }    
     //Generating bridges.
-       
+    
+    Mathe.randomPop();
     
     return terr;
   }
@@ -402,7 +408,7 @@ public class TerrainGenerator
         h=terr[0].length;
     int[][] trees=new int[w][h];
     
-    TerrainGenerator treesGen=new TerrainGenerator(w,h);
+    TerrainGenerator treesGen=new TerrainGenerator(w,h,seed);
     
     int step=10;
     

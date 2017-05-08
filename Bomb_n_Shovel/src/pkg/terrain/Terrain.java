@@ -1,7 +1,6 @@
 package pkg.terrain;
 
-import pkg.turns.TurnManager;
-import pkg.turns.Player;
+import pkg.turns.*;
 import javafx.scene.canvas.*;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
@@ -18,13 +17,14 @@ public class Terrain extends GameObject
   
   public static int terrain_w,terrain_h,cellSize;
   
+  int basePt1_x,basePt1_y,basePt2_x,basePt2_y;
+  long seed;
+  
   Color c_water=Color.rgb(89,125,206);
   Rectangle bkg=new Rectangle(); 
   
   Canvas[][] chunk;
   int chunkSize;
-  
-  boolean g=false; //Rendering terrain.
   
   double cam_mx,   cam_my,
          cam_mxgui,cam_mygui;
@@ -32,15 +32,15 @@ public class Terrain extends GameObject
   int camDragAl=  -1,
       camDragTime=30;
   
-  public Terrain()
+  public Terrain(long seed_arg,TurnManager turnManager)
   {
     super(0,0);
-    objIndex.add(Obj.oid.field);
     
+    objIndex.add(Obj.oid.terrain);
     terrain_w=96;
     terrain_h=96;
-    cellSize=  32;
-    chunkSize= 16;
+    cellSize= 32;
+    chunkSize=16;
     
     chunk=new Canvas[(int)Math.ceil(terrain_w/chunkSize)][(int)Math.ceil(terrain_h/chunkSize)];
     for(int i=0; i<chunk.length; i+=1)
@@ -53,84 +53,28 @@ public class Terrain extends GameObject
       }
     }
     
-    //Generator.
-    TerrainGenerator gen=new TerrainGenerator(terrain_w,terrain_h);
-    
-    //ISLANDS
-    int island_lmin=16;
-    int island_lmax=32;
-    int island_diradd=30;
-    
-    double l,d;
-   
-    int basePt1_x,basePt1_y,basePt2_x,basePt2_y;
-    
-    //First team.
-    l=Mathe.random(island_lmin,island_lmax);
-    d=Mathe.random(360);
-    basePt1_x=terrain_w/2+(int)Mathe.lcos(l,d);
-    basePt1_y=terrain_h/2+(int)Mathe.lsin(l,d);
-    gen.islandAdd(basePt1_x,basePt1_y,Mathe.irandom(8,10));
-    //First team.
-    
-    //Second team.
-    d+=180+Mathe.irandom(-island_diradd,island_diradd);
-    basePt2_x=terrain_w/2+(int)Mathe.lcos(l,d);
-    basePt2_y=terrain_h/2+(int)Mathe.lsin(l,d);
-    gen.islandAdd(basePt2_x,basePt2_y,Mathe.irandom(8,10));
-    //Second team.
-    
-    //Middle island.
-    gen.islandAdd(terrain_w/2,terrain_h/2,Mathe.irandom(8,10));
-    //Middle island.
-    
-    //Center point.
-    int ptC_x=(basePt1_x+basePt2_x+terrain_w/2)/3,
-        ptC_y=(basePt1_y+basePt2_y+terrain_h/2)/3;
-    //Center point.
-    
-    double baseDir=Mathe.pointDirection(basePt1_x,basePt1_y,basePt2_x,basePt2_y)+90;
-    
-    //Additional islands.
-    int islandAm=Mathe.irandom(3,5);
-    for(int i=0; i<islandAm; i+=1)
-    {
-      l=Mathe.random(island_lmin/2,island_lmax/2);
-      d=baseDir+180*Mathe.irandom(1)+Mathe.irandom(-45,45);
-      gen.islandAdd(ptC_x+(int)Mathe.lcos(l,d),ptC_y+(int)Mathe.lsin(l,d),Mathe.irandom(5,10));
-    }
-    //Additional islands.
-    
-    islandAm=Mathe.irandom(3,5);
-    for(int i=0; i<islandAm; i+=1)
-    {
-      l=Mathe.random(island_lmax*0.5,island_lmax*0.75);
-      d=baseDir+Mathe.irandom(-30,30)+90*Mathe.irandom(1);
-      gen.islandAdd(ptC_x+(int)Mathe.lcos(l,d),ptC_y+(int)Mathe.lsin(l,d),Mathe.irandom(3,4));
-    }
+    //Creating terrain.    
+    seed=seed_arg;
+    terrainCreate(seed);
+    terrainRender();
+    //Creating terrain.
     
     
-    TurnManager tm=new TurnManager();
-    Player p1=new Player(0);
-    Player p2=new Player(0);
-    tm.playerAdd(p1);
-    tm.playerAdd(p2);
+    //Turn manager.
+    Player p1=turnManager.playerGet(0);
+    Player p2=turnManager.playerGet(1);
     
     for(int i=0; i<4; i+=1) 
     {p1.peasantAdd(new Peasant((basePt1_x+Mathe.rotate_x[i])*32,(basePt1_y+Mathe.rotate_y[i])*32));}
    
     for(int i=0; i<4; i+=1) 
     {p2.peasantAdd(new Peasant((basePt2_x+Mathe.rotate_x[i])*32,(basePt2_y+Mathe.rotate_y[i])*32));}
-    //ISLANDS
+    //Turn manager.
     
-    terrain=gen.terrainGenerate(terrain_w,terrain_h);
-    terrainSpr=new Sprite[terrain_w][terrain_h];
-    terrainTile=gen.terrainAutotile(terrain,terrainSpr);
-    //Generator. 
     
     
     //////////////////////////////////////////////////
-    Camera.setPosition(basePt1_x*32-320,basePt1_y*32-240);
+    //Camera.setPosition(basePt1_x*32+Camera.view_w/2,basePt1_y*32+Camera.view_h/2);
     //Camera.setScale(0.25,0.25);    
     //////////////////////////////////////////////////
     
@@ -212,13 +156,6 @@ public class Terrain extends GameObject
     
     Draw.setDepth(10000);
     
-    if (!g)
-    {
-      terrainRender();
-      if (Spr.terrain.img.getImage().getProgress()==1)
-      {g=true;}
-    }
-    
     draw_xstart=(int)Math.max(0,      Math.floor(Camera.get_x()/(cellSize*chunkSize)));
     draw_ystart=(int)Math.max(0,      Math.floor(Camera.get_y()/(cellSize*chunkSize)));
     draw_xend=  (int)Math.min(chunk.length,Math.ceil((Camera.get_x()+Game.scr_w/Camera.getScale_x())/(cellSize*chunkSize)));
@@ -232,7 +169,10 @@ public class Terrain extends GameObject
     
   }
   
-  void terrainRender()
+  /**
+   * Renders terrain.
+   */
+  final void terrainRender()
   {
     for(int i=0; i<chunk.length; i+=1)
     {
@@ -241,6 +181,11 @@ public class Terrain extends GameObject
     }
   }
   
+  /**
+   * Renders one chunk.
+   * @param x
+   * @param y 
+   */
   void terrainChunkRender(int x,int y)
   {
     GraphicsContext surf=chunk[x][y].getGraphicsContext2D();
@@ -261,6 +206,75 @@ public class Terrain extends GameObject
       }
     }
   }
+  
+  private final void terrainCreate(long seed)
+  {
+    //Generator.
+    TerrainGenerator gen=new TerrainGenerator(terrain_w,terrain_h,seed);
+    
+    Mathe.randomPush();
+    Mathe.randomSetSeed(seed);
+    
+    //ISLANDS
+    int island_lmin=16;
+    int island_lmax=32;
+    int island_diradd=30;
+    
+    double l,d;
+   
+    //First team.
+    l=Mathe.random(island_lmin,island_lmax);
+    d=Mathe.random(360);
+    basePt1_x=terrain_w/2+(int)Mathe.lcos(l,d);
+    basePt1_y=terrain_h/2+(int)Mathe.lsin(l,d);
+    gen.islandAdd(basePt1_x,basePt1_y,Mathe.irandom(8,10));
+    //First team.
+    
+    //Second team.
+    d+=180+Mathe.irandom(-island_diradd,island_diradd);
+    basePt2_x=terrain_w/2+(int)Mathe.lcos(l,d);
+    basePt2_y=terrain_h/2+(int)Mathe.lsin(l,d);
+    gen.islandAdd(basePt2_x,basePt2_y,Mathe.irandom(8,10));
+    //Second team.
+    
+    //Middle island.
+    gen.islandAdd(terrain_w/2,terrain_h/2,Mathe.irandom(8,10));
+    //Middle island.
+    
+    //Center point.
+    int ptC_x=(basePt1_x+basePt2_x+terrain_w/2)/3,
+        ptC_y=(basePt1_y+basePt2_y+terrain_h/2)/3;
+    //Center point.
+    
+    double baseDir=Mathe.pointDirection(basePt1_x,basePt1_y,basePt2_x,basePt2_y)+90;
+    
+    //Additional islands.
+    int islandAm=Mathe.irandom(3,5);
+    for(int i=0; i<islandAm; i+=1)
+    {
+      l=Mathe.random(island_lmin/2,island_lmax/2);
+      d=baseDir+180*Mathe.irandom(1)+Mathe.irandom(-45,45);
+      gen.islandAdd(ptC_x+(int)Mathe.lcos(l,d),ptC_y+(int)Mathe.lsin(l,d),Mathe.irandom(5,10));
+    }
+    //Additional islands.
+    
+    islandAm=Mathe.irandom(3,5);
+    for(int i=0; i<islandAm; i+=1)
+    {
+      l=Mathe.random(island_lmax*0.5,island_lmax*0.75);
+      d=baseDir+Mathe.irandom(-30,30)+90*Mathe.irandom(1);
+      gen.islandAdd(ptC_x+(int)Mathe.lcos(l,d),ptC_y+(int)Mathe.lsin(l,d),Mathe.irandom(3,4));
+    }
+    
+    Mathe.randomPop();
+    
+    terrain=gen.terrainGenerate(terrain_w,terrain_h);
+    terrainSpr=new Sprite[terrain_w][terrain_h];
+    terrainTile=gen.terrainAutotile(terrain,terrainSpr);
+    //Generator. 
+    
+  }
+  
   
   /**
    * Safely gets value out of terrain. 

@@ -19,8 +19,9 @@ public class Obj
   {
     all,
     objTest,
-    field,
-    peasant
+    terrain,
+    peasant,
+    paper
   }
   
   /**

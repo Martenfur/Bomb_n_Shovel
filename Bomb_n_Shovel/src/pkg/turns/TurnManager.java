@@ -37,6 +37,18 @@ public class TurnManager extends GameObject
   }
   
   /**
+   * @param i
+   * @return Player with given id or null.
+   */
+  public Player playerGet(int i)
+  {
+    try
+    {return players.get(i);}
+    catch(Exception e)
+    {return null;}
+  }
+  
+  /**
    * Gives initiative to current player.
    */
   void initiativeGive()

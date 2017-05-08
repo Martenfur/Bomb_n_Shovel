@@ -1,13 +1,13 @@
 package pkg.engine;
 
 import java.util.Random;
+import java.util.Stack;
 
 /**
  * Some useful functions here and there.
  */
 public class Mathe
 {  
-  
   //ROTATING/////////////////////////////////////////////////////////////////////////
   //0   -  1, 0 
   //90  -  0,-1
@@ -177,6 +177,9 @@ public class Mathe
   
   
   //RANDOM///////////////////////////////////////////////////////////////////////////
+  
+  private static Stack<Random> randomizers=new Stack<>();  
+  private static Stack<Long> randomizerSeeds=new Stack<>();
   static Random randomizer;
   static long randomizerSeed;
   
@@ -187,8 +190,8 @@ public class Mathe
    */
   public static void randomize()
   {
-    randomizer=new Random((long)System.nanoTime());
     randomizerSeed=(long)System.nanoTime();
+    randomizer=new Random(randomizerSeed);
   }
   
   /**
@@ -199,8 +202,8 @@ public class Mathe
    */
   public static void randomSetSeed(long seed)
   {
-    randomizer=new Random(seed);
     randomizerSeed=seed;
+    randomizer=new Random(seed);
   }
   
   /**
@@ -208,6 +211,24 @@ public class Mathe
    */
   public static long randomGetSeed()
   {return randomizerSeed;}
+  
+  /**
+   * Pushes current randomizer in a stack.
+   */
+  public static void randomPush()
+  {
+    randomizerSeeds.push(randomizerSeed);
+    randomizers.push(randomizer);
+  }
+  
+  /**
+   * Retrieves randomizer from stack.
+   */
+  public static void randomPop()
+  {
+    randomizerSeed=randomizerSeeds.pop();
+    randomizer=randomizers.pop();
+  }
   
   /**
    * @return Value between 0 and 1.
