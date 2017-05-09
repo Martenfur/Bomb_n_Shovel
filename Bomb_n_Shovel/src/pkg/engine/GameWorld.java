@@ -19,9 +19,6 @@ public class GameWorld
     Draw.CREATE();
     
     new Lobby();
-    //client=new Client();
-    //terrain=new Terrain(client.seed,client.turnManager);
-    
   }
   
   public static void UPDATE()

@@ -1,6 +1,9 @@
 
 package pkg.engine;
 
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -13,8 +16,8 @@ import javafx.stage.WindowEvent;
 
 public class Game extends Application
 {
-  static int gameSpeed=                30;
-  private final double timeMul=1000000000.0;
+  static int gameSpeed=                60;
+  private final double timeMul=1000000000;
   public static double currentTime=     0;
   public static boolean create=      true;
   public static Pane root,       //Root surface.
@@ -31,7 +34,6 @@ public class Game extends Application
   public void start(Stage primaryStage)
   {
     final long timeStart=System.nanoTime();
-    long timePrev=timeStart;
     
     root       = new Pane();
     gui        = new Pane();
@@ -56,6 +58,7 @@ public class Game extends Application
     root.getChildren().add(rotatesurf);
     root.getChildren().add(gui);
     
+    //primaryStage.setResizable(false);
     primaryStage.show();
     
     new AnimationTimer()
@@ -76,9 +79,14 @@ public class Game extends Application
         
         GameWorld.UPDATE();
         
-        //WAITING.
-        while((System.nanoTime()-timePrev)/timeMul < 1/gameSpeed){}
-        //WAITING.
+        try
+        {
+          //WAITING.
+          long dt=(long)(timeMul/gameSpeed-(System.nanoTime()-timePrev));
+          TimeUnit.NANOSECONDS.sleep(dt);
+          //WAITING.
+        } 
+        catch(InterruptedException ex){}
       }
     }.start();
     
@@ -88,7 +96,7 @@ public class Game extends Application
       @Override
       public void handle(WindowEvent event) 
       {
-        System.out.println("Sup^^");
+        System.out.println("Bye^^");
         if (GameWorld.client!=null)
         {GameWorld.client.reader.running=false;}
       }

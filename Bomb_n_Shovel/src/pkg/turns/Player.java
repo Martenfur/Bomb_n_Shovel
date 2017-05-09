@@ -61,7 +61,8 @@ public class Player extends GameObject
     peasants.get(peasantCur).staminaRefill();
     if (tid==0 && firstTurn)
     {
-      Camera.setPosition(peasants.get(peasantCur).x-Game.scr_w/2,peasants.get(peasantCur).y-Game.scr_h/2);
+      Camera.setScale(0.25,0.25);
+      Camera.setPosition(peasants.get(peasantCur).x-Camera.view_w/2,peasants.get(peasantCur).y-Camera.view_h/2);
       firstTurn=false;
     }
     Camera.viewer=peasants.get(peasantCur);

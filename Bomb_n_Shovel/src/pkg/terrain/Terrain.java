@@ -71,13 +71,6 @@ public class Terrain extends GameObject
     {p2.peasantAdd(new Peasant((basePt2_x+Mathe.rotate_x[i])*32,(basePt2_y+Mathe.rotate_y[i])*32));}
     //Turn manager.
     
-    
-    
-    //////////////////////////////////////////////////
-    //Camera.setPosition(basePt1_x*32+Camera.view_w/2,basePt1_y*32+Camera.view_h/2);
-    //Camera.setScale(0.25,0.25);    
-    //////////////////////////////////////////////////
-    
    }
   
   @Override
@@ -207,7 +200,7 @@ public class Terrain extends GameObject
     }
   }
   
-  private final void terrainCreate(long seed)
+  private void terrainCreate(long seed)
   {
     //Generator.
     TerrainGenerator gen=new TerrainGenerator(terrain_w,terrain_h,seed);
@@ -216,9 +209,12 @@ public class Terrain extends GameObject
     Mathe.randomSetSeed(seed);
     
     //ISLANDS
-    int island_lmin=16;
-    int island_lmax=32;
-    int island_diradd=30;
+    int island_lmin=10,
+        island_lmax=18,
+        island_diradd=30,
+        islandSize_min=5,
+        islandSize_max=8;
+    
     
     double l,d;
    
@@ -227,18 +223,18 @@ public class Terrain extends GameObject
     d=Mathe.random(360);
     basePt1_x=terrain_w/2+(int)Mathe.lcos(l,d);
     basePt1_y=terrain_h/2+(int)Mathe.lsin(l,d);
-    gen.islandAdd(basePt1_x,basePt1_y,Mathe.irandom(8,10));
+    gen.islandAdd(basePt1_x,basePt1_y,Mathe.irandom(islandSize_min,islandSize_max));
     //First team.
     
     //Second team.
     d+=180+Mathe.irandom(-island_diradd,island_diradd);
     basePt2_x=terrain_w/2+(int)Mathe.lcos(l,d);
     basePt2_y=terrain_h/2+(int)Mathe.lsin(l,d);
-    gen.islandAdd(basePt2_x,basePt2_y,Mathe.irandom(8,10));
+    gen.islandAdd(basePt2_x,basePt2_y,Mathe.irandom(islandSize_min,islandSize_max));
     //Second team.
     
     //Middle island.
-    gen.islandAdd(terrain_w/2,terrain_h/2,Mathe.irandom(8,10));
+    gen.islandAdd(terrain_w/2,terrain_h/2,Mathe.irandom(islandSize_min,islandSize_max));
     //Middle island.
     
     //Center point.
@@ -254,7 +250,7 @@ public class Terrain extends GameObject
     {
       l=Mathe.random(island_lmin/2,island_lmax/2);
       d=baseDir+180*Mathe.irandom(1)+Mathe.irandom(-45,45);
-      gen.islandAdd(ptC_x+(int)Mathe.lcos(l,d),ptC_y+(int)Mathe.lsin(l,d),Mathe.irandom(5,10));
+      gen.islandAdd(ptC_x+(int)Mathe.lcos(l,d),ptC_y+(int)Mathe.lsin(l,d),Mathe.irandom(5,8));
     }
     //Additional islands.
     

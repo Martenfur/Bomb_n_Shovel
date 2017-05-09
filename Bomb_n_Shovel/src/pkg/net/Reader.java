@@ -2,6 +2,7 @@ package pkg.net;
 
 import java.net.*;
 import java.io.*;
+import java.util.LinkedList;
 
 /**
  * Reads objects from server.
@@ -10,13 +11,13 @@ public class Reader extends Thread
 {
   Socket socket;
   public boolean running=true;
-  private Object last;
-  
+  private LinkedList<Object> objects; //Commmand buffer.
   
   Reader(Socket socket_arg)
   {
     socket=socket_arg;
     setDaemon(true);
+    objects=new LinkedList<>();
   }
   
   @Override
@@ -31,7 +32,7 @@ public class Reader extends Thread
         if (!lastBuf.get().equals("ping"))
         {
           System.out.println("Received an object! It says: "+((Cmd)lastBuf).get());
-          last=lastBuf;
+          objects.addLast(lastBuf);
         }
       }
     }
@@ -42,14 +43,10 @@ public class Reader extends Thread
 
   
   public boolean isReceived()
-  {return last!=null;}
+  {return !objects.isEmpty();}
   
   
   
   public Object read()
-  {
-    Object obj=last;
-    last=null;
-    return obj;
-  }
+  {return objects.pollFirst();}
 }

@@ -67,9 +67,7 @@ public class Peasant extends GameObject
           moving=false;
           myPlayer.endTurn();
         }
-      }
-
-      
+      }   
     }
     
     

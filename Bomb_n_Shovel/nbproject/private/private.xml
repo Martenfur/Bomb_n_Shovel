@@ -3,14 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/D/_Gaems/Bomb_n_Shovel/Bomb_n_Shovel/src/pkg/turns/TurnManager.java</file>
-            <file>file:/C:/D/_Gaems/Bomb_n_Shovel/Bomb_n_Shovel/src/pkg/engine/Obj.java</file>
+            <file>file:/C:/D/_Gaems/Bomb_n_Shovel/Bomb_n_Shovel/src/pkg/engine/Game.java</file>
             <file>file:/C:/D/_Gaems/Bomb_n_Shovel/Bomb_n_Shovel/src/pkg/Lobby.java</file>
-            <file>file:/C:/D/_Gaems/Bomb_n_Shovel/Bomb_n_Shovel/src/pkg/engine/Camera.java</file>
+            <file>file:/C:/D/_Gaems/Bomb_n_Shovel/Bomb_n_Shovel/src/pkg/terrain/TerrainGenerator.java</file>
+            <file>file:/C:/D/_Gaems/Bomb_n_Shovel/Bomb_n_Shovel/src/pkg/net/Client.java</file>
             <file>file:/C:/D/_Gaems/Bomb_n_Shovel/Bomb_n_Shovel/src/pkg/terrain/Terrain.java</file>
-            <file>file:/C:/D/_Gaems/Bomb_n_Shovel/Bomb_n_Shovel/src/pkg/Paper.java</file>
             <file>file:/C:/D/_Gaems/Bomb_n_Shovel/Bomb_n_Shovel/src/pkg/turns/Player.java</file>
-            <file>file:/C:/D/_Gaems/Bomb_n_Shovel/Bomb_n_Shovel/src/pkg/Peasant.java</file>
         </group>
     </open-files>
 </project-private>

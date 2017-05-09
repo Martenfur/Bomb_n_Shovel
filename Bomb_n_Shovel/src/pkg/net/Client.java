@@ -6,16 +6,17 @@ import java.io.*;
 public final class Client
 {
   public int port=4444; 
-  //public String ip="127.0.0.1"; 
-  public String ip="77.37.130.93"; 
+  public String ip="127.0.0.1"; 
+  //public String ip="77.37.130.93"; 
   public Socket socket;  
   public Reader reader;
   public Sender sender;
   
-  boolean active=true;
+  //boolean active=true;
+  public boolean connected;
   
   public Client()
-  {connect();}
+  {connected=connect();}
   
   public boolean connect()
   {
