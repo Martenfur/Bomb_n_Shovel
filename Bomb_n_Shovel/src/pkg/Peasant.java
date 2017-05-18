@@ -5,8 +5,10 @@ import pkg.terrain.Terrain;
 import pkg.turns.Player;
 import pkg.engine.*;
 import pkg.pathfinder.*;
+import pkg.terrain.TileProp;
+import pkg.turns.LocalPlayer;
 
-public class Peasant extends GameObject
+public class Peasant extends Entity
 {
   public Player myPlayer=null;
   public Cmd command=null;
@@ -24,10 +26,8 @@ public class Peasant extends GameObject
   
   public int cx_prev,cy_prev;
   
-  int tileStored=0;
-  
   double moveSpd=        3,
-         moveStaminaMax=10,
+         moveStaminaMax=16,
          moveStamina=    0;
       
   //Movement.
@@ -36,7 +36,7 @@ public class Peasant extends GameObject
 
   public Peasant(double x_arg,double y_arg)
   {
-    super(x_arg,y_arg);
+    super(x_arg,y_arg,false);
     objIndex.add(Obj.oid.peasant);
     
     spr=new Sprite(Spr.peasant);
@@ -62,11 +62,15 @@ public class Peasant extends GameObject
         
         moveStamina-=1;
         
-        if (pathList==null || moveStamina==0)
+        if (pathList==null)
         {
+          if (moveStamina>0)
+          {interact();}
           moving=false;
-          myPlayer.endTurn();
         }
+        
+        if (moveStamina<=0)
+        {moving=false;}
       }   
     }
     
@@ -77,11 +81,14 @@ public class Peasant extends GameObject
     {
       if (command.cmp("move"))
       {
-        Camera.viewer=this;
-        
-        x_prev=x;
-        y_prev=y;
-        moving=true;
+        if (moveStamina>0)
+        {
+          Camera.viewer=this;
+          
+          x_prev=x;
+          y_prev=y;
+          moving=true;
+        }
       }
         
       if (command.cmp("setpath"))
@@ -89,25 +96,38 @@ public class Peasant extends GameObject
         int cx=(int)command.get(0),
             cy=(int)command.get(1);
         
-        for(ObjIter it=new ObjIter(Obj.oid.peasant); it.end(); it.inc())
+        for(ObjIter it=new ObjIter(Obj.oid.entity); it.end(); it.inc())
         {
-          if (it.get()!=this)
-          {((Peasant)it.get()).tileStore();}
+          if (it.get()!=this && !((Entity)it.get()).passable)
+          {((Entity)it.get()).tileStore();}
         }
         
         Pathfinder pathfinder=new Pathfinder(Terrain.terrain);
         pathList=pathfinder.pathFind((int)x/Terrain.cellSize,(int)y/Terrain.cellSize,cx,cy);
         
-        for(ObjIter it=new ObjIter(Obj.oid.peasant); it.end(); it.inc())
+        for(ObjIter it=new ObjIter(Obj.oid.entity); it.end(); it.inc())
         {
-          if (it.get()!=this)
-          {((Peasant)it.get()).tileRestore();}
+          if (it.get()!=this && !((Entity)it.get()).passable)
+          {((Entity)it.get()).tileRestore();}
         }
         
         cx_prev=cx;
         cy_prev=cy;
       }
+      
+      if (command.cmp("interact"))
+      {
+        if (moveStamina>0)
+        {
+          cx_prev=(int)command.get(0);
+          cy_prev=(int)command.get(1);
+          interact();
+        }
+      }
         
+      if (command.cmp("endturn"))
+      {myPlayer.endTurn();}
+      
       command=null;
     }
      
@@ -120,7 +140,7 @@ public class Peasant extends GameObject
     Draw.setDepth((int)(-y));
     Draw.drawSprite(spr,tid,x+16,y+16+z);
 
-    if (initiative && pathList!=null)
+    if (initiative && pathList!=null && myPlayer instanceof LocalPlayer)
     {
       PathPoint p=pathList;
       
@@ -140,26 +160,11 @@ public class Peasant extends GameObject
     }
   }
   
-  /**
-   * Memorizes current tile and replaces it with unpassable wall.
-   */
-  private void tileStore()
+  @Override
+  public void DESTROY()
   {
-    int xx=(int)x/Terrain.cellSize,
-        yy=(int)y/Terrain.cellSize;
-    tileStored=Terrain.terrain[xx][yy];
-    Terrain.terrain[xx][yy]=1;
-  }
-  
-  /**
-   * Restores back stored tile.
-   */
-  private void tileRestore()
-  {
-    int xx=(int)x/Terrain.cellSize,
-        yy=(int)y/Terrain.cellSize;
-    Terrain.terrain[xx][yy]=tileStored;
-    tileStored=0;
+    if (myPlayer!=null)
+    {myPlayer.peasantRemove(this);}
   }
   
   /**
@@ -167,6 +172,90 @@ public class Peasant extends GameObject
    */
   public void staminaRefill()
   {moveStamina=moveStaminaMax;}
+  
+  void interact()
+  {
+    System.out.println("sip?");
+    Entity intEntity=null;
+    
+    //Looking for entity in a cell.
+    for(ObjIter it=new ObjIter(Obj.oid.entity); it.end(); it.inc())
+    {
+      Entity other=(Entity)it.get();
+      if (other!=this)
+      {
+        if (other.x/Terrain.cellSize==cx_prev && other.y/Terrain.cellSize==cy_prev)
+        {
+          intEntity=other;
+          break;
+        }
+      }
+    }
+    //Looking for entity in a cell.
+  
+    if (intEntity!=null)
+    {
+      //Entity actions.
+      if (intEntity instanceof Peasant)
+      {
+        if (((Peasant)intEntity).tid!=tid)
+        {
+          //Kill fagget.
+          Obj.objDestroy(intEntity);
+        }
+      }
+      //Entity actions.
+    }
+    else
+    {
+      //Tile actions.
+      
+      int tile=Terrain.terrain[cx_prev][cy_prev];
+      
+      if (tile==1)
+      {
+        Terrain.terrain[cx_prev][cy_prev]=0;
+        Terrain.terrainSpr[cx_prev][cy_prev]=null;
+        moveStamina=0;
+      }
+      
+      //Tile actions.
+    }
+    
+  }
+  
+  
+  public boolean pathCheck()
+  {
+    boolean isCorrect=true;
+    PathPoint listBuf=pathList;
+    
+    for(ObjIter it=new ObjIter(Obj.oid.entity); it.end(); it.inc())
+    {
+      if (it.get()!=this && !((Entity)it.get()).passable)
+      {((Entity)it.get()).tileStore();}
+    }
+    
+    while(listBuf!=null)
+    {
+      if (!TileProp.isPassable(Terrain.terrain[listBuf.x][listBuf.y]))
+      {
+        isCorrect=false;
+        break;
+      }
+      listBuf=listBuf.next;
+    }
+    
+    for(ObjIter it=new ObjIter(Obj.oid.entity); it.end(); it.inc())
+    {
+      if (it.get()!=this && !((Entity)it.get()).passable)
+      {((Entity)it.get()).tileRestore();}
+    }
+    
+    return isCorrect;
+    
+  }
+  
 }
 
 

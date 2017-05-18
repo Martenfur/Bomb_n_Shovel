@@ -180,7 +180,6 @@ public class Lobby extends GameObject
   @Override
   public void DRAW_GUI()
   {
-    
     Draw.setDepth(0);
     
     //MAIN MENU/////////////////////////////////////////////////////////////////

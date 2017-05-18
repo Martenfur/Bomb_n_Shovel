@@ -50,6 +50,8 @@ public class GameObject
   public void DRAW_END()  {}
   
   public void DRAW_GUI()  {}
+  
+  public void DESTROY()   {}
   //EVENTS
 }
 

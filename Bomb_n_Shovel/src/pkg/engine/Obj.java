@@ -21,7 +21,8 @@ public class Obj
     objTest,
     terrain,
     peasant,
-    paper
+    paper, 
+    entity
   }
   
   /**
@@ -59,6 +60,7 @@ public class Obj
    */
   public static void objDestroy(GameObject obj)
   {
+    obj.DESTROY();
     objects.remove(obj);
     objectsAm-=1;
   }

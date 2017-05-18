@@ -8,7 +8,13 @@ import pkg.GameObject;
 public class Camera
 {
   public static GameObject viewer;
-  public static double view_w=0,view_h=0;
+  public static double view_w=0,
+                       view_h=0,
+                       scr_w=Game.scr_w,
+                       scr_h=Game.scr_h;
+  
+  static double xscale_tar=1,
+                yscale_tar=1;
   
   /**
    * Updates smooth camera.
@@ -20,6 +26,7 @@ public class Camera
     
     if (viewer!=null)
     {
+      //Moving camera.
       double cx=get_x()+view_w/2,
              cy=get_y()+view_h/2,
              vx=viewer.x,
@@ -32,7 +39,31 @@ public class Camera
       cy+=Mathe.lsin(l/4.0,d);
       
       setPosition(cx-view_w/2,cy-view_h/2);
+      //Moving camera.
     }
+  
+    //Scaling.
+    double dscale_x=getScale_x()-xscale_tar,
+           dscale_y=getScale_y()-yscale_tar;
+      
+    if (dscale_x!=0)
+    {
+      if (Math.abs(dscale_x)<0.01)
+      {setScale_x(xscale_tar);}
+      else
+      {setScale_x(getScale_x()+(xscale_tar-getScale_x())/2.0);}
+    }
+      
+      
+    if (dscale_y!=0)
+    {
+      if (Math.abs(dscale_y)<0.01)
+      {setScale_y(yscale_tar);}
+      else
+      {setScale_y(getScale_y()+(yscale_tar-getScale_y())/2.0);}
+    }
+    //Scaling.
+    
   }
   
   /**
@@ -78,6 +109,29 @@ public class Camera
   }
   
   /**
+   * Sets scale.
+   * @param xscale
+   */
+  public static void setScale_x(double xscale)
+  {
+    Game.appsurf.setTranslateX(Game.appsurf.getTranslateX()/Game.appsurf.getScaleX());
+    Game.appsurf.setScaleX(xscale);
+    Game.appsurf.setTranslateX(Game.appsurf.getTranslateX()*xscale);
+  }
+  
+  /**
+   * Sets scale.
+   * @param yscale 
+   */
+  public static void setScale_y(double yscale)
+  {
+    Game.appsurf.setTranslateY(Game.appsurf.getTranslateY()/Game.appsurf.getScaleY());
+    Game.appsurf.setScaleY(yscale);
+    Game.appsurf.setTranslateY(Game.appsurf.getTranslateY()*yscale);
+  }
+  
+  
+  /**
    * @return xscale
    */
   public static double getScale_x()
@@ -88,6 +142,17 @@ public class Camera
    */
   public static double getScale_y()
   {return Game.appsurf.getScaleY();}
+  
+  /**
+   * Sets target scale for smooth WHOOSHes.
+   * @param xscale
+   * @param yscale 
+   */
+  public static void setScaleTar(double xscale,double yscale)
+  {
+    xscale_tar=xscale;
+    yscale_tar=yscale;
+  }
   
   /**
    * Sets rotation in degrees. 

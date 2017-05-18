@@ -2,6 +2,8 @@ package pkg.turns;
 
 import java.util.ArrayList;
 import pkg.GameObject;
+import pkg.MatchResult;
+import pkg.engine.Obj;
 
 /**
  * Manages turns.
@@ -12,9 +14,11 @@ public class TurnManager extends GameObject
   int playerCur=0;
   boolean initiative=true;
   
+  int kekAl=60*5;
+  
   public TurnManager()
   {
-    super(0,0);
+    super();
     players=new ArrayList<>();
   }  
   
@@ -23,6 +27,29 @@ public class TurnManager extends GameObject
   {
     if (initiative && !players.isEmpty())
     {initiativeGive();}
+    
+    //kekAl-=1;
+    //if (kekAl==0)
+    //{new MatchResult();}
+    
+    for(int i=0; i<players.size(); i+=1)
+    {
+      if (players.get(i).peasants.isEmpty())
+      {
+        System.out.println("Looks like team "+i+"has lost!");
+        break;
+      }
+    }
+  }
+  
+  @Override 
+  public void DESTROY()
+  {
+    while(!players.isEmpty())
+    {
+      Obj.objDestroy(players.get(0));
+      players.remove(0);
+    }
   }
   
   /**

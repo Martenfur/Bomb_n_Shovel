@@ -45,7 +45,12 @@ public class Pathfinder
     
     //If points are THAT close to each other, no need in fancy pathfinding.
     if (Mathe.pointDistance(sx,sy,fx,fy)==1)
-    {return new PathPoint(fx,fy);}
+    {
+      if (TileProp.isPassable(wallGrid[fx][fy]))
+      {return new PathPoint(fx,fy);}
+      else
+      {return null;}
+    }
     //If points are THAT close to each other, no need in fancy pathfinding.
     
     //And if they are even closer... you got it.

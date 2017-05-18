@@ -5,9 +5,13 @@
  */
 package pkg.turns;
 
+import pkg.MatchResult;
 import pkg.net.Cmd;
-import pkg.Peasant;
 import pkg.net.Client;
+import pkg.Peasant;
+import pkg.engine.Obj;
+import pkg.engine.ObjIter;
+import pkg.terrain.Terrain;
 
 /**
  *
@@ -15,7 +19,6 @@ import pkg.net.Client;
  */
 public class NetworkPlayer extends Player
 {
-  Client client;
   
   public NetworkPlayer()
   {client=null;}
@@ -29,14 +32,25 @@ public class NetworkPlayer extends Player
     super.STEP();
     
     
+    //DISCONNECTING
+    if (client!=null && client.reader.isReceived())
+    {
+      if (((Cmd)client.reader.watch()).cmp("disconnect"))
+      {
+        for(ObjIter it=new ObjIter(Obj.oid.terrain); it.end(); it.inc())
+        {((Terrain)it.get()).uiBlock=true;}
+        new MatchResult();
+      }
+    }
+    //DISCONNECTING
+    
     if (isMyTurn())
     {
       Peasant pCur=peasants.get(peasantCur);
         
       if (client!=null && client.reader.isReceived())
       {pCur.command=(Cmd)client.reader.read();}
-    }
-      
+    }  
   }
   
   

@@ -12,7 +12,6 @@ public final class Client
   public Reader reader;
   public Sender sender;
   
-  //boolean active=true;
   public boolean connected;
   
   public Client()
@@ -37,5 +36,17 @@ public final class Client
     }
   }
   
+  public void disconnect()
+  {
+    if (connected)
+    {
+      reader.running=false;
+      try
+      {socket.close();}
+      catch(IOException e)
+      {System.err.println("SOCKET ERROR!");}
+      connected=false;
+    }
+  }
   
 }

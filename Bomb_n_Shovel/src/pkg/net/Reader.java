@@ -49,4 +49,9 @@ public class Reader extends Thread
   
   public Object read()
   {return objects.pollFirst();}
+  
+  
+  
+  public Object watch()
+  {return objects.peekFirst();}
 }

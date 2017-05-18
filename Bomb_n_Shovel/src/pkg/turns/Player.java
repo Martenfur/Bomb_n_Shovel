@@ -9,6 +9,7 @@ import pkg.engine.*;
 import java.util.ArrayList;
 import pkg.GameObject;
 import pkg.Peasant;
+import pkg.net.Client;
 
 /**
  * Controls 4 peasants.
@@ -16,6 +17,8 @@ import pkg.Peasant;
  */
 public class Player extends GameObject
 {
+  Client client;
+  
   public TurnManager turnManager;
   public int tid=0;            //Team id.
   ArrayList<Peasant> peasants; //List of peasants.
@@ -37,7 +40,16 @@ public class Player extends GameObject
   {
     if (initiative && !peasants.isEmpty())
     {initiativeGive();}
+  }
+  
+  @Override 
+  public void DESTROY()
+  {
+    while(!peasants.isEmpty())
+    {Obj.objDestroy(peasants.get(0));}
     
+    if (client!=null)
+    {client.disconnect();}
   }
   
   /**
@@ -52,20 +64,32 @@ public class Player extends GameObject
   }
   
   /**
+   * Removes peasant from player's control.
+   * @param peasant
+   */
+  public void peasantRemove(Peasant peasant)
+  {peasants.remove(peasant);}
+  
+  /**
    * Gives initiative to current player.
    */
   void initiativeGive()
   {
     initiative=false;
-    peasants.get(peasantCur).initiative=true;
-    peasants.get(peasantCur).staminaRefill();
-    if (tid==0 && firstTurn)
+    if (peasants.size()>peasantCur)
     {
-      Camera.setScale(0.25,0.25);
-      Camera.setPosition(peasants.get(peasantCur).x-Camera.view_w/2,peasants.get(peasantCur).y-Camera.view_h/2);
-      firstTurn=false;
+      peasants.get(peasantCur).initiative=true;
+      peasants.get(peasantCur).staminaRefill();
+      if (!peasants.get(peasantCur).pathCheck())
+      {peasants.get(peasantCur).pathList=null;}
+    
+      if (tid==0 && firstTurn)
+      {
+        Camera.setPosition(peasants.get(peasantCur).x-Camera.view_w/2,peasants.get(peasantCur).y-Camera.view_h/2);
+        firstTurn=false;
+      }
+      Camera.viewer=peasants.get(peasantCur);
     }
-    Camera.viewer=peasants.get(peasantCur);
   } 
   
   /**
@@ -73,7 +97,8 @@ public class Player extends GameObject
    */
   public void endTurn()
   {
-    peasants.get(peasantCur).initiative=false;
+    if (peasants.size()>peasantCur)
+    {peasants.get(peasantCur).initiative=false;}
     
     peasantCur+=1;
     if (peasantCur>=peasants.size())
@@ -89,7 +114,12 @@ public class Player extends GameObject
   boolean isMyTurn()
   {
     if (turnManager!=null)
-    {return turnManager.players.get(turnManager.playerCur)==this;}
+    {
+      try
+      {return turnManager.players.get(turnManager.playerCur)==this;}
+      catch(Exception ex)
+      {return false;}
+    }
     return false;
   }
   

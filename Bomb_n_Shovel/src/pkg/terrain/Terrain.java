@@ -15,6 +15,8 @@ public class Terrain extends GameObject
   public static int[][] terrainTile;
   public static Sprite[][] terrainSpr;
   
+  TurnManager turnManager;
+  
   public static int terrain_w,terrain_h,cellSize;
   
   int basePt1_x,basePt1_y,basePt2_x,basePt2_y;
@@ -28,15 +30,26 @@ public class Terrain extends GameObject
   
   double cam_mx,   cam_my,
          cam_mxgui,cam_mygui;
-  public static boolean camMove=false;
+  public static boolean camMove;
   int camDragAl=  -1,
       camDragTime=30;
   
-  public Terrain(long seed_arg,TurnManager turnManager)
+  public static boolean endturn;
+  
+  public boolean uiBlock;
+  
+  public Terrain(long seed_arg,TurnManager turnManager_arg)
   {
-    super(0,0);
+    super();
     
     objIndex.add(Obj.oid.terrain);
+    
+    turnManager=turnManager_arg;
+    
+    camMove=false;
+    endturn=false;
+    uiBlock=false;
+    
     terrain_w=96;
     terrain_h=96;
     cellSize= 32;
@@ -77,44 +90,45 @@ public class Terrain extends GameObject
   public void STEP()
   {
     //CAMERA
-    if (Input.mbCheckPress)
+    if (!uiBlock)
     {
-      cam_mx=   Input.mouse_x;
-      cam_my=   Input.mouse_y;
-      cam_mxgui=Input.mouse_xgui;
-      cam_mygui=Input.mouse_ygui;
-      camDragAl=camDragTime;
-    }
-    
-    if (Input.mbCheck)
-    {
-      if (camDragAl>-1) 
-      {camDragAl-=1;}
-      
-      if (!camMove && (Mathe.pointDistance(Input.mouse_xgui,Input.mouse_ygui,cam_mxgui,cam_mygui)>32 || camDragAl==0))
+      if (Input.mbCheckPress)
       {
-        camMove=true;
         cam_mx=   Input.mouse_x;
         cam_my=   Input.mouse_y;
         cam_mxgui=Input.mouse_xgui;
         cam_mygui=Input.mouse_ygui;
+        camDragAl=camDragTime;
       }
-      
-      if (camMove)
-      {
-        Camera.viewer=null;
-        Camera.setPosition((cam_mx-(Input.mouse_x-Camera.get_x())),
-                            cam_my-(Input.mouse_y-Camera.get_y()));
-        
-      }
-    }
-    else
-    {
-      if (!Input.mbCheckRelease) //Using this little trick we can activate this next step mouse was released. 
-      {camMove=false;}
-    }
-    //CAMERA
     
+      if (Input.mbCheck)
+      {
+        if (camDragAl>-1) 
+        {camDragAl-=1;}
+      
+        if (!camMove && (Mathe.pointDistance(Input.mouse_xgui,Input.mouse_ygui,cam_mxgui,cam_mygui)>32 || camDragAl==0))
+        {
+          camMove=true;
+          cam_mx=   Input.mouse_x;
+          cam_my=   Input.mouse_y;
+          cam_mxgui=Input.mouse_xgui;
+          cam_mygui=Input.mouse_ygui;
+        }
+      
+        if (camMove)
+        {
+          Camera.viewer=null;
+          Camera.setPosition((cam_mx-(Input.mouse_x-Camera.get_x())),
+                              cam_my-(Input.mouse_y-Camera.get_y()));  
+        }
+      }
+      else
+      {
+        if (!Input.mbCheckRelease) //Using this little trick we can activate this next step mouse was released. 
+        {camMove=false;}
+      }
+      //CAMERA
+    }
   }
   
   @Override
@@ -146,7 +160,6 @@ public class Terrain extends GameObject
       }
     }
     
-    
     Draw.setDepth(10000);
     
     draw_xstart=(int)Math.max(0,      Math.floor(Camera.get_x()/(cellSize*chunkSize)));
@@ -161,6 +174,50 @@ public class Terrain extends GameObject
     }
     
   }
+  
+  
+  @Override 
+  public void DRAW_GUI()
+  {
+    endturn=false;
+    if (Input.mbCheckRelease && !uiBlock)
+    {
+      
+      //ZOOM BUTTON
+      double xx=Camera.scr_w-(64+8)*2-3,
+             yy=Camera.scr_h-64-8;
+      if (Mathe.pointInRectangle(Input.mouse_xgui,Input.mouse_ygui,xx,yy,xx+64,yy+64))
+      {
+        Input.mouseClear();
+        if (Camera.getScale_x()==1)
+        {Camera.setScaleTar(0.5,0.5);}
+        else
+        {Camera.setScaleTar(1,1);}
+      }
+      //ZOOM BUTTON
+      
+      //END TURN BUTTON
+      xx=Camera.scr_w-(64+8);
+      yy=Camera.scr_h-64-8;
+      if (Mathe.pointInRectangle(Input.mouse_xgui,Input.mouse_ygui,xx,yy,xx+64,yy+64))
+      {
+        Input.mouseClear();
+        endturn=true;
+      }
+      //END TURN BUTTON
+    }
+    
+    Draw.setDepth(10);
+    Draw.drawSprite(new Sprite(Spr.gui_buttons),0,Camera.scr_w-(64+8)*2-3,Camera.scr_h-64-8);
+    Draw.drawSprite(new Sprite(Spr.gui_buttons),1,Camera.scr_w-(64+8),Camera.scr_h-64-8);
+    //Draw.setColor(Color.RED);
+    //Draw.drawRectangle(new Rectangle(),0,0,64,64,false);
+  }
+  
+  @Override
+  public void DESTROY()
+  {Obj.objDestroy(turnManager);}
+  
   
   /**
    * Renders terrain.
@@ -209,8 +266,8 @@ public class Terrain extends GameObject
     Mathe.randomSetSeed(seed);
     
     //ISLANDS
-    int island_lmin=10,
-        island_lmax=18,
+    int island_lmin=  10,
+        island_lmax=  18,
         island_diradd=30,
         islandSize_min=5,
         islandSize_max=8;

@@ -12,11 +12,22 @@ public class Cmd implements Serializable
   double[] args;
   
   /**
-   * Set of commands.
+   * Set of commands:
+   * 
+   * ping - n/a
+   * System command. Ignored by reader.
+   * 
    * disconnect - n/a
+   * Tells that player is disconnected.
    * 
    * setpath - x,y
+   * Sets path to given point.
+   * 
    * move - n/a
+   * Moves peasant with created path.
+   * 
+   * endturn - n/a
+   * 
    */
    
   /**
