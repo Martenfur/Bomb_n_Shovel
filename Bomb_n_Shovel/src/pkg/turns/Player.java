@@ -40,6 +40,9 @@ public class Player extends GameObject
   {
     if (initiative && !peasants.isEmpty())
     {initiativeGive();}
+    
+    if (peasantCur>=peasants.size())
+    {peasantCur=peasants.size()-1;}
   }
   
   @Override 
@@ -56,11 +59,12 @@ public class Player extends GameObject
    * Gives new peasant under player's control.
    * @param peasant 
    */
-  public void peasantAdd(Peasant peasant)
+  public void peasantAdd(Peasant peasant,Logger logger)
   {
     peasants.add(peasant);
     peasant.myPlayer=this;
     peasant.tid=tid;
+    peasant.logger=logger;
   }
   
   /**
@@ -123,5 +127,20 @@ public class Player extends GameObject
     return false;
   }
   
+  /**
+   * Retrieves current peasant.
+   * @return peasant
+  */
+  public Peasant getCurrentPeasant()
+  {
+    try
+    {return peasants.get(peasantCur);}
+    catch(Exception e)
+    {
+      System.out.println("NO PEASANTS! size:"+peasants.size()+"current: "+peasantCur);
+      
+      return null;
+    }
+  }
   
 }

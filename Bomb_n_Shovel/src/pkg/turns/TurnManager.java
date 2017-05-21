@@ -3,6 +3,7 @@ package pkg.turns;
 import java.util.ArrayList;
 import pkg.GameObject;
 import pkg.MatchResult;
+import pkg.Peasant;
 import pkg.engine.Obj;
 
 /**
@@ -32,12 +33,15 @@ public class TurnManager extends GameObject
     //if (kekAl==0)
     //{new MatchResult();}
     
-    for(int i=0; i<players.size(); i+=1)
+    if (Obj.objCount(Obj.oid.match_result)==0)
     {
-      if (players.get(i).peasants.isEmpty())
+      for(int i=0; i<players.size(); i+=1)
       {
-        System.out.println("Looks like team "+i+"has lost!");
-        break;
+        if (players.get(i).peasants.isEmpty())
+        {
+          new MatchResult(i);
+          break;
+        }
       }
     }
   }
@@ -97,4 +101,30 @@ public class TurnManager extends GameObject
     {playerCur=0;}
   }
   
+  /**
+   * Retrieves current peasant.
+   * @return peasant
+   */
+  public Peasant getCurrentPeasant()
+  {
+    try
+    {return players.get(playerCur).getCurrentPeasant();}
+    catch(Exception e)
+    {
+      System.out.println("NO PLAYER!");
+      return null;
+    }
+  }
+  
+  /**
+   * Tells if current player is local.
+   * @return 
+   */
+  public boolean isCurrentPlayerLocal()
+  {
+    try
+    {return players.get(playerCur) instanceof LocalPlayer;}
+    catch(Exception e)
+    {return false;}
+  }
 }

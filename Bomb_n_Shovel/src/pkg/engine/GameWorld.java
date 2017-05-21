@@ -4,6 +4,7 @@ import pkg.Lobby;
 import pkg.net.Client;
 import pkg.terrain.Terrain;
 import pkg.terrain.TileProp;
+import pkg.turns.Logger;
 
 public class GameWorld
 {
@@ -18,7 +19,7 @@ public class GameWorld
     Input.CREATE();
     Draw.CREATE();
     
-    new Lobby();
+    new Lobby();          
   }
   
   public static void UPDATE()

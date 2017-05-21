@@ -56,4 +56,11 @@ public class Cmd implements Serializable
    */
   public double get(int i)
   {return args[i];}
+  
+  /**
+   * Returns amount of arguments.
+   * @return 
+   */
+  public int size()
+  {return args.length;}
 }

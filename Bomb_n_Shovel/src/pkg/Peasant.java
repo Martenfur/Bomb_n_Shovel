@@ -7,6 +7,7 @@ import pkg.engine.*;
 import pkg.pathfinder.*;
 import pkg.terrain.TileProp;
 import pkg.turns.LocalPlayer;
+import pkg.turns.Logger;
 
 public class Peasant extends Entity
 {
@@ -34,6 +35,8 @@ public class Peasant extends Entity
   
   Sprite spr;
 
+  public Logger logger;
+  
   public Peasant(double x_arg,double y_arg)
   {
     super(x_arg,y_arg,false);
@@ -79,6 +82,9 @@ public class Peasant extends Entity
    
     if (command!=null)
     {
+      if (logger!=null)
+      {logger.write(command);}
+      
       if (command.cmp("move"))
       {
         if (moveStamina>0)
@@ -200,8 +206,8 @@ public class Peasant extends Entity
       {
         if (((Peasant)intEntity).tid!=tid)
         {
-          //Kill fagget.
           Obj.objDestroy(intEntity);
+          moveStamina=0;
         }
       }
       //Entity actions.

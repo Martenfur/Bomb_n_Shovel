@@ -5,7 +5,11 @@
  */
 package pkg;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.Random;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import pkg.engine.*;
 import pkg.net.Client;
 import pkg.net.Cmd;
@@ -35,12 +39,16 @@ public class Lobby extends GameObject
   double cam_y=     0,
          cam_ytar=  0;
   
+  boolean timerEn;
+  
+  boolean replayAvailable;
+  int replayCheck;
   
   public Lobby()
   {
     super();
-    
-    buttonsAm=3;
+    System.out.println("Lobby created!");
+    buttonsAm=4;
     button_w=201;
     button_h=69;
     buttonSpacing=16;
@@ -59,12 +67,23 @@ public class Lobby extends GameObject
     }
     //Background paper.
     
+    timerEn=false;
+    
+    replayAvailable=false;
+    replayCheck=30;
   }
   
   
   @Override
   public void STEP()
   {
+    
+    if (replayCheck>0)
+    {
+      replayCheck-=1;
+      File file=new File("C:\\\\D\\log.txt");
+      replayAvailable=file.exists() && file.length()!=0;
+    }
     
     //MAIN MENU/////////////////////////////////////////////////////////////////
     if (state==0)
@@ -87,6 +106,21 @@ public class Lobby extends GameObject
           }
           by+=button_h+buttonSpacing;
         }
+        
+        //Timer toggle.
+        if (Mathe.pointInRectangle(Input.mouse_xgui,Input.mouse_ygui,8,   Camera.scr_h-64-8-cam_y,
+                                                                     8+64,Camera.scr_h-64-8-cam_y+64))
+        {timerEn=!timerEn;} 
+        //Timer toggle.
+        
+        //Replay button.
+        if (replayAvailable && Mathe.pointInRectangle(Input.mouse_xgui,Input.mouse_ygui,16+64,   Camera.scr_h-64-8-cam_y,
+                                                                                        16+64+64,Camera.scr_h-64-8-cam_y+64))
+        {
+          cam_ytar=-Game.scr_h;
+          gamemode=4;
+        }
+        //Replay button.
       }
     }
     //MAIN MENU/////////////////////////////////////////////////////////////////
@@ -130,7 +164,7 @@ public class Lobby extends GameObject
             client.reader.running=false;
             client=null;
           }
-        } 
+        }
       }
     }
     //LOBBY/////////////////////////////////////////////////////////////////////
@@ -166,6 +200,31 @@ public class Lobby extends GameObject
           {
             state=1;
             connectAl=60*4;
+            break;
+          }
+          case 2:
+          {
+            createBotGame();
+            Obj.objDestroy(this);
+            for(ObjIter it=new ObjIter(Obj.oid.paper); it.end(); it.inc())
+            {((Paper)it.get()).disappear=true;}
+            break;
+          }
+          case 3:
+          {
+            createAutomaticGame();
+            Obj.objDestroy(this);
+            for(ObjIter it=new ObjIter(Obj.oid.paper); it.end(); it.inc())
+            {((Paper)it.get()).disappear=true;}
+            break;
+          }
+          case 4:
+          {
+            createReplayGame();
+            Obj.objDestroy(this);
+            for(ObjIter it=new ObjIter(Obj.oid.paper); it.end(); it.inc())
+            {((Paper)it.get()).disappear=true;}
+            break;
           }
         }  
         //CAMERA STOPPED
@@ -180,8 +239,11 @@ public class Lobby extends GameObject
   @Override
   public void DRAW_GUI()
   {
-    Draw.setDepth(0);
+    Draw.setDepth(100);
+    Draw.setColor(Color.rgb(222,238,214));
+    Draw.drawRectangle(new Rectangle(),0,0,Camera.scr_w,Camera.scr_h,false);
     
+    Draw.setDepth(0); 
     //MAIN MENU/////////////////////////////////////////////////////////////////
     if (state==0)
     {
@@ -191,15 +253,18 @@ public class Lobby extends GameObject
       for(int i=0; i<buttonsAm; i+=1)
       {
         Draw.drawSprite(buttons[i],i,bx,by+button_h/2-cam_y);
-       
         by+=button_h+buttonSpacing;
       }
+    
+      Draw.drawSprite(new Sprite(Spr.timer_buttons),(timerEn)?1:0,8,Camera.scr_h-64-8-cam_y);
+      if (replayAvailable)
+      {Draw.drawSprite(new Sprite(Spr.timer_buttons),2,16+64,Camera.scr_h-64-8-cam_y);}
     }    
     //MAIN MENU/////////////////////////////////////////////////////////////////
     
     if (gamemode==1)
     {
-      Draw.drawSprite(new Sprite(Spr.kitten),0,Game.scr_w/2,Game.scr_h/2-Game.scr_h-cam_y,1,1,Game.currentTime*180);
+      Draw.drawSprite(new Sprite(Spr.kitten),0,Camera.scr_w/2,Camera.scr_h/2-Camera.scr_h-cam_y,1,1,Game.currentTime*180);
       Draw.drawSprite(new Sprite(Spr.button_back),0,-buttonBackSize-3-16-cam_y);
     }
   }
@@ -218,7 +283,7 @@ public class Lobby extends GameObject
     
     long seed=new Random(System.nanoTime()).nextLong(); 
     
-    Terrain terrain=new Terrain(seed,turnManager);
+    Terrain terrain=new Terrain(seed,turnManager,timerEn);
     
     return true;
   }
@@ -239,8 +304,44 @@ public class Lobby extends GameObject
       turnManager.playerAdd(new LocalPlayer(client));
     }
     
-    new Terrain(seed,turnManager);
-
+    Terrain terrain=new Terrain(seed,turnManager,false);
+    
+  }
+  
+  private void createBotGame()
+  {
+    TurnManager turnManager=new TurnManager();
+    turnManager.playerAdd(new LocalPlayer());
+    turnManager.playerAdd(new BotPlayer());
+    
+    long seed=new Random(System.nanoTime()).nextLong(); 
+    
+    Terrain terrain=new Terrain(seed,turnManager,timerEn);
+  }
+  
+  private void createAutomaticGame()
+  {
+    TurnManager turnManager=new TurnManager();
+    turnManager.playerAdd(new BotPlayer());
+    turnManager.playerAdd(new BotPlayer());
+    
+    long seed=new Random(System.nanoTime()).nextLong(); 
+    
+    Terrain terrain=new Terrain(seed,turnManager,false);
+  }
+  
+  private void createReplayGame()
+  {
+    Logger logger=new Logger("C:\\\\D\\log.txt",1);
+    ArrayList<Cmd> commands=logger.read();
+            
+    TurnManager turnManager=new TurnManager();
+    turnManager.playerAdd(new ReplayPlayer(commands));
+    turnManager.playerAdd(new ReplayPlayer(commands));
+    
+    long seed=(long)logger.seed; 
+    
+    Terrain terrain=new Terrain(seed,turnManager,false);
   }
   
 }

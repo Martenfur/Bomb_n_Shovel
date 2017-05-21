@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pkg.turns;
 
 import pkg.MatchResult;
@@ -14,8 +9,8 @@ import pkg.engine.ObjIter;
 import pkg.terrain.Terrain;
 
 /**
- *
- * @author gn.fur
+ * Distant player.
+ * Class receives messages from server and replicates other client's actions.
  */
 public class NetworkPlayer extends Player
 {
@@ -37,9 +32,11 @@ public class NetworkPlayer extends Player
     {
       if (((Cmd)client.reader.watch()).cmp("disconnect"))
       {
+        client.reader.read(); //Taking disconnect command away.
         for(ObjIter it=new ObjIter(Obj.oid.terrain); it.end(); it.inc())
         {((Terrain)it.get()).uiBlock=true;}
-        new MatchResult();
+        
+        new MatchResult(-1);
       }
     }
     //DISCONNECTING

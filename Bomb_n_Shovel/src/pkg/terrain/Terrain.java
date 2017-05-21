@@ -4,6 +4,9 @@ import pkg.turns.*;
 import javafx.scene.canvas.*;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Arc;
+import javafx.scene.shape.ArcType;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import pkg.GameObject;
 import pkg.Peasant;
@@ -37,11 +40,22 @@ public class Terrain extends GameObject
   public static boolean endturn;
   
   public boolean uiBlock;
+  double uiHide; //0 - hidden, 1 - shown. In-between - cool WHOOSHes.
+  double uiHideTar;
   
-  public Terrain(long seed_arg,TurnManager turnManager_arg)
+  
+  //TIMER STUFF
+  public boolean timerEn;
+  int            timerTime,
+                 timerAl;
+  
+  //TIMER STUFF
+  
+  Logger logger;
+  
+  public Terrain(long seed_arg,TurnManager turnManager_arg, boolean timerEn_arg)
   {
     super();
-    
     objIndex.add(Obj.oid.terrain);
     
     turnManager=turnManager_arg;
@@ -67,28 +81,40 @@ public class Terrain extends GameObject
     }
     
     //Creating terrain.    
-    seed=seed_arg;
+    seed=seed_arg/10000;
+    System.out.println(seed);
     terrainCreate(seed);
     terrainRender();
     //Creating terrain.
     
     
     //Turn manager.
+    logger=new Logger("C:\\\\D\\log.txt",0);
+    logger.write(seed_arg);
+    
     Player p1=turnManager.playerGet(0);
     Player p2=turnManager.playerGet(1);
     
     for(int i=0; i<4; i+=1) 
-    {p1.peasantAdd(new Peasant((basePt1_x+Mathe.rotate_x[i])*32,(basePt1_y+Mathe.rotate_y[i])*32));}
+    {p1.peasantAdd(new Peasant((basePt1_x+Mathe.rotate_x[i])*32,(basePt1_y+Mathe.rotate_y[i])*32),logger);}
    
     for(int i=0; i<4; i+=1) 
-    {p2.peasantAdd(new Peasant((basePt2_x+Mathe.rotate_x[i])*32,(basePt2_y+Mathe.rotate_y[i])*32));}
+    {p2.peasantAdd(new Peasant((basePt2_x+Mathe.rotate_x[i])*32,(basePt2_y+Mathe.rotate_y[i])*32),logger);}
     //Turn manager.
     
+    //TIMER STUFF
+    timerEn=timerEn_arg;
+    timerTime=5*60;
+    timerAl=timerTime;
+    //TIMER STUFF
    }
   
   @Override
   public void STEP()
   {
+    if (!uiBlock && Obj.objCount(Obj.oid.match_result)>0)
+    {uiBlock=true;}
+    
     //CAMERA
     if (!uiBlock)
     {
@@ -178,13 +204,23 @@ public class Terrain extends GameObject
   
   @Override 
   public void DRAW_GUI()
-  {
+  { 
+    if (turnManager.isCurrentPlayerLocal() && !uiBlock)
+    {uiHideTar=0;}
+    else
+    {uiHideTar=1;}
+    
+    if (Math.abs(uiHideTar-uiHide)>0.01)
+    {uiHide+=(uiHideTar-uiHide)/4.0;}
+    else
+    {uiHide=uiHideTar;}
+    
     endturn=false;
-    if (Input.mbCheckRelease && !uiBlock)
+    if (Input.mbCheckRelease && !uiBlock && uiHide==uiHideTar)
     {
       
       //ZOOM BUTTON
-      double xx=Camera.scr_w-(64+8)*2-3,
+      double xx=Camera.scr_w-(64+8)*2-3+uiHide*(64+8),
              yy=Camera.scr_h-64-8;
       if (Mathe.pointInRectangle(Input.mouse_xgui,Input.mouse_ygui,xx,yy,xx+64,yy+64))
       {
@@ -197,27 +233,83 @@ public class Terrain extends GameObject
       //ZOOM BUTTON
       
       //END TURN BUTTON
-      xx=Camera.scr_w-(64+8);
+      xx=Camera.scr_w-(64+8)+uiHide*(64+8);
       yy=Camera.scr_h-64-8;
       if (Mathe.pointInRectangle(Input.mouse_xgui,Input.mouse_ygui,xx,yy,xx+64,yy+64))
       {
         Input.mouseClear();
         endturn=true;
+        if (timerEn && !turnManager.getCurrentPeasant().moving)
+        {timerAl=timerTime;}
       }
       //END TURN BUTTON
     }
     
     Draw.setDepth(10);
-    Draw.drawSprite(new Sprite(Spr.gui_buttons),0,Camera.scr_w-(64+8)*2-3,Camera.scr_h-64-8);
-    Draw.drawSprite(new Sprite(Spr.gui_buttons),1,Camera.scr_w-(64+8),Camera.scr_h-64-8);
-    //Draw.setColor(Color.RED);
-    //Draw.drawRectangle(new Rectangle(),0,0,64,64,false);
+    Draw.drawSprite(new Sprite(Spr.gui_buttons),0,Camera.scr_w-(64+8)*2-3+uiHide*(64+8),Camera.scr_h-64-8);
+    Draw.drawSprite(new Sprite(Spr.gui_buttons),1,Camera.scr_w-(64+8)    +uiHide*(64+8),Camera.scr_h-64-8);
+    
+    if (timerEn)
+    {
+      if (timerAl>0 && turnManager.isCurrentPlayerLocal())
+      {timerAl-=1;}
+      if (timerAl==0)
+      {
+        //Perform timer action.
+        Peasant p=turnManager.getCurrentPeasant();
+        
+        if (p!=null)
+        {
+          if (!p.moving)
+          {
+            endturn=true;
+            timerAl=timerTime;    
+          }
+        }
+        
+      }
+      
+      double timer_x=8-uiHide*(64+16),
+             timer_y=Camera.scr_h-64-8;
+      Draw.setColor(Color.rgb(222,238,214));
+      Draw.drawCircle(new Circle(),timer_x+32,timer_y+32,30,false);
+      
+      Arc arc=new Arc();
+      arc.setFill(Color.rgb(208,70,72));
+      arc.setCenterX(timer_x+32);
+      arc.setCenterY(timer_y+32);
+      arc.setRadiusX(30);
+      arc.setRadiusY(30);
+      arc.setStartAngle(90);
+      arc.setLength(timerAl/(double)timerTime*360.0);
+      arc.setType(ArcType.ROUND);
+      
+      Draw.draw(arc);
+      
+      Draw.drawSprite(new Sprite(Spr.timer),0,timer_x,timer_y);
+    }
   }
   
   @Override
   public void DESTROY()
-  {Obj.objDestroy(turnManager);}
+  {
+    Obj.objDestroy(turnManager);
+    logger.close();
+  }
   
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+ 
   
   /**
    * Renders terrain.

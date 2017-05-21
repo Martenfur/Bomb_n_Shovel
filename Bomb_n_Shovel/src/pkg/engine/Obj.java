@@ -18,11 +18,11 @@ public class Obj
   public static enum oid
   {
     all,
-    objTest,
     terrain,
     peasant,
     paper, 
-    entity
+    entity, 
+    match_result
   }
   
   /**

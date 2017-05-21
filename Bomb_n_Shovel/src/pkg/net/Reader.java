@@ -37,7 +37,9 @@ public class Reader extends Thread
       }
     }
     catch(ClassNotFoundException|IOException  e)
-    {System.out.println("fak");}
+    {
+      System.out.println("fek "+e.getMessage());
+    }
   }
   
 

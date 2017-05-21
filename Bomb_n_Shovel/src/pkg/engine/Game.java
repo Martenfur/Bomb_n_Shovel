@@ -2,8 +2,6 @@
 package pkg.engine;
 
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -25,8 +23,8 @@ public class Game extends Application
                      rotatesurf, //For rotating appsurf.
                      appsurf;    //For all the graphics.
   
-  public static int scr_w=1000;
-  public static int scr_h=800;
+  public static int scr_w=640;
+  public static int scr_h=480;
   
   public static boolean inFocus;
   
