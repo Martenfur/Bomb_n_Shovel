@@ -95,10 +95,10 @@ public class TileProp
     
     Tile(boolean ground_arg,boolean passable_arg,Sprite spr_arg,int depth_arg)
     {
-      ground=ground_arg;
+      ground=  ground_arg;
       passable=passable_arg;
-      spr=spr_arg;
-      depth=depth_arg;
+      spr=     spr_arg;
+      depth=   depth_arg;
     }
   }
     

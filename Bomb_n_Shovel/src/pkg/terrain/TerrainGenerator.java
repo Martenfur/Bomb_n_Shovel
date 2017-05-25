@@ -159,7 +159,7 @@ public class TerrainGenerator
   void terrainIslandSpineGenerate(int[][] terr,int spineDir,int bones,double x0,double y0,int hMax)
   {
     int spine_lmin=  8,
-        spine_lmax=  10,
+        spine_lmax= 10,
         diradd_min= 30,
         diradd_max=120;
     

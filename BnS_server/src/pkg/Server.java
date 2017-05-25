@@ -1,15 +1,12 @@
 package pkg;
 
-import pkg.net.Cmd;
+import pkg.foxoft.bombnshovel.net.Cmd;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Server 
 {

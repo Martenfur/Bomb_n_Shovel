@@ -48,7 +48,6 @@ public class Terrain extends GameObject
   public boolean timerEn;
   int            timerTime,
                  timerAl;
-  
   //TIMER STUFF
   
   Logger logger;
@@ -81,7 +80,8 @@ public class Terrain extends GameObject
     }
     
     //Creating terrain.    
-    seed=seed_arg/10000;
+    seed=(long)Math.floor(Math.abs(seed_arg)/100000);
+    
     System.out.println(seed);
     terrainCreate(seed);
     terrainRender();

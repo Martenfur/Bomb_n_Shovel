@@ -48,6 +48,7 @@ public class Lobby extends GameObject
   {
     super();
     System.out.println("Lobby created!");
+    
     buttonsAm=4;
     button_w=201;
     button_h=69;

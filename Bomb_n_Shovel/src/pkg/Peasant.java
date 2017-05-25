@@ -179,6 +179,9 @@ public class Peasant extends Entity
   public void staminaRefill()
   {moveStamina=moveStaminaMax;}
   
+  /**
+   * Interacts with tile.
+   */
   void interact()
   {
     System.out.println("sip?");
