@@ -114,7 +114,7 @@ public class Pathfinder
     }
     catch(OutOfMemoryError e)
     {
-      System.out.println("OUTOFMEMORY");
+      //System.out.println("OUTOFMEMORY");
       return null;
     }
     

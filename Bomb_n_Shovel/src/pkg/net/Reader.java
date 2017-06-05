@@ -1,5 +1,6 @@
 package pkg.net;
 
+import pkg.foxoft.bombnshovel.net.Cmd;
 import java.net.*;
 import java.io.*;
 import java.util.LinkedList;

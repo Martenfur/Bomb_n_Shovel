@@ -6,7 +6,7 @@
 package pkg.turns;
 
 import java.io.IOException;
-import pkg.net.Cmd;
+import pkg.foxoft.bombnshovel.net.Cmd;
 import pkg.Peasant;
 import pkg.engine.Input;
 import pkg.engine.Mathe;

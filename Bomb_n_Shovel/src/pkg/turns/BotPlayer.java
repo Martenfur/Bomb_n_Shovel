@@ -6,7 +6,7 @@ import pkg.Peasant;
 import pkg.engine.Mathe;
 import pkg.engine.Obj;
 import pkg.engine.ObjIter;
-import pkg.net.Cmd;
+import pkg.foxoft.bombnshovel.net.Cmd;
 import pkg.pathfinder.PathPoint;
 import pkg.pathfinder.Pathfinder;
 import pkg.terrain.Terrain;

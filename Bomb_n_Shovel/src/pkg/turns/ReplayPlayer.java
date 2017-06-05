@@ -2,7 +2,7 @@ package pkg.turns;
 
 import java.util.ArrayList;
 import pkg.Peasant;
-import pkg.net.Cmd;
+import pkg.foxoft.bombnshovel.net.Cmd;
 
 /**
  * 

@@ -1,6 +1,6 @@
 package pkg;
 
-import pkg.net.Cmd;
+import pkg.foxoft.bombnshovel.net.Cmd;
 import pkg.terrain.Terrain;
 import pkg.turns.Player;
 import pkg.engine.*;
@@ -48,34 +48,39 @@ public class Peasant extends Entity
   @Override 
   public void STEP()
   {
-    if (moving)
-    { 
-      x-=Math.signum(x-pathList.x*Terrain.cellSize)*moveSpd;
-      y-=Math.signum(y-pathList.y*Terrain.cellSize)*moveSpd;
-      z=Mathe.lsin(8,180*(Mathe.lerp(x_prev,x,pathList.x*Terrain.cellSize)+Mathe.lerp(y_prev,y,pathList.y*Terrain.cellSize)));
+    try
+    {
+      if (moving)
+      { 
+        x-=Math.signum(x-pathList.x*Terrain.cellSize)*moveSpd;
+        y-=Math.signum(y-pathList.y*Terrain.cellSize)*moveSpd;
+        z=Mathe.lsin(8,180*(Mathe.lerp(x_prev,x,pathList.x*Terrain.cellSize)+Mathe.lerp(y_prev,y,pathList.y*Terrain.cellSize)));
       
-      if (Mathe.pointDistance(x,y,pathList.x*Terrain.cellSize,pathList.y*Terrain.cellSize)<moveSpd)
-      {
-        x=pathList.x*Terrain.cellSize;
-        y=pathList.y*Terrain.cellSize;
-        x_prev=x;
-        y_prev=y;
-        z=0;
-        pathList=pathList.next;
-        
-        moveStamina-=1;
-        
-        if (pathList==null)
+        if (Mathe.pointDistance(x,y,pathList.x*Terrain.cellSize,pathList.y*Terrain.cellSize)<moveSpd)
         {
-          if (moveStamina>0)
-          {interact();}
-          moving=false;
-        }
+          x=pathList.x*Terrain.cellSize;
+          y=pathList.y*Terrain.cellSize;
+          x_prev=x;
+          y_prev=y;
+          z=0;
+          pathList=pathList.next;
         
-        if (moveStamina<=0)
-        {moving=false;}
-      }   
+          moveStamina-=1;
+        
+          if (pathList==null)
+          {
+            if (moveStamina>0)
+            {interact();}
+            moving=false;
+          }
+        
+          if (moveStamina<=0)
+          {moving=false;}
+        }   
+      }
     }
+    catch(Exception e)
+    {moving=false;}
     
     
     //MOVING INPUTS/////////////////////////////////////////////

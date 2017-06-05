@@ -1,7 +1,7 @@
 package pkg.turns;
 
 import pkg.MatchResult;
-import pkg.net.Cmd;
+import pkg.foxoft.bombnshovel.net.Cmd;
 import pkg.net.Client;
 import pkg.Peasant;
 import pkg.engine.Obj;

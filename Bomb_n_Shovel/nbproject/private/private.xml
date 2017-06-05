@@ -3,13 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/D/_Gaems/Bomb_n_Shovel/Bomb_n_Shovel/src/pkg/pathfinder/PathCell.java</file>
-            <file>file:/C:/D/_Gaems/Bomb_n_Shovel/Bomb_n_Shovel/src/pkg/net/Reader.java</file>
-            <file>file:/C:/D/_Gaems/Bomb_n_Shovel/Bomb_n_Shovel/src/pkg/pathfinder/PathPoint.java</file>
-            <file>file:/C:/D/_Gaems/Bomb_n_Shovel/Bomb_n_Shovel/src/pkg/net/Sender.java</file>
-            <file>file:/C:/D/_Gaems/Bomb_n_Shovel/Bomb_n_Shovel/src/pkg/net/Cmd.java</file>
-            <file>file:/C:/D/_Gaems/Bomb_n_Shovel/Bomb_n_Shovel/src/pkg/net/Client.java</file>
-            <file>file:/C:/D/_Gaems/Bomb_n_Shovel/Bomb_n_Shovel/src/pkg/pathfinder/Pathfinder.java</file>
+            <file>file:/C:/D/_Gaems/Bomb_n_Shovel/Bomb_n_Shovel/src/pkg/turns/TurnManager.java</file>
+            <file>file:/C:/D/_Gaems/Bomb_n_Shovel/Bomb_n_Shovel/src/pkg/terrain/TerrainGenerator.java</file>
+            <file>file:/C:/D/_Gaems/Bomb_n_Shovel/Bomb_n_Shovel/src/pkg/terrain/Terrain.java</file>
+            <file>file:/C:/D/_Gaems/Bomb_n_Shovel/Bomb_n_Shovel/src/pkg/MatchResult.java</file>
+            <file>file:/C:/D/_Gaems/Bomb_n_Shovel/Bomb_n_Shovel/src/pkg/turns/Player.java</file>
+            <file>file:/C:/D/_Gaems/Bomb_n_Shovel/Bomb_n_Shovel/src/pkg/Peasant.java</file>
         </group>
     </open-files>
 </project-private>

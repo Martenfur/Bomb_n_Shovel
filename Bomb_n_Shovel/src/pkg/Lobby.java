@@ -12,7 +12,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import pkg.engine.*;
 import pkg.net.Client;
-import pkg.net.Cmd;
+import pkg.foxoft.bombnshovel.net.Cmd;
 import pkg.terrain.Terrain;
 import pkg.turns.*;
 /**

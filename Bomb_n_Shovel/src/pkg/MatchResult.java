@@ -13,13 +13,22 @@ public class MatchResult extends GameObject
   
   int mode; //-1 - disconnect, 0..inf - player loss.
   
+  boolean drawResults;
+  
   public MatchResult(int mode_arg)
   {
+    
     super();
+    
+    if (Obj.objCount(Obj.oid.match_result)>0)
+    {Obj.objDestroy(this);}
+    
     objIndex.add(Obj.oid.match_result);
     
     mode=mode_arg;
-  }
+    drawResults=true;
+    
+  } 
   
   @Override
   public void STEP()
@@ -36,6 +45,7 @@ public class MatchResult extends GameObject
         if (bscrAlTar==1)
         {
           bscrAlTar=0;
+          drawResults=false;
           
           new Lobby();
           for(ObjIter it=new ObjIter(Obj.oid.terrain); it.end(); it.inc())
@@ -59,6 +69,17 @@ public class MatchResult extends GameObject
   {
     Draw.setColor(Color.BLACK);
     Draw.setDepth(-10);
+    
+    if (drawResults)
+    {
+      int frame;
+      if (mode==-1)
+      {frame=2;}
+      else
+      {frame=mode;}
+    
+     Draw.drawSprite(new Sprite(Spr.match_results),frame,Camera.scr_w/2,Camera.scr_h/2);
+    }
     Draw.setAlpha(bscrAl);
     Draw.drawRectangle(new Rectangle(),0,0,Camera.scr_w,Camera.scr_h,false);
     Draw.setAlpha(1);

@@ -11,7 +11,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import pkg.net.Cmd;
+import pkg.foxoft.bombnshovel.net.Cmd;
 
 /**
  * Logs players actions in a file.
