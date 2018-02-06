@@ -9,43 +9,42 @@ import pkg.engine.Obj;
 import pkg.terrain.Terrain;
 
 /**
- * Entity class for 
+ * Entity class for
  */
 public class Entity extends GameObject
 {
-  int tileStored=0;
-  public boolean passable;
-  
-  public Entity(double x_arg,double y_arg,boolean passable_arg)
-  {
-    super(x_arg,y_arg);
-    objIndex.add(Obj.oid.entity);
-    
-    passable=passable_arg;
-  }
-  
-  
-  
-  /**
-   * Memorizes current tile and replaces it with unpassable wall.
-   */
-  public void tileStore()
-  {
-    int xx=(int)x/Terrain.cellSize,
-        yy=(int)y/Terrain.cellSize;
-    tileStored=Terrain.terrain[xx][yy];
-    Terrain.terrain[xx][yy]=1;
-  }
-  
-  /**
-   * Restores back stored tile.
-   */
-  public void tileRestore()
-  {
-    int xx=(int)x/Terrain.cellSize,
-        yy=(int)y/Terrain.cellSize;
-    Terrain.terrain[xx][yy]=tileStored;
-    tileStored=0;
-  }
-  
+
+	int tileStored = 0;
+	public boolean passable;
+
+	public Entity(double x_arg, double y_arg, boolean passable_arg)
+	{
+		super(x_arg, y_arg);
+		objIndex.add(Obj.oid.entity);
+
+		passable = passable_arg;
+	}
+
+	/**
+	 * Memorizes current tile and replaces it with unpassable wall.
+	 */
+	public void tileStore()
+	{
+		int xx = (int) x / Terrain.cellSize,
+			yy = (int) y / Terrain.cellSize;
+		tileStored = Terrain.terrain[xx][yy];
+		Terrain.terrain[xx][yy] = 1;
+	}
+
+	/**
+	 * Restores back stored tile.
+	 */
+	public void tileRestore()
+	{
+		int xx = (int) x / Terrain.cellSize,
+			yy = (int) y / Terrain.cellSize;
+		Terrain.terrain[xx][yy] = tileStored;
+		tileStored = 0;
+	}
+
 }
