@@ -5,12 +5,9 @@
  */
 package pkg.turns;
 
-import java.io.IOException;
-import pkg.foxoft.bombnshovel.net.Cmd;
 import pkg.Peasant;
 import pkg.engine.Input;
 import pkg.engine.Mathe;
-import pkg.net.Client;
 import pkg.terrain.Terrain;
 import pkg.terrain.TileProp;
 
@@ -23,14 +20,8 @@ public class LocalPlayer extends Player
 
 	public LocalPlayer()
 	{
-		client = null;
 	}
-
-	public LocalPlayer(Client client_arg)
-	{
-		client = client_arg;
-	}
-
+	
 	@Override
 	public void STEP()
 	{
@@ -77,20 +68,6 @@ public class LocalPlayer extends Player
 					pCur.command = new Cmd("endturn");
 				}
 				//Ending turn.
-
-				//Sending command to server.
-				if (client != null && pCur.command != null)
-				{
-					try
-					{
-						client.sender.send(pCur.command);
-					}
-					catch (IOException e)
-					{
-					}
-				}
-				//Sending command to server.
-
 			}
 		}
 

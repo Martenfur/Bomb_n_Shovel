@@ -9,7 +9,6 @@ import pkg.engine.*;
 import java.util.ArrayList;
 import pkg.GameObject;
 import pkg.Peasant;
-import pkg.net.Client;
 
 /**
  * Controls 4 peasants. Can be controlled by local player, computer (TODO) or
@@ -17,9 +16,6 @@ import pkg.net.Client;
  */
 public class Player extends GameObject
 {
-
-	Client client;
-
 	public TurnManager turnManager;
 	public int tid = 0;            //Team id.
 	ArrayList<Peasant> peasants; //List of peasants.
@@ -56,11 +52,6 @@ public class Player extends GameObject
 		{
 			Obj.objDestroy(peasants.get(0));
 		}
-
-		if (client != null)
-		{
-			client.disconnect();
-		}
 	}
 
 	/**
@@ -68,12 +59,11 @@ public class Player extends GameObject
 	 *
 	 * @param peasant
 	 */
-	public void peasantAdd(Peasant peasant, Logger logger)
+	public void peasantAdd(Peasant peasant)
 	{
 		peasants.add(peasant);
 		peasant.myPlayer = this;
 		peasant.tid = tid;
-		peasant.logger = logger;
 	}
 
 	/**

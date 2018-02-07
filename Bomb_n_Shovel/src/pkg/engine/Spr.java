@@ -14,7 +14,7 @@ public class Spr
 		path = new Sprite("path.png", 2, 2, 0, 0),
 		tree = new Sprite("tree.png", 1, 1, 24, 59),
 		terrain = new Sprite("terrain.png", 4, 6, 0, 0),
-		menu_buttons = new Sprite("menu_buttons.png", 1, 4, 101, 45),
+		menu_buttons = new Sprite("menu_buttons.png", 1, 3, 101, 45),
 		timer_buttons = new Sprite("timer_buttons.png", 3, 1, 0, 0),
 		button_back = new Sprite("button_back.png", 1, 1, 0, 0),
 		gui_buttons = new Sprite("gui_buttons.png", 2, 1, 0, 0),

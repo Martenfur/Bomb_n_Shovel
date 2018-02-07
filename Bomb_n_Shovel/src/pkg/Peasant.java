@@ -1,13 +1,12 @@
 package pkg;
 
-import pkg.foxoft.bombnshovel.net.Cmd;
+import pkg.turns.Cmd;
 import pkg.terrain.Terrain;
 import pkg.turns.Player;
 import pkg.engine.*;
 import pkg.pathfinder.*;
 import pkg.terrain.TileProp;
 import pkg.turns.LocalPlayer;
-import pkg.turns.Logger;
 
 public class Peasant extends Entity
 {
@@ -34,9 +33,7 @@ public class Peasant extends Entity
 
 	//Movement.
 	Sprite spr;
-
-	public Logger logger;
-
+	
 	public Peasant(double x_arg, double y_arg)
 	{
 		super(x_arg, y_arg, false);
@@ -91,11 +88,6 @@ public class Peasant extends Entity
 		//MOVING INPUTS/////////////////////////////////////////////
 		if (command != null)
 		{
-			if (logger != null)
-			{
-				logger.write(command);
-			}
-
 			if (command.cmp("move"))
 			{
 				if (moveStamina > 0)

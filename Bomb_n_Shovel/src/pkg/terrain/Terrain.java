@@ -50,7 +50,6 @@ public class Terrain extends GameObject
 		timerAl;
 	//TIMER STUFF
 
-	Logger logger;
 
 	public Terrain(long seed_arg, TurnManager turnManager_arg, boolean timerEn_arg)
 	{
@@ -88,20 +87,17 @@ public class Terrain extends GameObject
 		//Creating terrain.
 
 		//Turn manager.
-		logger = new Logger("C:\\\\D\\log.txt", 0);
-		logger.write(seed_arg);
-
 		Player p1 = turnManager.playerGet(0);
 		Player p2 = turnManager.playerGet(1);
 
 		for (int i = 0; i < 4; i += 1)
 		{
-			p1.peasantAdd(new Peasant((basePt1_x + Mathe.rotate_x[i]) * 32, (basePt1_y + Mathe.rotate_y[i]) * 32), logger);
+			p1.peasantAdd(new Peasant((basePt1_x + Mathe.rotate_x[i]) * 32, (basePt1_y + Mathe.rotate_y[i]) * 32));
 		}
 
 		for (int i = 0; i < 4; i += 1)
 		{
-			p2.peasantAdd(new Peasant((basePt2_x + Mathe.rotate_x[i]) * 32, (basePt2_y + Mathe.rotate_y[i]) * 32), logger);
+			p2.peasantAdd(new Peasant((basePt2_x + Mathe.rotate_x[i]) * 32, (basePt2_y + Mathe.rotate_y[i]) * 32));
 		}
 		//Turn manager.
 
@@ -171,14 +167,14 @@ public class Terrain extends GameObject
 	{
 		Draw.setDepth(10001);
 		Draw.setColor(c_water);
-		Draw.drawRectangle(bkg, Camera.get_x(), Camera.get_y(),
-			Camera.get_x() + Game.scr_w / Camera.getScale_x(),
-			Camera.get_y() + Game.scr_h / Camera.getScale_y(), false);
+		Draw.drawRectangle(bkg, Camera.get_x() - 100, Camera.get_y() - 100,
+			Camera.get_x() + Game.scr_w / Camera.getScale_x() + 100,
+			Camera.get_y() + Game.scr_h / Camera.getScale_y() + 100, false);
 
 		int draw_xstart = (int) Math.max(0, Math.floor(Camera.get_x() / cellSize));
 		int draw_ystart = (int) Math.max(0, Math.floor(Camera.get_y() / cellSize));
-		int draw_xend = (int) Math.min(terrain_w, Math.ceil((Camera.get_x() + Game.scr_w / Camera.getScale_x()) / cellSize) + 1);
-		int draw_yend = (int) Math.min(terrain_h, Math.ceil((Camera.get_y() + Game.scr_h / Camera.getScale_y()) / cellSize) + 1);
+		int draw_xend = (int) Math.min(terrain_w, Math.ceil((Camera.get_x() + Game.scr_w / Camera.getScale_x()) / cellSize) + 2);
+		int draw_yend = (int) Math.min(terrain_h, Math.ceil((Camera.get_y() + Game.scr_h / Camera.getScale_y()) / cellSize) + 2);
 
 		for (int k = draw_ystart; k < draw_yend; k += 1)
 		{
@@ -319,7 +315,6 @@ public class Terrain extends GameObject
 	public void DESTROY()
 	{
 		Obj.objDestroy(turnManager);
-		logger.close();
 	}
 
 	/**

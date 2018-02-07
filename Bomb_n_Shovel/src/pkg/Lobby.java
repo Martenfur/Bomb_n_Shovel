@@ -11,13 +11,11 @@ import java.util.Random;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import pkg.engine.*;
-import pkg.net.Client;
-import pkg.foxoft.bombnshovel.net.Cmd;
+import pkg.turns.Cmd;
 import pkg.terrain.Terrain;
 import pkg.turns.*;
 
 /**
- *
  * @author gn.fur
  */
 public class Lobby extends GameObject
@@ -29,12 +27,10 @@ public class Lobby extends GameObject
 		buttonSpacing,
 		buttonBackSize;
 
-	Client client;
-
 	/*
   0 - Main menu.
   1 - Waiting room.
-	 */
+	*/
 	int state = 0,
 		gamemode = -1,
 		connectAl = -1;
@@ -42,16 +38,13 @@ public class Lobby extends GameObject
 		cam_ytar = 0;
 
 	boolean timerEn;
-
-	boolean replayAvailable;
-	int replayCheck;
-
+	
 	public Lobby()
 	{
 		super();
 		System.out.println("Lobby created!");
 
-		buttonsAm = 4;
+		buttonsAm = 3;
 		button_w = 201;
 		button_h = 69;
 		buttonSpacing = 16;
@@ -75,21 +68,12 @@ public class Lobby extends GameObject
 		//Background paper.
 
 		timerEn = false;
-
-		replayAvailable = false;
-		replayCheck = 30;
 	}
 
 	@Override
 	public void STEP()
 	{
 
-		if (replayCheck > 0)
-		{
-			replayCheck -= 1;
-			File file = new File("C:\\\\D\\log.txt");
-			replayAvailable = file.exists() && file.length() != 0;
-		}
 
 		//MAIN MENU/////////////////////////////////////////////////////////////////
 		if (state == 0)
@@ -119,68 +103,9 @@ public class Lobby extends GameObject
 					timerEn = !timerEn;
 				}
 				//Timer toggle.
-
-				//Replay button.
-				if (replayAvailable && Mathe.pointInRectangle(Input.mouse_xgui, Input.mouse_ygui, 16 + 64, Camera.scr_h - 64 - 8 - cam_y,
-					16 + 64 + 64, Camera.scr_h - 64 - 8 - cam_y + 64))
-				{
-					cam_ytar = -Game.scr_h;
-					gamemode = 4;
-				}
-				//Replay button.
 			}
 		}
 		//MAIN MENU/////////////////////////////////////////////////////////////////
-
-		//LOBBY/////////////////////////////////////////////////////////////////////
-		if (state == 1)
-		{
-			if (connectAl > -1)
-			{
-				connectAl -= 1;
-			}
-
-			if (connectAl == 0)
-			{
-				client = new Client();
-				if (!client.connected)
-				{
-					client = null;
-					state = 0;
-					cam_ytar = 0;
-				}
-			}
-
-			if (client != null && client.reader.isReceived())
-			{
-				Cmd cmd = (Cmd) client.reader.read();
-				if (cmd.cmp("generate"))
-				{
-					createNetworkGame(cmd);
-				}
-				for (ObjIter it = new ObjIter(Obj.oid.paper); it.end(); it.inc())
-				{
-					((Paper) it.get()).disappear = true;
-				}
-				Obj.objDestroy(this);
-			}
-
-			if (Input.mbCheckRelease)
-			{
-				if (Mathe.pointInRectangle(Input.mouse_xgui, Input.mouse_ygui, 0, -buttonBackSize - 3 - 16 - cam_y,
-					buttonBackSize, -3 - 16 - cam_y))
-				{
-					cam_ytar = 0;
-					state = 0;
-					if (client != null)
-					{
-						client.reader.running = false;
-						client = null;
-					}
-				}
-			}
-		}
-		//LOBBY/////////////////////////////////////////////////////////////////////
 
 		if (cam_y != cam_ytar)
 		{
@@ -209,52 +134,36 @@ public class Lobby extends GameObject
 				//CAMERA STOPPED
 				switch (gamemode)
 				{
-				case 0:
-				{
-					createLocalGame();
-					Obj.objDestroy(this);
-					for (ObjIter it = new ObjIter(Obj.oid.paper); it.end(); it.inc())
+					case 0:
 					{
-						((Paper) it.get()).disappear = true;
+						createLocalGame();
+						Obj.objDestroy(this);
+						for (ObjIter it = new ObjIter(Obj.oid.paper); it.end(); it.inc())
+						{
+							((Paper) it.get()).disappear = true;
+						}
+						break;
 					}
-					break;
-				}
-				case 1:
-				{
-					state = 1;
-					connectAl = 60 * 4;
-					break;
-				}
-				case 2:
-				{
-					createBotGame();
-					Obj.objDestroy(this);
-					for (ObjIter it = new ObjIter(Obj.oid.paper); it.end(); it.inc())
+					case 1:
 					{
-						((Paper) it.get()).disappear = true;
+						createBotGame();
+						Obj.objDestroy(this);
+						for (ObjIter it = new ObjIter(Obj.oid.paper); it.end(); it.inc())
+						{
+							((Paper) it.get()).disappear = true;
+						}
+						break;
 					}
-					break;
-				}
-				case 3:
-				{
-					createAutomaticGame();
-					Obj.objDestroy(this);
-					for (ObjIter it = new ObjIter(Obj.oid.paper); it.end(); it.inc())
+					case 2:
 					{
-						((Paper) it.get()).disappear = true;
+						createAutomaticGame();
+						Obj.objDestroy(this);
+						for (ObjIter it = new ObjIter(Obj.oid.paper); it.end(); it.inc())
+						{
+							((Paper) it.get()).disappear = true;
+						}
+						break;
 					}
-					break;
-				}
-				case 4:
-				{
-					createReplayGame();
-					Obj.objDestroy(this);
-					for (ObjIter it = new ObjIter(Obj.oid.paper); it.end(); it.inc())
-					{
-						((Paper) it.get()).disappear = true;
-					}
-					break;
-				}
 				}
 				//CAMERA STOPPED
 			}
@@ -283,18 +192,8 @@ public class Lobby extends GameObject
 			}
 
 			Draw.drawSprite(new Sprite(Spr.timer_buttons), (timerEn) ? 1 : 0, 8, Camera.scr_h - 64 - 8 - cam_y);
-			if (replayAvailable)
-			{
-				Draw.drawSprite(new Sprite(Spr.timer_buttons), 2, 16 + 64, Camera.scr_h - 64 - 8 - cam_y);
-			}
 		}
 		//MAIN MENU/////////////////////////////////////////////////////////////////
-
-		if (gamemode == 1)
-		{
-			Draw.drawSprite(new Sprite(Spr.kitten), 0, Camera.scr_w / 2, Camera.scr_h / 2 - Camera.scr_h - cam_y, 1, 1, Game.currentTime * 180);
-			Draw.drawSprite(new Sprite(Spr.button_back), 0, -buttonBackSize - 3 - 16 - cam_y);
-		}
 	}
 
 	private boolean createLocalGame()
@@ -308,26 +207,6 @@ public class Lobby extends GameObject
 		Terrain terrain = new Terrain(seed, turnManager, timerEn);
 
 		return true;
-	}
-
-	private void createNetworkGame(Cmd cmd)
-	{
-		long seed = (long) cmd.get(0);
-
-		TurnManager turnManager = new TurnManager();
-		if (cmd.get(1) == 0)
-		{
-			turnManager.playerAdd(new LocalPlayer(client));
-			turnManager.playerAdd(new NetworkPlayer(client));
-		}
-		else
-		{
-			turnManager.playerAdd(new NetworkPlayer(client));
-			turnManager.playerAdd(new LocalPlayer(client));
-		}
-
-		Terrain terrain = new Terrain(seed, turnManager, false);
-
 	}
 
 	private void createBotGame()
@@ -352,18 +231,6 @@ public class Lobby extends GameObject
 		Terrain terrain = new Terrain(seed, turnManager, false);
 	}
 
-	private void createReplayGame()
-	{
-		Logger logger = new Logger("C:\\\\D\\log.txt", 1);
-		ArrayList<Cmd> commands = logger.read();
-
-		TurnManager turnManager = new TurnManager();
-		turnManager.playerAdd(new ReplayPlayer(commands));
-		turnManager.playerAdd(new ReplayPlayer(commands));
-
-		long seed = (long) logger.seed;
-
-		Terrain terrain = new Terrain(seed, turnManager, false);
-	}
+	
 
 }

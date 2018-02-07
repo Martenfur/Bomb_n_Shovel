@@ -1,4 +1,4 @@
-package pkg.foxoft.bombnshovel.net;
+package pkg.turns;
 
 import java.io.Serializable;
 

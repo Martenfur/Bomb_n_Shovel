@@ -6,7 +6,6 @@ import pkg.Peasant;
 import pkg.engine.Mathe;
 import pkg.engine.Obj;
 import pkg.engine.ObjIter;
-import pkg.foxoft.bombnshovel.net.Cmd;
 import pkg.pathfinder.PathPoint;
 import pkg.pathfinder.Pathfinder;
 import pkg.terrain.Terrain;
@@ -24,7 +23,6 @@ public class BotPlayer extends Player
 
 	public BotPlayer()
 	{
-		client = null;
 		moved = false;
 
 		delayAl = 0;

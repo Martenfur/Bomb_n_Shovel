@@ -23,8 +23,8 @@ public class Game extends Application
 		rotatesurf, //For rotating appsurf.
 		appsurf;    //For all the graphics.
 
-	public static int scr_w = 640;
-	public static int scr_h = 480;
+	public static int scr_w = 1000;
+	public static int scr_h = 800;
 
 	public static boolean inFocus;
 
@@ -56,7 +56,14 @@ public class Game extends Application
 		root.getChildren().add(rotatesurf);
 		root.getChildren().add(gui);
 
-		//primaryStage.setResizable(false);
+		//primaryStage.setFullScreen(true);
+		
+		primaryStage.setMinWidth(scr_w + 4);
+		primaryStage.setMinHeight(scr_h + 25 + 6);
+		primaryStage.setMaxWidth(scr_w + 4);
+		primaryStage.setMaxHeight(scr_h + 25 + 6);
+		primaryStage.setResizable(false);
+		
 		primaryStage.show();
 
 		new AnimationTimer()
@@ -97,10 +104,6 @@ public class Game extends Application
 			public void handle(WindowEvent event)
 			{
 				System.out.println("Bye^^");
-				if (GameWorld.client != null)
-				{
-					GameWorld.client.reader.running = false;
-				}
 			}
 		});
 		//Closing additional thread.

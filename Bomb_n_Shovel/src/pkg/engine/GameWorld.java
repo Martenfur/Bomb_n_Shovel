@@ -1,16 +1,13 @@
 package pkg.engine;
 
 import pkg.Lobby;
-import pkg.net.Client;
 import pkg.terrain.Terrain;
 import pkg.terrain.TileProp;
-import pkg.turns.Logger;
 
 public class GameWorld
 {
 
 	public static Terrain terrain;
-	public static Client client;
 
 	public static void CREATE()
 	{
