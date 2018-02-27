@@ -19,6 +19,8 @@ public class Spr
 		button_back = new Sprite("button_back.png", 1, 1, 0, 0),
 		gui_buttons = new Sprite("gui_buttons.png", 2, 1, 0, 0),
 		paper = new Sprite("paper.png", 1, 1, 128, 128),
-		timer = new Sprite("timer.png", 1, 1, 2, 14),
-		match_results = new Sprite("match_results.png", 1, 3, 257, 100);
+		timer = new Sprite("timer.png", 1, 1, 2-1, 14+3),
+		match_results = new Sprite("match_results.png", 1, 3, 257, 100),
+		big_shadow = new Sprite("big_shadow.png", 1, 1, 16, 16),
+		shadow = new Sprite("shadow.png", 1, 1, 14, 7);
 }

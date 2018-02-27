@@ -24,7 +24,9 @@ public class Peasant extends Entity
 	public boolean moving = false;
 	double x_prev, y_prev;
 	double z;
-
+	
+	double xscale = 1;
+	
 	public int cx_prev, cy_prev;
 
 	double moveSpd = 3,
@@ -48,9 +50,18 @@ public class Peasant extends Entity
 		try
 		{
 			if (moving)
-			{
-				x -= Math.signum(x - pathList.x * Terrain.cellSize) * moveSpd;
-				y -= Math.signum(y - pathList.y * Terrain.cellSize) * moveSpd;
+			{		
+				double sign_x = Math.signum(x - pathList.x * Terrain.cellSize);
+				double sign_y = Math.signum(y - pathList.y * Terrain.cellSize);
+				
+				if (sign_y == 0)
+				{
+					xscale = -sign_x;
+				}
+
+				x -= sign_x * moveSpd;
+				y -= sign_y * moveSpd;
+				
 				z = Mathe.lsin(8, 180 * (Mathe.lerp(x_prev, x, pathList.x * Terrain.cellSize) + Mathe.lerp(y_prev, y, pathList.y * Terrain.cellSize)));
 
 				if (Mathe.pointDistance(x, y, pathList.x * Terrain.cellSize, pathList.y * Terrain.cellSize) < moveSpd)
@@ -79,6 +90,9 @@ public class Peasant extends Entity
 					}
 				}
 			}
+			
+			Obj.objCount(Obj.oid.paper);
+			Obj.objCount1(Paper.class);
 		}
 		catch (Exception e)
 		{
@@ -116,6 +130,7 @@ public class Peasant extends Entity
 				Pathfinder pathfinder = new Pathfinder(Terrain.terrain);
 				pathList = pathfinder.pathFind((int) x / Terrain.cellSize, (int) y / Terrain.cellSize, cx, cy);
 
+				
 				for (ObjIter it = new ObjIter(Obj.oid.entity); it.end(); it.inc())
 				{
 					if (it.get() != this && !((Entity) it.get()).passable)
@@ -153,8 +168,9 @@ public class Peasant extends Entity
 	public void DRAW()
 	{
 		Draw.setDepth((int) (-y));
-		Draw.drawSprite(spr, tid, x + 16, y + 16 + z);
-
+		Draw.drawSprite(spr, tid, x + Terrain.cellSize / 2, y + Terrain.cellSize / 2 + z, xscale, 1, 0, 1);
+		Draw.drawSprite(new Sprite(Spr.shadow), 0, x + Terrain.cellSize / 2, y + Terrain.cellSize / 2);
+		
 		if (initiative && pathList != null && myPlayer instanceof LocalPlayer)
 		{
 			PathPoint p = pathList;
@@ -162,7 +178,7 @@ public class Peasant extends Entity
 			int add, i = 0;
 			while (p != null)
 			{
-				Draw.setDepth((int) -p.y * Terrain.cellSize + 1);
+				Draw.setDepth(-999999);//(int) -p.y * Terrain.cellSize + 1);
 
 				if (i < moveStamina)
 				{
@@ -254,7 +270,7 @@ public class Peasant extends Entity
 	{
 		boolean isCorrect = true;
 		PathPoint listBuf = pathList;
-
+		
 		for (ObjIter it = new ObjIter(Obj.oid.entity); it.end(); it.inc())
 		{
 			if (it.get() != this && !((Entity) it.get()).passable)

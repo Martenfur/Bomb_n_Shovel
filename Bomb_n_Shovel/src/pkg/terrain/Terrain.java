@@ -185,6 +185,12 @@ public class Terrain extends GameObject
 				{
 					Draw.setDepth((int) -(k + 0.5) * cellSize + TileProp.getDepth(terrain[i][k]));
 					Draw.drawSprite(terrainSpr[i][k], (i + 0.5) * cellSize, (k + 0.5) * cellSize);
+					
+					if (terrain[i][k] == 1)
+					{
+						Draw.setDepth(1000);
+						Draw.drawSprite(new Sprite(Spr.big_shadow), (i + 0.5) * cellSize, (k + 0.5) * cellSize);
+					}
 				}
 				//Additional sprite.
 			}
@@ -293,14 +299,14 @@ public class Terrain extends GameObject
 			double timer_x = 8 - uiHide * (64 + 16),
 				timer_y = Camera.scr_h - 64 - 8;
 			Draw.setColor(Color.rgb(222, 238, 214));
-			Draw.drawCircle(new Circle(), timer_x + 32, timer_y + 32, 30, false);
+			Draw.drawCircle(new Circle(), timer_x + 32, timer_y + 32, 26, false);
 
 			Arc arc = new Arc();
 			arc.setFill(Color.rgb(208, 70, 72));
 			arc.setCenterX(timer_x + 32);
 			arc.setCenterY(timer_y + 32);
-			arc.setRadiusX(30);
-			arc.setRadiusY(30);
+			arc.setRadiusX(26);
+			arc.setRadiusY(26);
 			arc.setStartAngle(90);
 			arc.setLength(timerAl / (double) timerTime * 360.0);
 			arc.setType(ArcType.ROUND);

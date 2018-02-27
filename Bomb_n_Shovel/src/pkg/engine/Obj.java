@@ -100,6 +100,20 @@ public class Obj
 		}
 		return counter;
 	}
+	
+	public static int objCount1(Class c)
+	{
+		int counter = 0;
+		for (int i = 0; i < objectsAm; i += 1)
+		{
+			if (objects.get(i).getClass() == c)
+			{
+				counter += 1;
+			}
+		}
+		return counter;
+	}
+	
 	////////////////////////////////////////////////
 
 	////////////////////////////////////////////////
