@@ -27,8 +27,6 @@ public class MatchResult extends GameObject
 			Obj.objDestroy(this);
 		}
 
-		//objIndex.add(Obj.oid.match_result);
-
 		mode = mode_arg;
 		drawResults = true;
 
