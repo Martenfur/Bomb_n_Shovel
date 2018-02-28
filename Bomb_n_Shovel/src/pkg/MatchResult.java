@@ -3,6 +3,8 @@ package pkg;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import pkg.engine.*;
+import pkg.terrain.*;
+
 
 /**
  * Shows match results and offers watching replay.
@@ -21,12 +23,12 @@ public class MatchResult extends GameObject
 
 		super();
 
-		if (Obj.objCount(Obj.oid.match_result) > 0)
+		if (Obj.objCount(MatchResult.class) > 0)
 		{
 			Obj.objDestroy(this);
 		}
 
-		objIndex.add(Obj.oid.match_result);
+		//objIndex.add(Obj.oid.match_result);
 
 		mode = mode_arg;
 		drawResults = true;
@@ -55,7 +57,7 @@ public class MatchResult extends GameObject
 					drawResults = false;
 
 					new Lobby();
-					for (ObjIter it = new ObjIter(Obj.oid.terrain); it.end(); it.inc())
+					for (ObjIter it = new ObjIter(Terrain.class); it.end(); it.inc())
 					{
 						Obj.objDestroy(it.get());
 					}

@@ -81,7 +81,7 @@ public class TerrainGenerator
 				{
 					if (terr[i][k] < 3 && Mathe.irandom(2) == 0)
 					{
-						terr[i][k] = 0; //1
+						terr[i][k] = 1;
 					}
 					else
 					{
@@ -129,8 +129,8 @@ public class TerrainGenerator
 						{counter += 1;}
 						if (counter > 2)
 						{
-							System.out.println("FYK detected!" + counter);
-							terr[i][k] = 1;
+							//System.out.println("FYK detected!" + counter);
+							terr[i][k] = 0;
 						}
 					}
 				}
@@ -140,7 +140,7 @@ public class TerrainGenerator
 		//Getting rid of restricted combinations.
 
 		//Generating trees.
-		//treesGenerate(terr);
+		treesGenerate(terr);
 		//Generating trees.
 
 		//Cleaning some space around starting points.

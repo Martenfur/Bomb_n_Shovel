@@ -8,8 +8,7 @@ import javafx.scene.shape.Arc;
 import javafx.scene.shape.ArcType;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
-import pkg.GameObject;
-import pkg.Peasant;
+import pkg.*;
 import pkg.engine.*;
 
 public class Terrain extends GameObject
@@ -54,7 +53,7 @@ public class Terrain extends GameObject
 	public Terrain(long seed_arg, TurnManager turnManager_arg, boolean timerEn_arg)
 	{
 		super();
-		objIndex.add(Obj.oid.terrain);
+		//objIndex.add(Terrain.class);
 
 		turnManager = turnManager_arg;
 
@@ -111,7 +110,7 @@ public class Terrain extends GameObject
 	@Override
 	public void STEP()
 	{
-		if (!uiBlock && Obj.objCount(Obj.oid.match_result) > 0)
+		if (!uiBlock && Obj.objCount(MatchResult.class) > 0)
 		{
 			uiBlock = true;
 		}

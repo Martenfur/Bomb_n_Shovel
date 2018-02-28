@@ -35,7 +35,7 @@ public class TurnManager extends GameObject
 		//kekAl-=1;
 		//if (kekAl==0)
 		//{new MatchResult();}
-		if (Obj.objCount(Obj.oid.match_result) == 0)
+		if (Obj.objCount(MatchResult.class) == 0)
 		{
 			for (int i = 0; i < players.size(); i += 1)
 			{

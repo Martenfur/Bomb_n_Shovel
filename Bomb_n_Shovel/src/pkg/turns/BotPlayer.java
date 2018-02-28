@@ -67,7 +67,7 @@ public class BotPlayer extends Player
 
 					//Picking up an enemy.
 					ArrayList<Peasant> enemies = new ArrayList<>();
-					for (ObjIter it = new ObjIter(Obj.oid.peasant); it.end(); it.inc())
+					for (ObjIter it = new ObjIter(Peasant.class); it.end(); it.inc())
 					{
 						if (tid != ((Peasant) it.get()).tid)
 						{
@@ -84,7 +84,7 @@ public class BotPlayer extends Player
 
 						PathPoint pathClosest = null;
 
-						for (ObjIter it = new ObjIter(Obj.oid.entity); it.end(); it.inc())
+						for (ObjIter it = new ObjIter(Entity.class); it.end(); it.inc())
 						{
 							if (it.get() != pCur && !((Entity) it.get()).passable)
 							{
@@ -108,7 +108,7 @@ public class BotPlayer extends Player
 							}
 						}
 
-						for (ObjIter it = new ObjIter(Obj.oid.entity); it.end(); it.inc())
+						for (ObjIter it = new ObjIter(Entity.class); it.end(); it.inc())
 						{
 							if (it.get() != pCur && !((Entity) it.get()).passable)
 							{

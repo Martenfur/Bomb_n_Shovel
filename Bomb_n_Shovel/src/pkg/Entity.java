@@ -20,7 +20,7 @@ public class Entity extends GameObject
 	public Entity(double x_arg, double y_arg, boolean passable_arg)
 	{
 		super(x_arg, y_arg);
-		objIndex.add(Obj.oid.entity);
+		//objIndex.add(Obj.oid.entity);
 
 		passable = passable_arg;
 	}

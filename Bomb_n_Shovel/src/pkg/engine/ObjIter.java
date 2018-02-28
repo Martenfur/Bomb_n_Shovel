@@ -11,14 +11,14 @@ public class ObjIter
 {
 
 	double counter = 0;
-	Obj.oid type = Obj.oid.all;
+	Class type;
 
 	/**
 	 * Main constructor.
 	 *
 	 * @param type_arg
 	 */
-	public ObjIter(Obj.oid type_arg)
+	public ObjIter(Class type_arg)
 	{
 		type = type_arg;
 

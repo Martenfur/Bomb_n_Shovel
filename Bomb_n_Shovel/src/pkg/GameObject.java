@@ -11,7 +11,7 @@ public class GameObject
 {
 
 	public double x, y;
-	public ArrayList<Obj.oid> objIndex = new ArrayList<>();
+	//public ArrayList<Obj.oid> objIndex = new ArrayList<>();
 
 	/**
 	 * Main constructor. Add new object to main object array.
@@ -26,7 +26,7 @@ public class GameObject
 		Obj.objects.add(this);
 		Obj.objectsAm += 1;
 
-		objIndex.add(Obj.oid.all);
+		//objIndex.add(Obj.oid.all);
 	}
 
 	/**
@@ -39,7 +39,7 @@ public class GameObject
 		Obj.objects.add(this);
 		Obj.objectsAm += 1;
 
-		objIndex.add(Obj.oid.all);
+		//objIndex.add(Obj.oid.all);
 	}
 
 	//EVENTS

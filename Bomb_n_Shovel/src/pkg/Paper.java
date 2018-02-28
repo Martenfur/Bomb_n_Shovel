@@ -17,7 +17,7 @@ public class Paper extends GameObject
 	public Paper(double x_arg, double y_arg)
 	{
 		super(x_arg, y_arg);
-		objIndex.add(Obj.oid.paper);
+		//objIndex.add(Obj.oid.paper);
 
 		spr = new Sprite(Spr.paper);
 		spr.img.setRotate(Mathe.irandom(359));

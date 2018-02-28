@@ -39,7 +39,7 @@ public class Peasant extends Entity
 	public Peasant(double x_arg, double y_arg)
 	{
 		super(x_arg, y_arg, false);
-		objIndex.add(Obj.oid.peasant);
+		//objIndex.add(Obj.oid.peasant);
 
 		spr = new Sprite(Spr.peasant);
 	}
@@ -91,8 +91,6 @@ public class Peasant extends Entity
 				}
 			}
 			
-			Obj.objCount(Obj.oid.paper);
-			Obj.objCount1(Paper.class);
 		}
 		catch (Exception e)
 		{
@@ -119,7 +117,7 @@ public class Peasant extends Entity
 				int cx = (int) command.get(0),
 					cy = (int) command.get(1);
 
-				for (ObjIter it = new ObjIter(Obj.oid.entity); it.end(); it.inc())
+				for (ObjIter it = new ObjIter(Entity.class); it.end(); it.inc())
 				{
 					if (it.get() != this && !((Entity) it.get()).passable)
 					{
@@ -131,7 +129,7 @@ public class Peasant extends Entity
 				pathList = pathfinder.pathFind((int) x / Terrain.cellSize, (int) y / Terrain.cellSize, cx, cy);
 
 				
-				for (ObjIter it = new ObjIter(Obj.oid.entity); it.end(); it.inc())
+				for (ObjIter it = new ObjIter(Entity.class); it.end(); it.inc())
 				{
 					if (it.get() != this && !((Entity) it.get()).passable)
 					{
@@ -221,7 +219,7 @@ public class Peasant extends Entity
 		Entity intEntity = null;
 
 		//Looking for entity in a cell.
-		for (ObjIter it = new ObjIter(Obj.oid.entity); it.end(); it.inc())
+		for (ObjIter it = new ObjIter(Entity.class); it.end(); it.inc())
 		{
 			Entity other = (Entity) it.get();
 			if (other != this)
@@ -271,7 +269,7 @@ public class Peasant extends Entity
 		boolean isCorrect = true;
 		PathPoint listBuf = pathList;
 		
-		for (ObjIter it = new ObjIter(Obj.oid.entity); it.end(); it.inc())
+		for (ObjIter it = new ObjIter(Entity.class); it.end(); it.inc())
 		{
 			if (it.get() != this && !((Entity) it.get()).passable)
 			{
@@ -289,7 +287,7 @@ public class Peasant extends Entity
 			listBuf = listBuf.next;
 		}
 
-		for (ObjIter it = new ObjIter(Obj.oid.entity); it.end(); it.inc())
+		for (ObjIter it = new ObjIter(Entity.class); it.end(); it.inc())
 		{
 			if (it.get() != this && !((Entity) it.get()).passable)
 			{

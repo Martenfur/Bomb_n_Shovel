@@ -15,7 +15,7 @@ public class Obj
 	/**
 	 * This list determines object types. One object can have many.
 	 */
-	public static enum oid
+	/*public static enum oid
 	{
 		all,
 		terrain,
@@ -23,7 +23,7 @@ public class Obj
 		paper,
 		entity,
 		match_result
-	}
+	}*/
 
 	/**
 	 * Performs events for all game objects.
@@ -88,20 +88,7 @@ public class Obj
 	 * @param id
 	 * @return
 	 */
-	public static int objCount(oid id)
-	{
-		int counter = 0;
-		for (int i = 0; i < objectsAm; i += 1)
-		{
-			if (objIndexGet(objects.get(i)) == id)
-			{
-				counter += 1;
-			}
-		}
-		return counter;
-	}
-	
-	public static int objCount1(Class c)
+	public static int objCount(Class c)
 	{
 		int counter = 0;
 		for (int i = 0; i < objectsAm; i += 1)
@@ -123,10 +110,10 @@ public class Obj
 	 * @param obj
 	 * @return
 	 */
-	public static oid objIndexGet(GameObject obj)
-	{
-		return obj.objIndex.get(obj.objIndex.size() - 1);
-	}
+	//public static oid objIndexGet(GameObject obj)
+	//{
+	//	return obj.objIndex.get(obj.objIndex.size() - 1);
+	//}
 	////////////////////////////////////////////////
 
 	////////////////////////////////////////////////
@@ -137,18 +124,9 @@ public class Obj
 	 * @param id
 	 * @return
 	 */
-	public static boolean objIndexCmp(GameObject obj, oid id)
+	public static boolean objIndexCmp(GameObject obj, Class id)
 	{
-		int oidSize = obj.objIndex.size();
-		for (int i = oidSize - 1; i >= 0; i -= 1)
-		{
-			if (obj.objIndex.get(i) == id)
-			{
-				return true;
-			}
-		}
-
-		return false;
+		return (obj.getClass() == id);
 	}
 	////////////////////////////////////////////////
 }

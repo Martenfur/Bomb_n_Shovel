@@ -119,7 +119,7 @@ public class Lobby extends GameObject
 				dy = cam_ytar - cam_y;
 			}
 
-			for (ObjIter it = new ObjIter(Obj.oid.paper); it.end(); it.inc())
+			for (ObjIter it = new ObjIter(Paper.class); it.end(); it.inc())
 			{
 				((Paper) it.get()).y -= dy;
 			}
@@ -138,7 +138,7 @@ public class Lobby extends GameObject
 					{
 						createLocalGame();
 						Obj.objDestroy(this);
-						for (ObjIter it = new ObjIter(Obj.oid.paper); it.end(); it.inc())
+						for (ObjIter it = new ObjIter(Paper.class); it.end(); it.inc())
 						{
 							((Paper) it.get()).disappear = true;
 						}
@@ -148,7 +148,7 @@ public class Lobby extends GameObject
 					{
 						createBotGame();
 						Obj.objDestroy(this);
-						for (ObjIter it = new ObjIter(Obj.oid.paper); it.end(); it.inc())
+						for (ObjIter it = new ObjIter(Paper.class); it.end(); it.inc())
 						{
 							((Paper) it.get()).disappear = true;
 						}
@@ -158,7 +158,7 @@ public class Lobby extends GameObject
 					{
 						createAutomaticGame();
 						Obj.objDestroy(this);
-						for (ObjIter it = new ObjIter(Obj.oid.paper); it.end(); it.inc())
+						for (ObjIter it = new ObjIter(Paper.class); it.end(); it.inc())
 						{
 							((Paper) it.get()).disappear = true;
 						}
