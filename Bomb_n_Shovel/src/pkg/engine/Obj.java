@@ -93,7 +93,7 @@ public class Obj
 		int counter = 0;
 		for (int i = 0; i < objectsAm; i += 1)
 		{
-			if (objects.get(i).getClass() == c)
+			if (c.isAssignableFrom(objects.get(i).getClass()))
 			{
 				counter += 1;
 			}
@@ -126,7 +126,7 @@ public class Obj
 	 */
 	public static boolean objIndexCmp(GameObject obj, Class id)
 	{
-		return (obj.getClass() == id);
+		return id.isAssignableFrom(obj.getClass());
 	}
 	////////////////////////////////////////////////
 }

@@ -47,6 +47,7 @@ public class Peasant extends Entity
 	@Override
 	public void STEP()
 	{
+		//System.out.println(Obj.objCount(Peasant.class));
 		try
 		{
 			if (moving)
@@ -165,6 +166,7 @@ public class Peasant extends Entity
 	@Override
 	public void DRAW()
 	{
+		
 		Draw.setDepth((int) (-y));
 		Draw.drawSprite(spr, tid, x + Terrain.cellSize / 2, y + Terrain.cellSize / 2 + z, xscale, 1, 0, 1);
 		Draw.drawSprite(new Sprite(Spr.shadow), 0, x + Terrain.cellSize / 2, y + Terrain.cellSize / 2);

@@ -20,10 +20,9 @@ public class MatchResult extends GameObject
 
 	public MatchResult(int mode_arg)
 	{
-
 		super();
 
-		if (Obj.objCount(MatchResult.class) > 0)
+		if (Obj.objCount(MatchResult.class) > 1)
 		{
 			Obj.objDestroy(this);
 		}
@@ -38,6 +37,7 @@ public class MatchResult extends GameObject
 	@Override
 	public void STEP()
 	{
+		System.out.println(Obj.objCount(MatchResult.class));
 		if (bscrAl != bscrAlTar)
 		{
 			if (bscrAlTar > bscrAl)
