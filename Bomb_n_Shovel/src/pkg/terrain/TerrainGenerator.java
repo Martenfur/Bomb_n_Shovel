@@ -93,48 +93,52 @@ public class TerrainGenerator
 		//Converting terrain from heights to tiles.
 
 		//Getting rid of restricted combinations.
-		int buf;
-		for (int i = 0; i < w; i += 1)
+		for(int rep = 0; rep < 4; rep += 1)
 		{
-			for (int k = 0; k < h; k += 1)
+			int buf;
+			for (int i = 0; i < w; i += 1)
 			{
-				buf = 0;
-				if (terr[i][k] == 2)
+				for (int k = 0; k < h; k += 1)
 				{
-					for (int c = 0; c < 4; c += 1)
-					{
-						int ii = i + Mathe.rotate_x[c];
-						int kk = k + Mathe.rotate_y[c];
-
-						if (Terrain.get(terr, ii, kk) != 2)
-						{
-							buf += pow2[c];
-						}
-
-					}
-					if (buf == 5 || buf == 10 || buf == 7 || buf == 11 || buf == 13 || buf == 14 || buf == 15)
-					{
-						terr[i][k] = 0;
-					}
-					else
+					buf = 0;
+					if (terr[i][k] == 2)
 					{
 						int counter = 0;
-						if (Terrain.get(terr, i + 1, k + 1) != 2)
-						{counter += 1;}
-						if (Terrain.get(terr, i - 1, k + 1) != 2)
-						{counter += 1;}
-						if (Terrain.get(terr, i - 1, k - 1) != 2)
-						{counter += 1;}
-						if (Terrain.get(terr, i + 1, k - 1) != 2)
-						{counter += 1;}
-						if (counter > 2)
+						for (int c = 0; c < 4; c += 1)
 						{
-							//System.out.println("FYK detected!" + counter);
-							terr[i][k] = 0;
+							int ii = i + Mathe.rotate_x[c];
+							int kk = k + Mathe.rotate_y[c];		
+							
+							if (Terrain.get(terr, ii, kk) != 2)
+							{
+								buf += pow2[c];
+								counter += 1;
+							}
+
+						}
+						if (counter > 2 || buf == 5 || buf == 10 || buf == 7 || buf == 11 || buf == 13 || buf == 14 || buf == 15)
+						{
+							terr[i][k] = 1;
+						}
+						else
+						{
+							counter = 0;
+							if (Terrain.get(terr, i + 1, k + 1) != 2)
+							{counter += 1;}
+							if (Terrain.get(terr, i - 1, k + 1) != 2)
+							{counter += 1;}
+							if (Terrain.get(terr, i - 1, k - 1) != 2)
+							{counter += 1;}
+							if (Terrain.get(terr, i + 1, k - 1) != 2)
+							{counter += 1;}
+							if (counter > 2)
+							{
+								terr[i][k] = 0;
+							}
 						}
 					}
-				}
 
+				}
 			}
 		}
 		//Getting rid of restricted combinations.
