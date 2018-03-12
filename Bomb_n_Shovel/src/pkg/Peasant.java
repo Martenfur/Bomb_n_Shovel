@@ -13,7 +13,7 @@ public class Peasant extends Entity
 
 	public Player myPlayer = null;
 	public Cmd command = null;
-
+	public Inventory inventory= null;
 	public boolean initiative = false;
 	public int tid = -1;
 
@@ -40,6 +40,7 @@ public class Peasant extends Entity
 	{
 		super(x_arg, y_arg, false);
 		//objIndex.add(Obj.oid.peasant);
+		inventory=new Inventory();
 
 		spr = new Sprite(Spr.peasant);
 	}
@@ -242,8 +243,10 @@ public class Peasant extends Entity
 			{
 				if (((Peasant) intEntity).tid != tid)
 				{
+					this.inventory.addInv(Inventory.Item.BLOOD);
 					Obj.objDestroy(intEntity);
 					moveStamina = 0;
+					System.out.println(this.inventory.showInv());
 				}
 			}
 			//Entity actions.
@@ -258,6 +261,9 @@ public class Peasant extends Entity
 			{
 				Terrain.terrain[cx_prev][cy_prev] = 0;
 				Terrain.terrainSpr[cx_prev][cy_prev] = null;
+
+				this.inventory.addInv(Inventory.Item.TREE);
+				System.out.println(this.inventory.showInv());
 				moveStamina = 0;
 			}
 
