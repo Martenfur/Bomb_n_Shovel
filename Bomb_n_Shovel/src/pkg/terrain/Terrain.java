@@ -11,6 +11,8 @@ import javafx.scene.shape.Rectangle;
 import pkg.*;
 import pkg.engine.*;
 
+import static pkg.engine.Draw.drawSprite;
+
 public class Terrain extends GameObject
 {
 
@@ -270,8 +272,24 @@ public class Terrain extends GameObject
 		}
 
 		Draw.setDepth(10);
-		Draw.drawSprite(new Sprite(Spr.gui_buttons), 0, Camera.scr_w - (64 + 8) * 2 - 3 + uiHide * (64 + 8), Camera.scr_h - 64 - 8);
-		Draw.drawSprite(new Sprite(Spr.gui_buttons), 1, Camera.scr_w - (64 + 8) + uiHide * (64 + 8), Camera.scr_h - 64 - 8);
+		Draw.drawSprite(new Sprite(Spr.gui_buttons), 0, Camera.scr_w - (64 + 8) * 2 - 3 + uiHide * (64 + 8), Camera.scr_h - 64*3 - 8);
+		Draw.drawSprite(new Sprite(Spr.gui_buttons), 1, Camera.scr_w - (64 + 8) + uiHide * (64 + 8), Camera.scr_h - 64*3 - 8);
+
+		Peasant p_active = turnManager.getCurrentPeasant();
+		//draw blood
+		if(p_active.inventory.inv.contains(Inventory.Item.BLOOD))
+		{
+			Draw.drawSprite(new Sprite(Spr.blood), 0, Camera.scr_w - (64 + 8) + Spr.blood.getWidth()*2 + uiHide * (64 + 8), Camera.scr_h - 64*2 - 8);
+			Draw.drawSprite(new Sprite(Spr.blood), 1, Camera.scr_w - (64 + 8) + uiHide * (64 + 8), Camera.scr_h - 64*3 - 8);
+		}
+
+		//draw wood
+		if(p_active.inventory.inv.contains(Inventory.Item.WOOD))
+		{
+			Draw.drawSprite(new Sprite(Spr.wood), 0, Camera.scr_w - (64 + 8) - Spr.wood.getWidth()*2 + uiHide * (64 + 8), Camera.scr_h - 64*2 - 16);
+			Draw.drawSprite(new Sprite(Spr.wood), 1, Camera.scr_w - (64 + 8) + uiHide * (64 + 8), Camera.scr_h - 64*3 - 8);
+		}
+
 
 		if (timerEn)
 		{
@@ -314,6 +332,7 @@ public class Terrain extends GameObject
 
 			Draw.drawSprite(new Sprite(Spr.timer), 0, timer_x, timer_y);
 		}
+
 	}
 
 	@Override

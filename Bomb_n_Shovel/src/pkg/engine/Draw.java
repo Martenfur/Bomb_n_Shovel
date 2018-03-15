@@ -100,7 +100,7 @@ public class Draw
 		}
 		drawlist[3].clear();
 		depthlist[3].clear();
-		//GUI layer.   
+		//GUI layer.
 	}
 
 	//////////////////////////////////////////////////////////////////////

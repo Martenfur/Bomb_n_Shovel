@@ -8,6 +8,8 @@ import pkg.pathfinder.*;
 import pkg.terrain.TileProp;
 import pkg.turns.LocalPlayer;
 
+import static pkg.engine.Draw.drawSprite;
+
 public class Peasant extends Entity
 {
 
@@ -169,8 +171,8 @@ public class Peasant extends Entity
 	{
 		
 		Draw.setDepth((int) (-y));
-		Draw.drawSprite(spr, tid, x + Terrain.cellSize / 2, y + Terrain.cellSize / 2 + z, xscale, 1, 0, 1);
-		Draw.drawSprite(new Sprite(Spr.shadow), 0, x + Terrain.cellSize / 2, y + Terrain.cellSize / 2);
+		drawSprite(spr, tid, x + Terrain.cellSize / 2, y + Terrain.cellSize / 2 + z, xscale, 1, 0, 1);
+		drawSprite(new Sprite(Spr.shadow), 0, x + Terrain.cellSize / 2, y + Terrain.cellSize / 2);
 		
 		if (initiative && pathList != null && myPlayer instanceof LocalPlayer)
 		{
@@ -190,7 +192,7 @@ public class Peasant extends Entity
 					add = 2;
 				}
 				i += 1;
-				Draw.drawSprite(new Sprite(Spr.path), ((p.next == null) ? 1 : 0) + add, p.x * Terrain.cellSize, p.y * Terrain.cellSize);
+				drawSprite(new Sprite(Spr.path), ((p.next == null) ? 1 : 0) + add, p.x * Terrain.cellSize, p.y * Terrain.cellSize);
 				p = p.next;
 			}
 		}
@@ -262,8 +264,8 @@ public class Peasant extends Entity
 				Terrain.terrain[cx_prev][cy_prev] = 0;
 				Terrain.terrainSpr[cx_prev][cy_prev] = null;
 
-				this.inventory.addInv(Inventory.Item.TREE);
-				System.out.println(this.inventory.showInv());
+				this.inventory.addInv(Inventory.Item.WOOD);
+					System.out.println(this.inventory.showInv());
 				moveStamina = 0;
 			}
 

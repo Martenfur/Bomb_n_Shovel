@@ -7,7 +7,7 @@ import pkg.Entity;
 public class Inventory {
 
     public enum Item {
-        TREE("Tree"),
+        WOOD("Wood"),
         ROCK("Rock"),
         BLOOD("Blood");
 

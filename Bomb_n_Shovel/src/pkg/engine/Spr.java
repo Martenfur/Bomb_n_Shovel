@@ -22,5 +22,8 @@ public class Spr
 		timer = new Sprite("timer.png", 1, 1, 2-1, 14+3),
 		match_results = new Sprite("match_results.png", 1, 3, 257, 100),
 		big_shadow = new Sprite("big_shadow.png", 1, 1, 16, 16),
-		shadow = new Sprite("shadow.png", 1, 1, 14, 7);
+		shadow = new Sprite("shadow.png", 1, 1, 14, 7),
+		wood = new Sprite("wood.png", 1, 1, 9, 26),
+		blood = new Sprite("blood.png", 1, 1, 9, 26);
+
 }
