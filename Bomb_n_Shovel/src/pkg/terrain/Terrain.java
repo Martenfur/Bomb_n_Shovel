@@ -11,9 +11,8 @@ import javafx.scene.shape.Rectangle;
 import pkg.*;
 import pkg.engine.*;
 
-import static pkg.engine.Draw.drawSprite;
-
-public class Terrain extends GameObject {
+public class Terrain extends GameObject
+{
 
     public static int[][] terrain;
     public static int[][] terrainTile;
@@ -162,22 +161,25 @@ public class Terrain extends GameObject {
         int draw_yend = (int) Math.min(terrain_h,
             Math.ceil((Camera.get_y() + Game.scr_h / Camera.getScale_y()) / cellSize) + 2);
 
-        for (int k = draw_ystart; k < draw_yend; k += 1) {
-            for (int i = draw_xstart; i < draw_xend; i += 1) {
-                //Additional sprite.
-                if (terrainSpr[i][k] != null) {
-                    Draw.setDepth((int) -(k + 0.5) * cellSize + TileProp.getDepth(terrain[i][k]));
-                    Draw.drawSprite(terrainSpr[i][k], (i + 0.5) * cellSize, (k + 0.5) * cellSize);
-
-                    if (terrain[i][k] == 1) {
-                        Draw.setDepth(1000);
-                        Draw.drawSprite(new Sprite(Spr.big_shadow), (i + 0.5) * cellSize,
-                            (k + 0.5) * cellSize);
-                    }
-                }
-                //Additional sprite.
-            }
-        }
+		for (int k = draw_ystart; k < draw_yend; k += 1)
+		{
+			for (int i = draw_xstart; i < draw_xend; i += 1)
+			{
+				//Additional sprite.
+				if (terrainSpr[i][k] != null)
+				{
+					Draw.setDepth((int) -(k + 0.5) * cellSize + TileProp.getDepth(terrain[i][k]));
+					Draw.drawSprite(terrainSpr[i][k], (i + 0.5) * cellSize, (k + 0.5) * cellSize);
+					
+					if (terrain[i][k] != 2 && terrain[i][k] != 0)
+					{
+						Draw.setDepth(1000);
+						Draw.drawSprite(new Sprite(Spr.big_shadow), (i + 0.5) * cellSize, (k + 0.5) * cellSize);
+					}
+				}
+				//Additional sprite.
+			}
+		}
 
         Draw.setDepth(10000);
 

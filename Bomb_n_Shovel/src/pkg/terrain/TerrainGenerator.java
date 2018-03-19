@@ -32,7 +32,7 @@ public class TerrainGenerator
 
 	/**
 	 * Adds new island for generating.
-	 *
+	 * 
 	 * @param x Center x of island.
 	 * @param y Center y of island.
 	 * @param h Starting height. Determines island size.
@@ -147,20 +147,6 @@ public class TerrainGenerator
 		treesGenerate(terr);
 		//Generating trees.
 
-		//Cleaning some space around starting points.
-		for (int i = 0; i < terr.length; i += 1)
-		{
-			for (int k = 0; k < terr[0].length; k += 1)
-			{
-				if (Mathe.pointDistance(i, k, islandCenters.get(0)[0], islandCenters.get(0)[1]) < 4
-					|| Mathe.pointDistance(i, k, islandCenters.get(1)[0], islandCenters.get(1)[1]) < 4)
-				{
-					terr[i][k] = 0;
-				}
-			}
-		}
-		//Cleaning some space around starting points.
-
 		//Generating bridges.
 		for (int i = 0; i < islandCenters.size(); i += 1)
 		{
@@ -176,7 +162,24 @@ public class TerrainGenerator
 			}
 		}
 		//Generating bridges.
+		
+		generateForestWall(terr);
+		
+		//Clearing some space around starting points.
+		for (int i = 0; i < terr.length; i += 1)
+		{
+			for (int k = 0; k < terr[0].length; k += 1)
+			{
+				if (Mathe.pointDistance(i, k, islandCenters.get(0)[0], islandCenters.get(0)[1]) < 4
+					|| Mathe.pointDistance(i, k, islandCenters.get(1)[0], islandCenters.get(1)[1]) < 4)
+				{
+					terr[i][k] = 0;
+				}
+			}
+		}
+		//Clearing some space around starting points.
 
+		
 		Mathe.randomPop();
 
 		return terr;
@@ -498,11 +501,66 @@ public class TerrainGenerator
 			{
 				if (terr[i][k] == 0 && ((trees[i][k] != 0 && Mathe.irandom(2) != 0) || Mathe.irandom(32) == 0))
 				{
-					terr[i][k] = 1;
+					terr[i][k] = chooseObject();
 				}
 			}
 		}
 
+	}
+	
+	private void generateForestWall(int[][] terr)
+	{
+		int middlePointX = (islandCenters.get(1)[0] - islandCenters.get(0)[0]) / 2 + islandCenters.get(0)[0];
+		int middlePointY = (islandCenters.get(1)[1] - islandCenters.get(0)[1]) / 2 + islandCenters.get(0)[1];
+		int spawnpointsDir = (int)Mathe.pointDirection(
+			islandCenters.get(0)[0], 
+			islandCenters.get(0)[1], 
+			islandCenters.get(1)[0],
+			islandCenters.get(1)[1]);
+		
+		terr[middlePointX][middlePointY] = 4;
+		
+		int[][] buffer = new int[terr.length][terr[0].length];
+		
+		terrainIslandSpineGenerate(buffer, spawnpointsDir + 90, 16, middlePointX, middlePointY, 4);
+		terrainIslandSpineGenerate(buffer, spawnpointsDir - 90, 16, middlePointX, middlePointY, 4);
+		
+		terrainBeefup(buffer);
+		
+		for(int i = 0; i <terr.length; i += 1)
+		{
+			for(int k = 0; k <terr[0].length; k += 1)
+			{
+				if (terr[i][k] == 0 && buffer[i][k] != 0 && Mathe.irandom(10) > 0)
+				{
+					terr[i][k] = chooseObject();
+				}
+			}
+		}
+	}
+	
+	
+	/**
+	 * Chooses between tree, stone and gunpowder stone.
+	 * @return 
+	 */
+	private int chooseObject()
+	{
+		if (Mathe.irandom(5) == 0)
+		{
+			return 4;
+		}
+		else
+		{
+			if (Mathe.irandom(30) == 0)
+			{
+				return 5;
+			}
+			else
+			{
+				return 1;
+			}
+		}
 	}
 
 }

@@ -22,6 +22,8 @@ public class TileProp
   1 - Tree.
   2 - Water.
   3 - Bridge.
+	4 - Stone.
+	5 - Gunpowder stone.
 	 */
 	static ArrayList<Tile> tiles;
 
@@ -37,7 +39,10 @@ public class TileProp
 		tileAdd(GROUND, PASSABLE);              //Grass.
 		tileAdd(GROUND, UNPASSABLE, Spr.tree, 0); //Tree.
 		tileAdd(WATER, UNPASSABLE);             //Water.
-		tileAdd(WATER, PASSABLE, null, 2);       //Bridge.  
+		tileAdd(WATER, PASSABLE, null, 2);       //Bridge.
+		
+		tileAdd(GROUND, UNPASSABLE, Spr.stone, 0); //Stone.
+		tileAdd(GROUND, UNPASSABLE, Spr.gunpowder_stone, 0); //Gunpowder stone.
 	}
 
 	final static void tileAdd(boolean ground, boolean passable, Sprite spr, int depth)
