@@ -245,7 +245,7 @@ public class Peasant extends Entity
 			{
 				if (((Peasant) intEntity).tid != tid)
 				{
-					this.inventory.addInv(Inventory.Item.BLOOD);
+					this.inventory.addItem(Inventory.Item.BLOOD);
 					Obj.objDestroy(intEntity);
 					moveStamina = 0;
 					System.out.println(this.inventory.showInv());
@@ -264,9 +264,9 @@ public class Peasant extends Entity
 				Terrain.terrain[cx_prev][cy_prev] = 0;
 				Terrain.terrainSpr[cx_prev][cy_prev] = null;
 
-				this.inventory.addInv(Inventory.Item.WOOD);
+				this.inventory.addItem(Inventory.Item.WOOD);
 					System.out.println(this.inventory.showInv());
-				moveStamina = 0;
+				moveStamina = moveStamina-1;
 			}
 
 			//Tile actions.
