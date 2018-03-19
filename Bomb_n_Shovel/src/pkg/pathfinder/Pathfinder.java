@@ -82,7 +82,6 @@ public class Pathfinder
 			{
 				PathCell ptCheck = listFindLesser(openList);
 				closedList.add(ptCheck);
-				///////////////////////////////////////////////////
 				int px, py;
 				for (int i = 0; i < 4; i += 1)
 				{
@@ -118,7 +117,6 @@ public class Pathfinder
 					return pathBuf;
 				}
 
-				///////////////////////////////////////////////////
 			}
 
 		}
