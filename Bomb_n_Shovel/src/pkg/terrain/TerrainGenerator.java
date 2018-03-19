@@ -498,7 +498,21 @@ public class TerrainGenerator
 			{
 				if (terr[i][k] == 0 && ((trees[i][k] != 0 && Mathe.irandom(2) != 0) || Mathe.irandom(32) == 0))
 				{
-					terr[i][k] = 1;
+					if (Mathe.irandom(5) == 0)
+					{
+						terr[i][k] = 4;
+					}
+					else
+					{
+						if (Mathe.irandom(30) == 0)
+						{
+							terr[i][k] = 5;
+						}
+						else
+						{
+							terr[i][k] = 1;
+						}
+					}
 				}
 			}
 		}

@@ -27,7 +27,7 @@ public class Inventory {
         inv.remove(item);
     }
     public String showInv(){
-        String temp=("");
+        String temp="";
         for(int i=0;i<inv.size();i++)
         temp=temp+inv.get(i);
         return temp;

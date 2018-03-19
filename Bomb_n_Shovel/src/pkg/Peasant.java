@@ -220,7 +220,7 @@ public class Peasant extends Entity
 	 */
 	void interact()
 	{
-		System.out.println("sip?");
+		//System.out.println("sip?");
 		Entity intEntity = null;
 
 		//Looking for entity in a cell.

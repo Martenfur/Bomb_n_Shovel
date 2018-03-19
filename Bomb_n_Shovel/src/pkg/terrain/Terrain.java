@@ -11,8 +11,6 @@ import javafx.scene.shape.Rectangle;
 import pkg.*;
 import pkg.engine.*;
 
-import static pkg.engine.Draw.drawSprite;
-
 public class Terrain extends GameObject
 {
 
@@ -187,7 +185,7 @@ public class Terrain extends GameObject
 					Draw.setDepth((int) -(k + 0.5) * cellSize + TileProp.getDepth(terrain[i][k]));
 					Draw.drawSprite(terrainSpr[i][k], (i + 0.5) * cellSize, (k + 0.5) * cellSize);
 					
-					if (terrain[i][k] == 1)
+					if (terrain[i][k] != 2 && terrain[i][k] != 0)
 					{
 						Draw.setDepth(1000);
 						Draw.drawSprite(new Sprite(Spr.big_shadow), (i + 0.5) * cellSize, (k + 0.5) * cellSize);
