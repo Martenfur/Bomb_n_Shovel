@@ -3,7 +3,6 @@ package pkg.engine;
 import java.util.ArrayList;
 import java.util.List;
 
-import pkg.Entity;
 public class Inventory {
 
     public enum Item {
