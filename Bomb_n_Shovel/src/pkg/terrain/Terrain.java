@@ -279,14 +279,14 @@ public class Terrain extends GameObject
 		//draw blood
 		if(p_active.inventory.inv.contains(Inventory.Item.BLOOD))
 		{
-			Draw.drawSprite(new Sprite(Spr.blood), 0, Camera.scr_w - (64 + 8) + Spr.blood.getWidth()*2 + uiHide * (64 + 8), Camera.scr_h - 64*2 - 8);
+			Draw.drawSprite(new Sprite(Spr.blood), 0, Camera.scr_w - (64 + 8) + Spr.blood.getWidth()*2 + uiHide * (64 + 8), Camera.scr_h - 64*2 - 24);
 			Draw.drawSprite(new Sprite(Spr.blood), 1, Camera.scr_w - (64 + 8) + uiHide * (64 + 8), Camera.scr_h - 64*3 - 8);
 		}
 
 		//draw wood
 		if(p_active.inventory.inv.contains(Inventory.Item.WOOD))
 		{
-			Draw.drawSprite(new Sprite(Spr.wood), 0, Camera.scr_w - (64 + 8) - Spr.wood.getWidth()*2 + uiHide * (64 + 8), Camera.scr_h - 64*2 - 16);
+			Draw.drawSprite(new Sprite(Spr.wood), 0, Camera.scr_w - (64 + 8) - Spr.wood.getWidth()*2 + uiHide * (64 + 8), Camera.scr_h - 64*2 - 24);
 			Draw.drawSprite(new Sprite(Spr.wood), 1, Camera.scr_w - (64 + 8) + uiHide * (64 + 8), Camera.scr_h - 64*3 - 8);
 		}
 
