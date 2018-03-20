@@ -6,7 +6,7 @@ import java.util.List;
 public class Inventory {
 
     public enum Item {
-        WOOD("wood"), ROCK("rock"), BLOOD("blood");
+        WOOD("wood"), ROCK("rock"), BLOOD("blood"),GUNPOWDER("gunpowder_stone");
 
         Item(String name) {
         }

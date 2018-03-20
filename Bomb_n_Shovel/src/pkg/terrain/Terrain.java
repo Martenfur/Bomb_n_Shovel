@@ -198,6 +198,23 @@ public class Terrain extends GameObject
 
     }
 
+//	void drawItem(Inventory.Item item,int coordX,int coordY){
+//                switch (item){
+//                    case WOOD:{
+//                        Draw.drawSprite(new Sprite(Spr.inv_items), 0, coordX, coordY);
+//                        break;
+//                    }
+//                    case ROCK:{
+//                        Draw.drawSprite(new Sprite(Spr.inv_items), 1, coordX, coordY);
+//                        break;
+//                    }
+//                    case BLOOD:{
+//                        Draw.drawSprite(new Sprite(Spr.inv_items), 2, coordX, coordY);
+//                        break;
+//                    }
+//                }
+//	}
+
     @Override public void DRAW_GUI() {
         if (turnManager.isCurrentPlayerLocal() && !uiBlock) {
             uiHideTar = 0;
@@ -242,7 +259,7 @@ public class Terrain extends GameObject
             //END TURN BUTTON
 
             //INVENTORYBUTTON
-            if (this.turnManager.getCurrentPeasant().inventory.inv.size()!=0) {
+            if ( this.turnManager.getCurrentPeasant().inventory.inv.size()!=0) {
                 xx = Camera.scr_w - (64 + 8) * 2 - 3 + uiHide * (64 + 8);
                 yy = Camera.scr_h - 64 * 3 - 8;
                 if (Mathe.pointInRectangle(Input.mouse_xgui, Input.mouse_ygui, xx, yy, xx + 64,
@@ -294,34 +311,12 @@ public class Terrain extends GameObject
             Camera.scr_h - 64 * 3 - 8);
 
         Peasant p_active = turnManager.getCurrentPeasant();
+
+        //drawItem(Item item,coordX,coordY);
+        //void sizeGetItem(int size){
         //draw blood
-        if (p_active.inventory.inv.size()!=0) {
-            int size = p_active.inventory.inv.size();
-            //draw 1
-            if (size>=1) {
-                Draw.drawSprite(new Sprite(Spr.blood), 0,
-                    Camera.scr_w - (64*2-12),
-                    Camera.scr_h - 64 * 2 - 24);
-            }
-            //draw 2
-            if (size>=2) {
-                Draw.drawSprite(new Sprite(Spr.blood), 0,
-                    Camera.scr_w - (64-20),
-                    Camera.scr_h - 64 * 2 - 24);
-            }
-            //draw 3
-            if (size>=3) {
-                Draw.drawSprite(new Sprite(Spr.blood), 0,
-                    Camera.scr_w - (64*2-12),
-                    Camera.scr_h - 64 - 24);
-            }
-            //draw 4
-            if (size==4) {
-                Draw.drawSprite(new Sprite(Spr.blood), 0,
-                    Camera.scr_w - (64-20),
-                    Camera.scr_h - 64 - 24);
-            }
-        }
+        drawItems(p_active);
+
 
 
         if (timerEn) {
@@ -361,6 +356,59 @@ public class Terrain extends GameObject
         }
 
     }
+
+    private void drawItems(Peasant p_active) {
+        if (p_active.inventory.inv.size()!=0) {
+            int size = p_active.inventory.inv.size();
+            //draw 1
+            if (size>=1) {
+                double coordX= Camera.scr_w - (64 + 8) * 2 - 3 + uiHide * (64 + 8);
+                double coordY=Camera.scr_h - 64 * 3 - 8;
+                drawItemGui(p_active, 0, coordX, coordY);
+            }
+            //draw 2
+            if (size>=2) {
+                double coordX=Camera.scr_w - (64 + 8) * 1 - 3 + uiHide * (64 + 8);
+                double coordY=Camera.scr_h - 64 * 3 - 8;
+                drawItemGui(p_active, 1, coordX, coordY);
+            }
+            //draw 3
+            if (size>=3) {
+                double coordX=Camera.scr_w - (64 + 8) * 2 - 3 + uiHide * (64 + 8);
+                double coordY=Camera.scr_h - 64 * 2 - 8;
+                drawItemGui(p_active, 2, coordX, coordY);
+            }
+            //draw 4
+            if (size==4) {
+                double coordX=Camera.scr_w - (64 + 8) * 1 - 3 + uiHide * (64 + 8);
+                double coordY=Camera.scr_h - 64 * 2 - 8;
+                drawItemGui(p_active, 3, coordX, coordY);
+            }
+	    }
+    }
+
+    private void drawItemGui(Peasant p_active, int index, double coordX, double coordY) {
+        switch (p_active.inventory.inv.get(index)){
+            case WOOD:{
+                Draw.drawSprite(new Sprite(Spr.inv_items), 0, coordX, coordY);
+                break;
+            }
+            case ROCK:{
+                Draw.drawSprite(new Sprite(Spr.inv_items), 1, coordX, coordY);
+                break;
+            }
+            case GUNPOWDER:{
+                Draw.drawSprite(new Sprite(Spr.inv_items), 2, coordX, coordY);
+                break;
+            }
+            case BLOOD:{
+                Draw.drawSprite(new Sprite(Spr.inv_items), 3, coordX, coordY);
+                break;
+            }
+        }
+    }
+
+
 
     @Override public void DESTROY() {
         Obj.objDestroy(turnManager);

@@ -269,6 +269,26 @@ public class Peasant extends Entity
 				moveStamina = moveStamina-1;
 			}
 
+			if (tile == 4)
+			{
+				Terrain.terrain[cx_prev][cy_prev] = 0;
+				Terrain.terrainSpr[cx_prev][cy_prev] = null;
+
+				this.inventory.addItem(Inventory.Item.ROCK);
+				System.out.println(this.inventory.showInv());
+				moveStamina = moveStamina-1;
+			}
+
+			if (tile == 5)
+			{
+				Terrain.terrain[cx_prev][cy_prev] = 0;
+				Terrain.terrainSpr[cx_prev][cy_prev] = null;
+
+				this.inventory.addItem(Inventory.Item.GUNPOWDER);
+				System.out.println(this.inventory.showInv());
+				moveStamina = moveStamina-1;
+			}
+
 			//Tile actions.
 		}
 
