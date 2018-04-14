@@ -18,7 +18,6 @@ public class Peasant extends Entity
 	public Inventory inventory= null;
 	public boolean initiative = false;
 	public int tid = -1;
-
 	public PathPoint pathList;
 
 	//Movement.
@@ -266,6 +265,13 @@ public class Peasant extends Entity
 
 				this.inventory.addItem(Inventory.Item.WOOD);
 					System.out.println(this.inventory.showInv());
+
+					//System.out.println(this.inventory.WOOD_AXE);
+				//System.out.println(this.inventory.STONE_AXE);
+				//System.out.println(this.inventory.WOOD_SWORD);
+				//System.out.println(this.inventory.STONE_SWORD);
+				//System.out.println(this.inventory.WOOD_PICKAXE);
+				//System.out.println(this.inventory.STONE_PICKAXE);
 				moveStamina = moveStamina-1;
 			}
 

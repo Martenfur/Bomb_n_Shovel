@@ -46,6 +46,9 @@ public class Terrain extends GameObject
     int timerTime, timerAl;
     //TIMER STUFF
 
+    //recipy_GUI_stuff
+    private boolean RECIPY_GUI = false;
+    //recipy_GUI_stuff
 
     public Terrain(long seed_arg, TurnManager turnManager_arg, boolean timerEn_arg) {
         super();
@@ -259,14 +262,15 @@ public class Terrain extends GameObject
             //END TURN BUTTON
 
             //INVENTORYBUTTON
-            if ( this.turnManager.getCurrentPeasant().inventory.inv.size()!=0) {
+            if (this.turnManager.getCurrentPeasant().inventory.inv.size() != 0) {
                 xx = Camera.scr_w - (64 + 8) * 2 - 3 + uiHide * (64 + 8);
                 yy = Camera.scr_h - 64 * 3 - 8;
                 if (Mathe.pointInRectangle(Input.mouse_xgui, Input.mouse_ygui, xx, yy, xx + 64,
                     yy + 64)) {
                     System.out.println("inv 1 window");
-                    try {this.turnManager.getCurrentPeasant().inventory.inv.remove(0);}
-                    catch (java.lang.IndexOutOfBoundsException e){
+                    try {
+                        this.turnManager.getCurrentPeasant().inventory.inv.remove(0);
+                    } catch (java.lang.IndexOutOfBoundsException e) {
                         System.out.println("no item in this slot");
                     }
                     Input.mouseClear();
@@ -275,8 +279,9 @@ public class Terrain extends GameObject
                     .pointInRectangle(Input.mouse_xgui, Input.mouse_ygui, xx + 64, yy, xx + 64 * 2,
                         yy + 64)) {
                     System.out.println("inv 2 window");
-                    try {this.turnManager.getCurrentPeasant().inventory.removeItem(1);}
-                    catch (java.lang.IndexOutOfBoundsException e){
+                    try {
+                        this.turnManager.getCurrentPeasant().inventory.removeItem(1);
+                    } catch (java.lang.IndexOutOfBoundsException e) {
                         System.out.println("no item in this slot");
                     }
 
@@ -285,8 +290,9 @@ public class Terrain extends GameObject
                 if (Mathe.pointInRectangle(Input.mouse_xgui, Input.mouse_ygui, xx, yy + 64, xx + 64,
                     yy + 64 * 2)) {
                     System.out.println("inv 3 window");
-                    try {this.turnManager.getCurrentPeasant().inventory.removeItem(2);}
-                    catch (java.lang.IndexOutOfBoundsException e){
+                    try {
+                        this.turnManager.getCurrentPeasant().inventory.removeItem(2);
+                    } catch (java.lang.IndexOutOfBoundsException e) {
                         System.out.println("no item in this slot");
                     }
                     Input.mouseClear();
@@ -294,66 +300,173 @@ public class Terrain extends GameObject
                 if (Mathe.pointInRectangle(Input.mouse_xgui, Input.mouse_ygui, xx + 64, yy + 64,
                     xx + 64 * 2, yy + 64 * 2)) {
                     System.out.println("inv 4 window");
-                    try {this.turnManager.getCurrentPeasant().inventory.removeItem(3);}
-                    catch (java.lang.IndexOutOfBoundsException e){
+                    try {
+                        this.turnManager.getCurrentPeasant().inventory.removeItem(3);
+                    } catch (java.lang.IndexOutOfBoundsException e) {
                         System.out.println("no item in this slot");
                     }
                     Input.mouseClear();
                 }
             }
             //ENDINVENTORYBUTTON
+
+            //RECIPY_GUI_CLiCK
+            xx = Camera.scr_w - 68 * 4 + 44;
+            yy = Camera.scr_h - 64 - 8;
+            if (Mathe
+                .pointInRectangle(Input.mouse_xgui, Input.mouse_ygui, xx, yy, xx + 64, yy + 64)) {
+                System.out.println("recipy gui");
+                if (RECIPY_GUI == false)
+                    RECIPY_GUI = true;
+                else
+                    RECIPY_GUI = false;
+                Input.mouseClear();
+            }
+
+            //RECIPY_WINDOW
+            if (RECIPY_GUI == true) {
+                Peasant p_active_rec = turnManager.getCurrentPeasant();
+                xx = Camera.scr_w - (64 + 8) * 2 - 3 + uiHide * (64 + 8);
+                yy = Camera.scr_h - 64 * 7 - 8;
+                if (Mathe.pointInRectangle(Input.mouse_xgui, Input.mouse_ygui, xx, yy, xx + 64, yy + 64)) {
+                    System.out.println("rec 1 window");
+                    if (p_active_rec.inventory
+                        .isContain(p_active_rec.inventory.WOOD_AXE, p_active_rec.inventory.inv)) {
+                        System.out.println("has res for WOOD_AXE");
+                        p_active_rec.inventory.RemoveisContain(p_active_rec.inventory.WOOD_AXE,
+                            p_active_rec.inventory.inv);
+                    } else
+                        System.out.println(false);
+                    Input.mouseClear();
+                }
+                if (Mathe
+                    .pointInRectangle(Input.mouse_xgui, Input.mouse_ygui, xx + 64, yy, xx + 64 * 2,
+                        yy + 64)) {
+                    System.out.println("rec 2 window");
+                    if (p_active_rec.inventory
+                        .isContain(p_active_rec.inventory.STONE_AXE, p_active_rec.inventory.inv)) {
+                        p_active_rec.inventory.RemoveisContain(p_active_rec.inventory.STONE_AXE,
+                            p_active_rec.inventory.inv);
+                        System.out.println("has res for STONE_AXE");
+                    } else
+                        System.out.println(false);
+                    Input.mouseClear();
+                }
+                if (Mathe.pointInRectangle(Input.mouse_xgui, Input.mouse_ygui, xx, yy + 64, xx + 64,
+                    yy + 64 * 2)) {
+                    System.out.println("rec 3 window");
+                    if (p_active_rec.inventory
+                        .isContain(p_active_rec.inventory.WOOD_SWORD, p_active_rec.inventory.inv)) {
+                        p_active_rec.inventory.RemoveisContain(p_active_rec.inventory.WOOD_SWORD,
+                            p_active_rec.inventory.inv);
+                        System.out.println("has res for WOOD_SWORD");
+                    } else
+                        System.out.println(false);
+                    Input.mouseClear();
+                }
+                if (Mathe.pointInRectangle(Input.mouse_xgui, Input.mouse_ygui, xx + 64, yy + 64,
+                    xx + 64 * 2, yy + 64 * 2)) {
+                    System.out.println("rec 4 window");
+                    if (p_active_rec.inventory.isContain(p_active_rec.inventory.STONE_SWORD,
+                        p_active_rec.inventory.inv)) {
+                        p_active_rec.inventory.RemoveisContain(p_active_rec.inventory.STONE_SWORD,
+                            p_active_rec.inventory.inv);
+                        System.out.println("has res for STONE_SWORD");
+                    } else
+                        System.out.println(false);
+                    Input.mouseClear();
+                }
+                if (Mathe.pointInRectangle(Input.mouse_xgui, Input.mouse_ygui, xx, yy + 64 * 2, xx + 64,
+                    yy + 64 * 3)) {
+                    System.out.println("rec 5 window");
+                    if (p_active_rec.inventory.isContain(p_active_rec.inventory.WOOD_PICKAXE,
+                        p_active_rec.inventory.inv)) {
+                        p_active_rec.inventory.RemoveisContain(p_active_rec.inventory.WOOD_PICKAXE,
+                            p_active_rec.inventory.inv);
+                        System.out.println("has res for WOOD_PICKAXE");
+                    } else
+                        System.out.println(false);
+                    Input.mouseClear();
+                }
+                if (Mathe.pointInRectangle(Input.mouse_xgui, Input.mouse_ygui, xx + 64, yy + 64 * 2,
+                    xx + 64 * 3, yy + 64 * 3)) {
+                    System.out.println("rec 6 window");
+                    if (p_active_rec.inventory.isContain(p_active_rec.inventory.STONE_PICKAXE,
+                        p_active_rec.inventory.inv)) {
+                        p_active_rec.inventory.RemoveisContain(p_active_rec.inventory.STONE_PICKAXE,
+                            p_active_rec.inventory.inv);
+                        System.out.println("has res for STONE_PICKAXE");
+                    } else
+                        System.out.println(false);
+                    Input.mouseClear();
+                }
+            }
         }
 
-        Draw.setDepth(10);
-        Draw.drawSprite(new Sprite(Spr.gui_buttons), 0,
-            Camera.scr_w - (64 + 8) * 2 - 3 + uiHide * (64 + 8), Camera.scr_h - 64 * 3 - 8);
-        Draw.drawSprite(new Sprite(Spr.gui_buttons), 1, Camera.scr_w - (64 + 8) + uiHide * (64 + 8),
-            Camera.scr_h - 64 * 3 - 8);
+            Draw.setDepth(10);
+            Draw.drawSprite(new Sprite(Spr.gui_buttons), 0,
+                Camera.scr_w - (64 + 8) * 2 - 3 + uiHide * (64 + 8), Camera.scr_h - 64 * 3 - 8);
+            Draw.drawSprite(new Sprite(Spr.gui_buttons), 1, Camera.scr_w - (64 + 8) + uiHide * (64 + 8),
+                Camera.scr_h - 64 * 3 - 8);
 
-        Peasant p_active = turnManager.getCurrentPeasant();
-
-        //drawItem(Item item,coordX,coordY);
-        //void sizeGetItem(int size){
-        //draw blood
-        drawItems(p_active);
-
-
-
-        if (timerEn) {
-            if (timerAl > 0 && turnManager.isCurrentPlayerLocal()) {
-                timerAl -= 1;
+            if (RECIPY_GUI) {
+                Draw.drawSprite(new Sprite(Spr.recipy_buttons), 1,
+                    Camera.scr_w - (64 + 8) * 2 - 3 + uiHide * (64 + 8), Camera.scr_h - 64 * 7 - 8);
+                Draw.drawSprite(new Sprite(Spr.recipy_buttons), 1,
+                    Camera.scr_w - (64 + 8) + uiHide * (64 + 8), Camera.scr_h - 64 * 7 - 8);
+                drawRecipy();
             }
-            if (timerAl == 0) {
-                //Perform timer action.
-                Peasant p = turnManager.getCurrentPeasant();
 
-                if (p != null) {
-                    if (!p.moving) {
-                        endturn = true;
-                        timerAl = timerTime;
+            //recipy_button
+            Draw.drawSprite(new Sprite(Spr.recipy_gui), 0,
+                Camera.scr_w - (64 * 3 + 8) + uiHide * (64 + 8), Camera.scr_h - 5);
+
+            Peasant p_active = turnManager.getCurrentPeasant();
+
+            //drawItem(Item item,coordX,coordY);
+            //void sizeGetItem(int size){
+            //draw blood
+            drawItems(p_active);
+
+
+
+
+
+            if (timerEn) {
+                if (timerAl > 0 && turnManager.isCurrentPlayerLocal()) {
+                    timerAl -= 1;
+                }
+                if (timerAl == 0) {
+                    //Perform timer action.
+                    Peasant p = turnManager.getCurrentPeasant();
+
+                    if (p != null) {
+                        if (!p.moving) {
+                            endturn = true;
+                            timerAl = timerTime;
+                        }
                     }
+
                 }
 
+                double timer_x = 8 - uiHide * (64 + 16), timer_y = Camera.scr_h - 64 - 8;
+                Draw.setColor(Color.rgb(222, 238, 214));
+                Draw.drawCircle(new Circle(), timer_x + 32, timer_y + 32, 26, false);
+
+                Arc arc = new Arc();
+                arc.setFill(Color.rgb(208, 70, 72));
+                arc.setCenterX(timer_x + 32);
+                arc.setCenterY(timer_y + 32);
+                arc.setRadiusX(26);
+                arc.setRadiusY(26);
+                arc.setStartAngle(90);
+                arc.setLength(timerAl / (double) timerTime * 360.0);
+                arc.setType(ArcType.ROUND);
+
+                Draw.draw(arc);
+
+                Draw.drawSprite(new Sprite(Spr.timer), 0, timer_x, timer_y);
             }
-
-            double timer_x = 8 - uiHide * (64 + 16), timer_y = Camera.scr_h - 64 - 8;
-            Draw.setColor(Color.rgb(222, 238, 214));
-            Draw.drawCircle(new Circle(), timer_x + 32, timer_y + 32, 26, false);
-
-            Arc arc = new Arc();
-            arc.setFill(Color.rgb(208, 70, 72));
-            arc.setCenterX(timer_x + 32);
-            arc.setCenterY(timer_y + 32);
-            arc.setRadiusX(26);
-            arc.setRadiusY(26);
-            arc.setStartAngle(90);
-            arc.setLength(timerAl / (double) timerTime * 360.0);
-            arc.setType(ArcType.ROUND);
-
-            Draw.draw(arc);
-
-            Draw.drawSprite(new Sprite(Spr.timer), 0, timer_x, timer_y);
-        }
 
     }
 
@@ -408,6 +521,43 @@ public class Terrain extends GameObject
         }
     }
 
+    private void drawRecipy() {
+
+        for (int i = 0; i < 3; i++) {
+            for (int j=0;j<2;j++) {
+                double coordX = Camera.scr_w - (64 + 8) * (2-j) - 3 + uiHide * (64 + 8);
+                double coordY = Camera.scr_h - 64 * (7 - i) - 8;
+                Draw.drawSprite(new Sprite(Spr.inv_items), (i%3+i+j) + 4, coordX, coordY);
+            }
+        }
+    }
+//        if (p_active.inventory.inv.size()!=0) {
+//            int size = p_active.inventory.inv.size();
+//            //draw 1
+//            if (size>=1) {
+//                double coordX= Camera.scr_w - (64 + 8) * 2 - 3 + uiHide * (64 + 8);
+//                double coordY=Camera.scr_h - 64 * 3 - 8;
+//                drawItemGui(p_active, 0, coordX, coordY);
+//            }
+//            //draw 2
+//            if (size>=2) {
+//                double coordX=Camera.scr_w - (64 + 8) * 1 - 3 + uiHide * (64 + 8);
+//                double coordY=Camera.scr_h - 64 * 3 - 8;
+//                drawItemGui(p_active, 1, coordX, coordY);
+//            }
+//            //draw 3
+//            if (size>=3) {
+//                double coordX=Camera.scr_w - (64 + 8) * 2 - 3 + uiHide * (64 + 8);
+//                double coordY=Camera.scr_h - 64 * 2 - 8;
+//                drawItemGui(p_active, 2, coordX, coordY);
+//            }
+//            //draw 4
+//            if (size==4) {
+//                double coordX=Camera.scr_w - (64 + 8) * 1 - 3 + uiHide * (64 + 8);
+//                double coordY=Camera.scr_h - 64 * 2 - 8;
+//                drawItemGui(p_active, 3, coordX, coordY);
+//            }
+//        }
 
 
     @Override public void DESTROY() {
