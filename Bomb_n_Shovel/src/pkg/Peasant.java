@@ -24,7 +24,7 @@ public class Peasant extends Entity
 	int target_x, target_y;
 	public boolean moving = false;
 	double x_prev, y_prev;
-	double z;
+	double z, z_prev;
 
 	double xscale = 1;
 
@@ -182,9 +182,9 @@ public class Peasant extends Entity
 		{
 			Draw.setDepth((int) (-y + invDepth[i]));
 		
-			drawSprite(new Sprite(Spr.peasant_items), inventory.inv.get(i).imgId, x + invPosX[i], y + invPosY[i], invScale[i], 1, 0);
+			drawSprite(new Sprite(Spr.peasant_items), inventory.inv.get(i).imgId, x + invPosX[i], y + invPosY[i] + z_prev, invScale[i], 1, 0);
 		}
-
+		z_prev = z;
 		
 		if (initiative && pathList != null && myPlayer instanceof LocalPlayer)
 		{
@@ -275,7 +275,8 @@ public class Peasant extends Entity
 				Terrain.terrainSpr[cx_prev][cy_prev] = null;
 
 				inventory.addItem(Inventory.Item.wood);
-
+				new TreeFallingEffect(cx_prev * Terrain.cellSize, cy_prev * Terrain.cellSize);
+				
 				moveStamina = moveStamina - 1;
 			}
 
