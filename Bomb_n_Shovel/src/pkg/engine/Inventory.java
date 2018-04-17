@@ -6,47 +6,48 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static pkg.engine.Inventory.Item.ROCK;
-import static pkg.engine.Inventory.Item.WOOD;
+import static pkg.engine.Inventory.Item.wood;
+import static pkg.engine.Inventory.Item.stone;
 
 public class Inventory
 {
 
 	public enum Item
 	{
-		WOOD("wood", 0), 
-		ROCK("rock", 1), 
-		GUNPOWDER("gunpowder_stone", 2);
-
-		public String name;
+		wood(0),
+		stone(1),
+		gunpowder(2),
+		bomb(3),
+		woodenAxe(4),
+		stoneAxe(5),
+		woodenSword(6),
+		stoneSword(7),
+		woodenPickaxe(8),
+		stonePickaxe(9);
+		
 		public int imgId;
 		
-		Item(String name_arg, int imgId_arg)
+		Item(int imgId_arg)
 		{
-			name = name_arg;
 			imgId = imgId_arg;
 		}
 	}
 
-	public List<Item> WOOD_AXE = new ArrayList<Item>();//WOOD, WOOD,ROCK;
-	public List<Item> STONE_AXE = new ArrayList<Item>();//WOOD, WOOD, ROCK, ROCK;
-	public List<Item> WOOD_SWORD = new ArrayList<Item>();//WOOD, WOOD, WOOD);
-	public List<Item> STONE_SWORD = new ArrayList<Item>();//(WOOD,ROCK,ROCK);
-	public List<Item> WOOD_PICKAXE = new ArrayList<Item>();//(WOOD,ROCK,ROCK);
-	public List<Item> STONE_PICKAXE = new ArrayList<Item>();//(WOOD,ROCK,ROCK);
-
+	public static Item[][] recipes = new Item[][]
+	{
+		new Item[]{Item.woodenAxe, Item.wood, Item.wood, Item.wood},
+		new Item[]{Item.stoneAxe, Item.stone, Item.wood, Item.wood},
+		new Item[]{Item.woodenSword, Item.wood, Item.wood, Item.wood},
+		new Item[]{Item.stoneSword, Item.stone, Item.wood, Item.wood},
+		new Item[]{Item.woodenPickaxe, Item.wood, Item.wood, Item.wood},
+		new Item[]{Item.stonePickaxe, Item.stone, Item.wood, Item.wood},
+	};
+	
 	public List<Item> inv;
 
 	public Inventory()
 	{
 		inv = new ArrayList<>();
-		Collections.addAll(WOOD_AXE, WOOD, WOOD, ROCK);
-		Collections.addAll(STONE_AXE, WOOD, WOOD, ROCK, ROCK);
-		Collections.addAll(WOOD_SWORD, WOOD, WOOD, WOOD);
-		Collections.addAll(STONE_SWORD, WOOD, ROCK, ROCK);
-		Collections.addAll(WOOD_PICKAXE, WOOD, ROCK, ROCK);
-		Collections.addAll(STONE_PICKAXE, WOOD, ROCK, ROCK, ROCK);
-
 	}
 
 	public void addItem(Item item)
@@ -57,7 +58,7 @@ public class Inventory
 		}
 	}
 
-	public void delItem(Item item)
+	public void removeItem(Item item)
 	{
 		inv.remove(item);
 	}
@@ -67,83 +68,62 @@ public class Inventory
 		inv.remove(index);
 	}
 
-	public boolean isContain(List<Item> m1, List<Item> m2)
+	public boolean contains(Item item)
 	{
-		List<Item> temp = new ArrayList<Item>(m2);
-		int count = 0;
-		for (int i = 0; i < m1.size(); i++)
-		{
-			for (int j = 0; j < temp.size(); j++)
-			{
-				if (m1.get(i) == temp.get(j))
-				{
-					count++;
-					temp.remove(j);
-					break;
-				}
-			}
-		}
-	
-		return count == m1.size();
+		return inv.contains(item);
 	}
 
-	public boolean RemoveisContain(List<Item> m1, List<Item> m2)
+	public boolean checkRecipe(Item[] recipe)
 	{
-		List<Item> temp = new ArrayList<Item>(m2);
-		int count = 0;
-		for (int i = 0; i < m1.size(); i++)
+		List<Item> temp = new ArrayList<Item>(inv);
+		
+		for (int i = 1; i < recipe.length; i += 1)
 		{
-			for (int j = 0; j < temp.size();)
+			boolean match = false;
+			for (int j = 0; j < temp.size(); j += 1)
 			{
-				if (m1.get(i) == m2.get(j))
+				if (recipe[i] == temp.get(j))
 				{
-					m2.remove(j);
-					count++;
+					temp.remove(j);
+					match = true;
 					break;
 				}
-				else
-				{
-					j++;
-				}
+			}
+			if (!match)
+			{
+				return false;
 			}
 		}
-		return count == m1.size();
+		return true;
+	}
+	
+	
+	public void craft(Item[] recipe)
+	{
+		for (int i = 1; i < recipe.length; i += 1)
+		{
+			for (int j = 0; j < inv.size(); j += 1)
+			{
+				if (recipe[i] == inv.get(j))
+				{
+					inv.remove(j);
+					break;
+				}
+			}	
+		}
+		addItem(recipe[0]);
 	}
 
 	public int getInvPlaceNumber(Item item)
 	{
-		int result = 0;
-		switch (inv.size())
-		{
-			case 1:
-			{
-				result = 1;
-				break;
-			}
-			case 2:
-			{
-				result = 2;
-				break;
-			}
-			case 3:
-			{
-				result = 3;
-				break;
-			}
-			case 4:
-			{
-				result = 4;
-				break;
-			}
-		}
-		return result;
+		return inv.size();
 	}
 
 	public String showInv()
 	{
 		String temp = ("");
 		for (int i = 0; i < inv.size(); i++)
-			temp = temp + inv.get(i);
+			temp += inv.get(i) + " ";
 		return temp;
 	}
 }

@@ -261,7 +261,7 @@ public class Peasant extends Entity
 				Terrain.terrain[cx_prev][cy_prev] = 0;
 				Terrain.terrainSpr[cx_prev][cy_prev] = null;
 
-				this.inventory.addItem(Inventory.Item.WOOD);
+				this.inventory.addItem(Inventory.Item.wood);
 				System.out.println(this.inventory.showInv());
 
 				//System.out.println(this.inventory.WOOD_AXE);
@@ -278,7 +278,7 @@ public class Peasant extends Entity
 				Terrain.terrain[cx_prev][cy_prev] = 0;
 				Terrain.terrainSpr[cx_prev][cy_prev] = null;
 
-				this.inventory.addItem(Inventory.Item.ROCK);
+				this.inventory.addItem(Inventory.Item.stone);
 				System.out.println(this.inventory.showInv());
 				moveStamina = moveStamina - 1;
 			}
@@ -288,7 +288,7 @@ public class Peasant extends Entity
 				Terrain.terrain[cx_prev][cy_prev] = 0;
 				Terrain.terrainSpr[cx_prev][cy_prev] = null;
 
-				this.inventory.addItem(Inventory.Item.GUNPOWDER);
+				this.inventory.addItem(Inventory.Item.gunpowder);
 				System.out.println(this.inventory.showInv());
 				moveStamina = moveStamina - 1;
 			}

@@ -222,11 +222,11 @@ public class Terrain extends GameObject
 
 //	void drawItem(Inventory.Item item,int coordX,int coordY){
 //                switch (item){
-//                    case WOOD:{
+//                    case wood:{
 //                        Draw.drawSprite(new Sprite(Spr.inv_items), 0, coordX, coordY);
 //                        break;
 //                    }
-//                    case ROCK:{
+//                    case stone:{
 //                        Draw.drawSprite(new Sprite(Spr.inv_items), 1, coordX, coordY);
 //                        break;
 //                    }
@@ -239,6 +239,8 @@ public class Terrain extends GameObject
 	@Override
 	public void DRAW_GUI()
 	{
+		Peasant currentPeasant = turnManager.getCurrentPeasant();
+		
 		if (turnManager.isCurrentPlayerLocal() && !uiBlock)
 		{
 			uiHideTar = 0;
@@ -293,220 +295,48 @@ public class Terrain extends GameObject
 				}
 			}
 			//END TURN BUTTON
-
-			//INVENTORY BUTTON
-			if (this.turnManager.getCurrentPeasant().inventory.inv.size() != 0)
+			
+			//CRAFT BUTTONS
+			
+			int _y = 0;
+			for(int i = 0; i < Inventory.recipes.length; i += 1)
 			{
-				xx = Camera.scr_w - (64 + 8) * 2 - 3 + uiHide * (64 + 8);
-				yy = Camera.scr_h - 64 * 3 - 8;
-				if (Mathe.pointInRectangle(Input.mouse_xgui, Input.mouse_ygui, xx, yy, xx + 64,
-					yy + 64))
+				if (currentPeasant.inventory.checkRecipe(Inventory.recipes[i]) 
+					&& !currentPeasant.inventory.contains(Inventory.recipes[i][0]))
 				{
-					System.out.println("inv 1 window");
-					try
+					int xo = 8;
+					int yo = 8 + (64 + 8) * _y;
+					if (Mathe.pointInRectangle(Input.mouse_xgui, Input.mouse_ygui, xo, yo, xo + 64, yo + 64))
 					{
-						this.turnManager.getCurrentPeasant().inventory.inv.remove(0);
+						currentPeasant.inventory.craft(Inventory.recipes[i]);
+						Input.mouseClear();
+						break;
 					}
-					catch (java.lang.IndexOutOfBoundsException e)
-					{
-						System.out.println("no item in this slot");
-					}
-					Input.mouseClear();
-				}
-				if (Mathe
-					.pointInRectangle(Input.mouse_xgui, Input.mouse_ygui, xx + 64, yy, xx + 64 * 2,
-						yy + 64))
-				{
-					System.out.println("inv 2 window");
-					try
-					{
-						this.turnManager.getCurrentPeasant().inventory.removeItem(1);
-					}
-					catch (java.lang.IndexOutOfBoundsException e)
-					{
-						System.out.println("no item in this slot");
-					}
-
-					Input.mouseClear();
-				}
-				if (Mathe.pointInRectangle(Input.mouse_xgui, Input.mouse_ygui, xx, yy + 64, xx + 64,
-					yy + 64 * 2))
-				{
-					System.out.println("inv 3 window");
-					try
-					{
-						this.turnManager.getCurrentPeasant().inventory.removeItem(2);
-					}
-					catch (java.lang.IndexOutOfBoundsException e)
-					{
-						System.out.println("no item in this slot");
-					}
-					Input.mouseClear();
-				}
-				if (Mathe.pointInRectangle(Input.mouse_xgui, Input.mouse_ygui, xx + 64, yy + 64,
-					xx + 64 * 2, yy + 64 * 2))
-				{
-					System.out.println("inv 4 window");
-					try
-					{
-						this.turnManager.getCurrentPeasant().inventory.removeItem(3);
-					}
-					catch (java.lang.IndexOutOfBoundsException e)
-					{
-						System.out.println("no item in this slot");
-					}
-					Input.mouseClear();
+					_y += 1;
 				}
 			}
-			//END INVENTORY BUTTON
-
-			//RECIPУ_GUI_CLiCK
-			xx = Camera.scr_w - 68 * 4 + 44;
-			yy = Camera.scr_h - 64 - 8;
-			if (Mathe
-				.pointInRectangle(Input.mouse_xgui, Input.mouse_ygui, xx, yy, xx + 64, yy + 64))
-			{
-				RECIPE_GUI = !RECIPE_GUI;
-				Input.mouseClear();
-			}
-
-			//RECIPE_WINDOW
-			if (RECIPE_GUI)
-			{
-				Peasant p_active_rec = turnManager.getCurrentPeasant();
-				xx = Camera.scr_w - (64 + 8) * 2 - 3 + uiHide * (64 + 8);
-				yy = Camera.scr_h - 64 * 7 - 8;
-				if (Mathe.pointInRectangle(Input.mouse_xgui, Input.mouse_ygui, xx, yy, xx + 64, yy + 64))
-				{
-					System.out.println("rec 1 window");
-					if (p_active_rec.inventory
-						.isContain(p_active_rec.inventory.WOOD_AXE, p_active_rec.inventory.inv))
-					{
-						System.out.println("has res for WOOD_AXE");
-						p_active_rec.inventory.RemoveisContain(p_active_rec.inventory.WOOD_AXE,
-							p_active_rec.inventory.inv);
-					}
-					else
-					{
-						System.out.println(false);
-					}
-					Input.mouseClear();
-				}
-				if (Mathe
-					.pointInRectangle(Input.mouse_xgui, Input.mouse_ygui, xx + 64, yy, xx + 64 * 2,
-						yy + 64))
-				{
-					System.out.println("rec 2 window");
-					if (p_active_rec.inventory
-						.isContain(p_active_rec.inventory.STONE_AXE, p_active_rec.inventory.inv))
-					{
-						p_active_rec.inventory.RemoveisContain(p_active_rec.inventory.STONE_AXE,
-							p_active_rec.inventory.inv);
-						System.out.println("has res for STONE_AXE");
-					}
-					else
-					{
-						System.out.println(false);
-					}
-					Input.mouseClear();
-				}
-				if (Mathe.pointInRectangle(Input.mouse_xgui, Input.mouse_ygui, xx, yy + 64, xx + 64,
-					yy + 64 * 2))
-				{
-					System.out.println("rec 3 window");
-					if (p_active_rec.inventory
-						.isContain(p_active_rec.inventory.WOOD_SWORD, p_active_rec.inventory.inv))
-					{
-						p_active_rec.inventory.RemoveisContain(p_active_rec.inventory.WOOD_SWORD,
-							p_active_rec.inventory.inv);
-						System.out.println("has res for WOOD_SWORD");
-					}
-					else
-					{
-						System.out.println(false);
-					}
-					Input.mouseClear();
-				}
-				if (Mathe.pointInRectangle(Input.mouse_xgui, Input.mouse_ygui, xx + 64, yy + 64,
-					xx + 64 * 2, yy + 64 * 2))
-				{
-					System.out.println("rec 4 window");
-					if (p_active_rec.inventory.isContain(p_active_rec.inventory.STONE_SWORD,
-						p_active_rec.inventory.inv))
-					{
-						p_active_rec.inventory.RemoveisContain(p_active_rec.inventory.STONE_SWORD,
-							p_active_rec.inventory.inv);
-						System.out.println("has res for STONE_SWORD");
-					}
-					else
-					{
-						System.out.println(false);
-					}
-					Input.mouseClear();
-				}
-				if (Mathe.pointInRectangle(Input.mouse_xgui, Input.mouse_ygui, xx, yy + 64 * 2, xx + 64,
-					yy + 64 * 3))
-				{
-					System.out.println("rec 5 window");
-					if (p_active_rec.inventory.isContain(p_active_rec.inventory.WOOD_PICKAXE,
-						p_active_rec.inventory.inv))
-					{
-						p_active_rec.inventory.RemoveisContain(p_active_rec.inventory.WOOD_PICKAXE,
-							p_active_rec.inventory.inv);
-						System.out.println("has res for WOOD_PICKAXE");
-					}
-					else
-					{
-						System.out.println(false);
-					}
-					Input.mouseClear();
-				}
-				if (Mathe.pointInRectangle(Input.mouse_xgui, Input.mouse_ygui, xx + 64, yy + 64 * 2,
-					xx + 64 * 3, yy + 64 * 3))
-				{
-					System.out.println("rec 6 window");
-					if (p_active_rec.inventory.isContain(p_active_rec.inventory.STONE_PICKAXE,
-						p_active_rec.inventory.inv))
-					{
-						p_active_rec.inventory.RemoveisContain(p_active_rec.inventory.STONE_PICKAXE,
-							p_active_rec.inventory.inv);
-						System.out.println("has res for STONE_PICKAXE");
-					}
-					else
-					{
-						System.out.println(false);
-					}
-					Input.mouseClear();
-				}
-			}
+			
+			//CRAFT BUTTONS
 		}
-
+		
 		Draw.setDepth(10);
-		//Draw.drawSprite(new Sprite(Spr.gui_buttons), 0,
-		//	Camera.scr_w - (64 + 8) * 2 - 3 + uiHide * (64 + 8), Camera.scr_h - 64 * 3 - 8);
-		//Draw.drawSprite(new Sprite(Spr.gui_buttons), 1, Camera.scr_w - (64 + 8) + uiHide * (64 + 8),
-		//	Camera.scr_h - 64 * 3 - 8);
 
-		if (RECIPE_GUI)
+		drawItems(currentPeasant);
+		
+		int _y = 0;
+		for(int i = 0; i < Inventory.recipes.length; i += 1)
 		{
-			Draw.drawSprite(new Sprite(Spr.recipe_buttons), 1,
-				Camera.scr_w - (64 + 8) * 2 - 3 + uiHide * (64 + 8), Camera.scr_h - 64 * 7 - 8);
-			Draw.drawSprite(new Sprite(Spr.recipe_buttons), 1,
-				Camera.scr_w - (64 + 8) + uiHide * (64 + 8), Camera.scr_h - 64 * 7 - 8);
-			drawRecipy();
+			if (currentPeasant.inventory.checkRecipe(Inventory.recipes[i])
+				&& !currentPeasant.inventory.contains(Inventory.recipes[i][0]))
+			{
+				Draw.drawSprite(new Sprite(Spr.gui_buttons), 0, 8, 8 + (64 + 8) * _y);
+				Draw.drawSprite(new Sprite(Spr.inv_items), Inventory.recipes[i][0].imgId, 8, 8 + (64 + 8) * _y);
+				_y += 1;
+			}
 		}
-
-		//recipy_button
-		Draw.drawSprite(new Sprite(Spr.recipe_gui), 0,
-			Camera.scr_w - (64 * 3 + 8) + uiHide * (64 + 8), Camera.scr_h - 5);
-
-		Peasant p_active = turnManager.getCurrentPeasant();
-
-		//drawItem(Item item,coordX,coordY);
-		//void sizeGetItem(int size){
-		//draw blood
-		drawItems(p_active);
-
+		
+		
+		
 		if (timerEn)
 		{
 			if (timerAl > 0 && turnManager.isCurrentPlayerLocal())
@@ -582,7 +412,7 @@ public class Terrain extends GameObject
 		}
 	}
 
-	private void drawRecipy()
+	private void drawRecipies()
 	{
 
 		for (int i = 0; i < 3; i++)
