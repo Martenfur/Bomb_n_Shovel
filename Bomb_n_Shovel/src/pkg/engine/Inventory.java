@@ -36,11 +36,11 @@ public class Inventory
 	public static Item[][] recipes = new Item[][]
 	{
 		new Item[]{Item.woodenAxe, Item.wood, Item.wood, Item.wood},
-		new Item[]{Item.stoneAxe, Item.stone, Item.wood, Item.wood},
+		new Item[]{Item.stoneAxe, Item.woodenAxe, Item.stone, Item.wood, Item.wood},
 		new Item[]{Item.woodenSword, Item.wood, Item.wood, Item.wood},
-		new Item[]{Item.stoneSword, Item.stone, Item.wood, Item.wood},
+		new Item[]{Item.stoneSword, Item.woodenSword, Item.stone, Item.wood, Item.wood},
 		new Item[]{Item.woodenPickaxe, Item.wood, Item.wood, Item.wood},
-		new Item[]{Item.stonePickaxe, Item.stone, Item.wood, Item.wood},
+		new Item[]{Item.stonePickaxe, Item.woodenPickaxe, Item.stone, Item.wood, Item.wood},
 	};
 	
 	public List<Item> inv;
