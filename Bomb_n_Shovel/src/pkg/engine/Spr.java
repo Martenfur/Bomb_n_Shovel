@@ -16,6 +16,7 @@ public class Spr
 		stone = new Sprite("stone.png", 1, 1, 17, 17),
 		gunpowder_stone = new Sprite("gunpowder_stone.png", 1, 1, 18, 30),
 		inv_items = new Sprite("inv_items.png", 4, 3, 0, 0),
+		peasant_items = new Sprite("peasant_items.png", 4, 3, 12, 14),
 		terrain = new Sprite("terrain.png", 4, 6, 0, 0),
 		menu_buttons = new Sprite("menu_buttons.png", 1, 3, 101, 45),
 		timer_buttons = new Sprite("timer_buttons.png", 3, 1, 0, 0),
