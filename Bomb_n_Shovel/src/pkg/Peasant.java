@@ -15,7 +15,7 @@ public class Peasant extends Entity
 
 	public Player myPlayer = null;
 	public Cmd command = null;
-	public Inventory inventory= null;
+	public Inventory inventory = null;
 	public boolean initiative = false;
 	public int tid = -1;
 	public PathPoint pathList;
@@ -41,7 +41,7 @@ public class Peasant extends Entity
 	{
 		super(x_arg, y_arg, false);
 		//objIndex.add(Obj.oid.peasant);
-		inventory=new Inventory();
+		inventory = new Inventory();
 
 		spr = new Sprite(Spr.peasant);
 	}
@@ -130,7 +130,6 @@ public class Peasant extends Entity
 
 				Pathfinder pathfinder = new Pathfinder(Terrain.terrain);
 				pathList = pathfinder.pathFind((int) x / Terrain.cellSize, (int) y / Terrain.cellSize, cx, cy);
-
 
 				for (ObjIter it = new ObjIter(Entity.class); it.end(); it.inc())
 				{
@@ -244,7 +243,6 @@ public class Peasant extends Entity
 			{
 				if (((Peasant) intEntity).tid != tid)
 				{
-					this.inventory.addItem(Inventory.Item.BLOOD);
 					Obj.objDestroy(intEntity);
 					moveStamina = 0;
 					System.out.println(this.inventory.showInv());
@@ -264,15 +262,15 @@ public class Peasant extends Entity
 				Terrain.terrainSpr[cx_prev][cy_prev] = null;
 
 				this.inventory.addItem(Inventory.Item.WOOD);
-					System.out.println(this.inventory.showInv());
+				System.out.println(this.inventory.showInv());
 
-					//System.out.println(this.inventory.WOOD_AXE);
+				//System.out.println(this.inventory.WOOD_AXE);
 				//System.out.println(this.inventory.STONE_AXE);
 				//System.out.println(this.inventory.WOOD_SWORD);
 				//System.out.println(this.inventory.STONE_SWORD);
 				//System.out.println(this.inventory.WOOD_PICKAXE);
 				//System.out.println(this.inventory.STONE_PICKAXE);
-				moveStamina = moveStamina-1;
+				moveStamina = moveStamina - 1;
 			}
 
 			if (tile == 4)
@@ -282,7 +280,7 @@ public class Peasant extends Entity
 
 				this.inventory.addItem(Inventory.Item.ROCK);
 				System.out.println(this.inventory.showInv());
-				moveStamina = moveStamina-1;
+				moveStamina = moveStamina - 1;
 			}
 
 			if (tile == 5)
@@ -292,7 +290,7 @@ public class Peasant extends Entity
 
 				this.inventory.addItem(Inventory.Item.GUNPOWDER);
 				System.out.println(this.inventory.showInv());
-				moveStamina = moveStamina-1;
+				moveStamina = moveStamina - 1;
 			}
 
 			//Tile actions.

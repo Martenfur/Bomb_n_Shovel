@@ -21,7 +21,7 @@ public class LocalPlayer extends Player
 	public LocalPlayer()
 	{
 	}
-	
+
 	@Override
 	public void STEP()
 	{

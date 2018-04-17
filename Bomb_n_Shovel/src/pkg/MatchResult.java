@@ -5,7 +5,6 @@ import javafx.scene.shape.Rectangle;
 import pkg.engine.*;
 import pkg.terrain.*;
 
-
 /**
  * Shows match results and offers watching replay.
  */

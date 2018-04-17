@@ -32,7 +32,7 @@ public class TerrainGenerator
 
 	/**
 	 * Adds new island for generating.
-	 * 
+	 *
 	 * @param x Center x of island.
 	 * @param y Center y of island.
 	 * @param h Starting height. Determines island size.
@@ -93,7 +93,7 @@ public class TerrainGenerator
 		//Converting terrain from heights to tiles.
 
 		//Getting rid of restricted combinations.
-		for(int rep = 0; rep < 4; rep += 1)
+		for (int rep = 0; rep < 4; rep += 1)
 		{
 			int buf;
 			for (int i = 0; i < w; i += 1)
@@ -107,8 +107,8 @@ public class TerrainGenerator
 						for (int c = 0; c < 4; c += 1)
 						{
 							int ii = i + Mathe.rotate_x[c];
-							int kk = k + Mathe.rotate_y[c];		
-							
+							int kk = k + Mathe.rotate_y[c];
+
 							if (Terrain.get(terr, ii, kk) != 2)
 							{
 								buf += pow2[c];
@@ -124,13 +124,21 @@ public class TerrainGenerator
 						{
 							counter = 0;
 							if (Terrain.get(terr, i + 1, k + 1) != 2)
-							{counter += 1;}
+							{
+								counter += 1;
+							}
 							if (Terrain.get(terr, i - 1, k + 1) != 2)
-							{counter += 1;}
+							{
+								counter += 1;
+							}
 							if (Terrain.get(terr, i - 1, k - 1) != 2)
-							{counter += 1;}
+							{
+								counter += 1;
+							}
 							if (Terrain.get(terr, i + 1, k - 1) != 2)
-							{counter += 1;}
+							{
+								counter += 1;
+							}
 							if (counter > 2)
 							{
 								terr[i][k] = 0;
@@ -162,9 +170,9 @@ public class TerrainGenerator
 			}
 		}
 		//Generating bridges.
-		
+
 		generateForestWall(terr);
-		
+
 		//Clearing some space around starting points.
 		for (int i = 0; i < terr.length; i += 1)
 		{
@@ -179,7 +187,6 @@ public class TerrainGenerator
 		}
 		//Clearing some space around starting points.
 
-		
 		Mathe.randomPop();
 
 		return terr;
@@ -507,29 +514,29 @@ public class TerrainGenerator
 		}
 
 	}
-	
+
 	private void generateForestWall(int[][] terr)
 	{
 		int middlePointX = (islandCenters.get(1)[0] - islandCenters.get(0)[0]) / 2 + islandCenters.get(0)[0];
 		int middlePointY = (islandCenters.get(1)[1] - islandCenters.get(0)[1]) / 2 + islandCenters.get(0)[1];
-		int spawnpointsDir = (int)Mathe.pointDirection(
-			islandCenters.get(0)[0], 
-			islandCenters.get(0)[1], 
+		int spawnpointsDir = (int) Mathe.pointDirection(
+			islandCenters.get(0)[0],
+			islandCenters.get(0)[1],
 			islandCenters.get(1)[0],
 			islandCenters.get(1)[1]);
-		
+
 		terr[middlePointX][middlePointY] = 4;
-		
+
 		int[][] buffer = new int[terr.length][terr[0].length];
-		
+
 		terrainIslandSpineGenerate(buffer, spawnpointsDir + 90, 16, middlePointX, middlePointY, 4);
 		terrainIslandSpineGenerate(buffer, spawnpointsDir - 90, 16, middlePointX, middlePointY, 4);
-		
+
 		terrainBeefup(buffer);
-		
-		for(int i = 0; i <terr.length; i += 1)
+
+		for (int i = 0; i < terr.length; i += 1)
 		{
-			for(int k = 0; k <terr[0].length; k += 1)
+			for (int k = 0; k < terr[0].length; k += 1)
 			{
 				if (terr[i][k] == 0 && buffer[i][k] != 0 && Mathe.irandom(10) > 0)
 				{
@@ -538,11 +545,11 @@ public class TerrainGenerator
 			}
 		}
 	}
-	
-	
+
 	/**
 	 * Chooses between tree, stone and gunpowder stone.
-	 * @return 
+	 *
+	 * @return
 	 */
 	private int chooseObject()
 	{

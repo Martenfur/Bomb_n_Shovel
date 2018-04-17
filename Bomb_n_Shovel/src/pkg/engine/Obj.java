@@ -24,7 +24,6 @@ public class Obj
 		entity,
 		match_result
 	}*/
-
 	/**
 	 * Performs events for all game objects.
 	 */
@@ -100,9 +99,8 @@ public class Obj
 		}
 		return counter;
 	}
-	
-	////////////////////////////////////////////////
 
+	////////////////////////////////////////////////
 	////////////////////////////////////////////////
 	/**
 	 * Retrieves top object index.
@@ -115,7 +113,6 @@ public class Obj
 	//	return obj.objIndex.get(obj.objIndex.size() - 1);
 	//}
 	////////////////////////////////////////////////
-
 	////////////////////////////////////////////////
 	/**
 	 * Compares object with object index.

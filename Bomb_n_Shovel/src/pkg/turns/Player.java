@@ -16,6 +16,7 @@ import pkg.Peasant;
  */
 public class Player extends GameObject
 {
+
 	public TurnManager turnManager;
 	public int tid = 0;            //Team id.
 	ArrayList<Peasant> peasants; //List of peasants.

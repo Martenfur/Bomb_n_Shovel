@@ -30,7 +30,7 @@ public class Lobby extends GameObject
 	/*
   0 - Main menu.
   1 - Waiting room.
-	*/
+	 */
 	int state = 0,
 		gamemode = -1,
 		connectAl = -1;
@@ -38,7 +38,7 @@ public class Lobby extends GameObject
 		cam_ytar = 0;
 
 	boolean timerEn;
-	
+
 	public Lobby()
 	{
 		super();
@@ -73,7 +73,6 @@ public class Lobby extends GameObject
 	@Override
 	public void STEP()
 	{
-
 
 		//MAIN MENU/////////////////////////////////////////////////////////////////
 		if (state == 0)
@@ -134,36 +133,36 @@ public class Lobby extends GameObject
 				//CAMERA STOPPED
 				switch (gamemode)
 				{
-					case 0:
+				case 0:
+				{
+					createLocalGame();
+					Obj.objDestroy(this);
+					for (ObjIter it = new ObjIter(Paper.class); it.end(); it.inc())
 					{
-						createLocalGame();
-						Obj.objDestroy(this);
-						for (ObjIter it = new ObjIter(Paper.class); it.end(); it.inc())
-						{
-							((Paper) it.get()).disappear = true;
-						}
-						break;
+						((Paper) it.get()).disappear = true;
 					}
-					case 1:
+					break;
+				}
+				case 1:
+				{
+					createBotGame();
+					Obj.objDestroy(this);
+					for (ObjIter it = new ObjIter(Paper.class); it.end(); it.inc())
 					{
-						createBotGame();
-						Obj.objDestroy(this);
-						for (ObjIter it = new ObjIter(Paper.class); it.end(); it.inc())
-						{
-							((Paper) it.get()).disappear = true;
-						}
-						break;
+						((Paper) it.get()).disappear = true;
 					}
-					case 2:
+					break;
+				}
+				case 2:
+				{
+					createAutomaticGame();
+					Obj.objDestroy(this);
+					for (ObjIter it = new ObjIter(Paper.class); it.end(); it.inc())
 					{
-						createAutomaticGame();
-						Obj.objDestroy(this);
-						for (ObjIter it = new ObjIter(Paper.class); it.end(); it.inc())
-						{
-							((Paper) it.get()).disappear = true;
-						}
-						break;
+						((Paper) it.get()).disappear = true;
 					}
+					break;
+				}
 				}
 				//CAMERA STOPPED
 			}
@@ -230,7 +229,5 @@ public class Lobby extends GameObject
 
 		Terrain terrain = new Terrain(seed, turnManager, false);
 	}
-
-	
 
 }

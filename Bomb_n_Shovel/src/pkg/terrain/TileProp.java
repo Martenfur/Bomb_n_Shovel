@@ -40,7 +40,7 @@ public class TileProp
 		tileAdd(GROUND, UNPASSABLE, Spr.tree, 0); //Tree.
 		tileAdd(WATER, UNPASSABLE);             //Water.
 		tileAdd(WATER, PASSABLE, null, 2);       //Bridge.
-		
+
 		tileAdd(GROUND, UNPASSABLE, Spr.stone, 0); //Stone.
 		tileAdd(GROUND, UNPASSABLE, Spr.gunpowder_stone, 0); //Gunpowder stone.
 	}

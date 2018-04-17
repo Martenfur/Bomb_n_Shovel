@@ -57,13 +57,12 @@ public class Game extends Application
 		root.getChildren().add(gui);
 
 		//primaryStage.setFullScreen(true);
-		
 		primaryStage.setMinWidth(scr_w + 4);
 		primaryStage.setMinHeight(scr_h + 25 + 6);
 		primaryStage.setMaxWidth(scr_w + 4);
 		primaryStage.setMaxHeight(scr_h + 25 + 6);
 		primaryStage.setResizable(false);
-		
+
 		primaryStage.show();
 
 		new AnimationTimer()
