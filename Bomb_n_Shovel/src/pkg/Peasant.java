@@ -33,10 +33,51 @@ public class Peasant extends Entity
 	double moveSpd = 3,
 		moveStaminaMax = 16,
 		moveStamina = 0;
-
 	//Movement.
+	
 	Sprite spr;
-
+	
+	
+	
+	//Tool levels.
+	//0 - bare hands
+	//1 - wooden tool
+	//2 - stone tool
+	int[] toolLvl = new int[3]; 
+	
+	int sword = 0,
+		axe = 1,
+		pickaxe = 2;
+	
+	Inventory.Item[][] toolTiers = 
+	{
+		{Inventory.Item.woodenSword, Inventory.Item.stoneSword},
+		{Inventory.Item.woodenAxe, Inventory.Item.stoneAxe},
+		{Inventory.Item.woodenPickaxe, Inventory.Item.stonePickaxe},
+	};
+	
+	int[][] noAxeMask = // A little bit shitcoding, but eh, whatever. This will simplify things.
+	{
+		{1},
+	};
+	
+	int[][] woodenAxeMask = 
+	{
+		{0, 1, 0},
+		{1, 1, 1},
+		{0, 1, 0},
+	};
+	
+	int[][] stoneAxeMask = 
+	{
+		{0, 1, 1, 1, 0},
+		{1, 1, 1, 1, 1},
+		{1, 1, 1, 1, 1},
+		{1, 1, 1, 1, 1},
+		{0, 1, 1, 1, 0},
+	};
+	
+	
 	public Peasant(double x_arg, double y_arg)
 	{
 		super(x_arg, y_arg, false);
@@ -49,7 +90,8 @@ public class Peasant extends Entity
 	@Override
 	public void STEP()
 	{
-		//System.out.println(Obj.objCount(Peasant.class));
+		detectToolLevels();
+		
 		try
 		{
 			if (moving)
@@ -271,11 +313,8 @@ public class Peasant extends Entity
 
 			if (tile == 1)
 			{
-				Terrain.terrain[cx_prev][cy_prev] = 0;
-				Terrain.terrainSpr[cx_prev][cy_prev] = null;
-
+				chopTree(cx_prev, cy_prev);
 				inventory.addItem(Inventory.Item.wood);
-				new TreeFallingEffect(cx_prev * Terrain.cellSize, cy_prev * Terrain.cellSize);
 				
 				moveStamina = moveStamina - 1;
 			}
@@ -338,4 +377,53 @@ public class Peasant extends Entity
 
 	}
 
+	/**
+	 * Looks into inventory and determines tool levels.
+	 */
+	private void detectToolLevels()
+	{
+		for(int tool = 0; tool < toolLvl.length; tool += 1)
+		{
+			toolLvl[tool] = 0;
+			for(int i = 0; i < toolTiers[tool].length; i += 1)
+			{
+				if (inventory.contains(toolTiers[tool][i]))
+				{
+					toolLvl[tool] = i + 1;
+				}
+			}
+		}
+	}
+	
+	private void chopTree(int center_x, int center_y)
+	{
+		
+		int[][] mask = noAxeMask;
+		
+		if (toolLvl[axe] == 1)
+		{
+			mask = woodenAxeMask;
+		}
+		if (toolLvl[axe] == 2)
+		{
+			mask = stoneAxeMask;
+		}
+		
+		int ox = center_x - (mask[0].length / 2);
+		int oy = center_y - (mask.length / 2);
+		
+		for(int mx = ox; mx < ox + mask[0].length; mx += 1)
+		{
+			for(int my = oy; my < oy + mask.length; my += 1)
+			{
+				if (mask[mx - ox][my - oy] == 1 && Terrain.tget(mx, my) == 1)	
+				{
+					Terrain.terrain[mx][my] = 0;
+					Terrain.terrainSpr[mx][my] = null;
+					new TreeFallingEffect(mx * Terrain.cellSize, my * Terrain.cellSize);
+				}
+			}	
+		}
+	}
+	
 }

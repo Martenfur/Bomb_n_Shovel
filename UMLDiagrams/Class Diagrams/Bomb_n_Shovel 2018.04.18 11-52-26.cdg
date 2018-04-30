@@ -1,0 +1,903 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="Bomb_n_Shovel">
+  <ClassDiagramComponents>
+    <Class name="Camera" package="pkg.engine" visibility="public" xPosition="20.0" yPosition="20.0">
+      <Fields>
+        <Field name="viewer" type="GameObject" visibility="public" isStatic="true"/>
+        <Field name="view_w" type="double" visibility="public" isStatic="true"/>
+        <Field name="xscale_tar" type="double" visibility="package" isStatic="true"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="UPDATE" returnType="void" visibility="public" isStatic="true"/>
+        <Method name="setPosition" returnType="void" visibility="public" isStatic="true">
+          <Argument type="double" name="x"/>
+          <Argument type="double" name="y"/>
+        </Method>
+        <Method name="get_x" returnType="double" visibility="public" isStatic="true"/>
+        <Method name="get_y" returnType="double" visibility="public" isStatic="true"/>
+        <Method name="setScale" returnType="void" visibility="public" isStatic="true">
+          <Argument type="double" name="xscale"/>
+          <Argument type="double" name="yscale"/>
+        </Method>
+        <Method name="setScale_x" returnType="void" visibility="public" isStatic="true">
+          <Argument type="double" name="xscale"/>
+        </Method>
+        <Method name="setScale_y" returnType="void" visibility="public" isStatic="true">
+          <Argument type="double" name="yscale"/>
+        </Method>
+        <Method name="getScale_x" returnType="double" visibility="public" isStatic="true"/>
+        <Method name="getScale_y" returnType="double" visibility="public" isStatic="true"/>
+        <Method name="setScaleTar" returnType="void" visibility="public" isStatic="true">
+          <Argument type="double" name="xscale"/>
+          <Argument type="double" name="yscale"/>
+        </Method>
+        <Method name="setRotate" returnType="void" visibility="public" isStatic="true">
+          <Argument type="double" name="rot"/>
+        </Method>
+        <Method name="getRotate" returnType="double" visibility="public" isStatic="true"/>
+      </Methods>
+    </Class>
+    <Class name="Draw" package="pkg.engine" visibility="public" xPosition="395.0" yPosition="20.0">
+      <Fields>
+        <Field name="drawlist" type="ArrayList&lt;Node&gt;[]" visibility="public" isStatic="true"/>
+        <Field name="depthlist" type="ArrayList&lt;Integer&gt;[]" visibility="public" isStatic="true"/>
+        <Field name="currentColor" type="Color" visibility="package" isStatic="true"/>
+        <Field name="currentDepth" type="int" visibility="package" isStatic="true"/>
+        <Field name="currentPoly" type="Polyline" visibility="package" isStatic="true"/>
+        <Field name="drawFlag" type="df" visibility="public" isStatic="true"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="CREATE" returnType="void" visibility="public" isStatic="true"/>
+        <Method name="UPDATE" returnType="void" visibility="public" isStatic="true"/>
+        <Method name="draw" returnType="void" visibility="public" isStatic="true">
+          <Argument type="Node" name="dr"/>
+        </Method>
+        <Method name="setDepth" returnType="void" visibility="public" isStatic="true">
+          <Argument type="int" name="depth"/>
+        </Method>
+        <Method name="setColor" returnType="void" visibility="public" isStatic="true">
+          <Argument type="Color" name="c"/>
+        </Method>
+        <Method name="setAlpha" returnType="void" visibility="public" isStatic="true">
+          <Argument type="double" name="a"/>
+        </Method>
+        <Method name="drawSprite" returnType="void" visibility="public" isStatic="true">
+          <Argument type="Sprite" name="spr"/>
+          <Argument type="double" name="x"/>
+          <Argument type="double" name="y"/>
+        </Method>
+        <Method name="drawSprite" returnType="void" visibility="public" isStatic="true">
+          <Argument type="Sprite" name="spr"/>
+          <Argument type="double" name="frame"/>
+          <Argument type="double" name="x"/>
+          <Argument type="double" name="y"/>
+        </Method>
+        <Method name="drawSprite" returnType="void" visibility="public" isStatic="true">
+          <Argument type="Sprite" name="spr"/>
+          <Argument type="double" name="frame"/>
+          <Argument type="double" name="x"/>
+          <Argument type="double" name="y"/>
+          <Argument type="double" name="alpha"/>
+        </Method>
+        <Method name="drawSprite" returnType="void" visibility="public" isStatic="true">
+          <Argument type="Sprite" name="spr"/>
+          <Argument type="double" name="frame"/>
+          <Argument type="double" name="x"/>
+          <Argument type="double" name="y"/>
+          <Argument type="double" name="xscale"/>
+          <Argument type="double" name="yscale"/>
+          <Argument type="double" name="ang"/>
+          <Argument type="double" name="alpha"/>
+        </Method>
+        <Method name="drawSprite" returnType="void" visibility="public" isStatic="true">
+          <Argument type="Sprite" name="spr"/>
+          <Argument type="double" name="frame"/>
+          <Argument type="double" name="x"/>
+          <Argument type="double" name="y"/>
+          <Argument type="double" name="xscale"/>
+          <Argument type="double" name="yscale"/>
+          <Argument type="double" name="ang"/>
+        </Method>
+        <Method name="drawLine" returnType="void" visibility="public" isStatic="true">
+          <Argument type="Line" name="line"/>
+          <Argument type="double" name="x1"/>
+          <Argument type="double" name="y1"/>
+          <Argument type="double" name="x2"/>
+          <Argument type="double" name="y2"/>
+        </Method>
+        <Method name="drawLine" returnType="void" visibility="public" isStatic="true">
+          <Argument type="Line" name="line"/>
+          <Argument type="double" name="x1"/>
+          <Argument type="double" name="y1"/>
+          <Argument type="double" name="x2"/>
+          <Argument type="double" name="y2"/>
+          <Argument type="int" name="w"/>
+        </Method>
+        <Method name="drawRectangle" returnType="void" visibility="public" isStatic="true">
+          <Argument type="Rectangle" name="rect"/>
+          <Argument type="double" name="x1"/>
+          <Argument type="double" name="y1"/>
+          <Argument type="double" name="x2"/>
+          <Argument type="double" name="y2"/>
+          <Argument type="boolean" name="outline"/>
+        </Method>
+        <Method name="drawCircle" returnType="void" visibility="public" isStatic="true">
+          <Argument type="Circle" name="circ"/>
+          <Argument type="double" name="x"/>
+          <Argument type="double" name="y"/>
+          <Argument type="double" name="r"/>
+          <Argument type="boolean" name="outline"/>
+        </Method>
+        <Method name="drawPolyBegin" returnType="void" visibility="public" isStatic="true">
+          <Argument type="Polyline" name="poly"/>
+          <Argument type="boolean" name="outline"/>
+        </Method>
+        <Method name="drawPolyEnd" returnType="void" visibility="public" isStatic="true"/>
+        <Method name="polyAddPoint" returnType="void" visibility="public" isStatic="true">
+          <Argument type="double" name="x"/>
+          <Argument type="double" name="y"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Game" package="pkg.engine" visibility="public" xPosition="36.0" yPosition="588.0">
+      <Fields>
+        <Field name="gameSpeed" type="int" visibility="package" isStatic="true"/>
+        <Field name="timeMul" type="double" visibility="private" isFinal="true"/>
+        <Field name="currentTime" type="double" visibility="public" isStatic="true"/>
+        <Field name="create" type="boolean" visibility="public" isStatic="true"/>
+        <Field name="root" type="//Root surface. Pane" visibility="public" isStatic="true"/>
+        <Field name="scr_w" type="int" visibility="public" isStatic="true"/>
+        <Field name="scr_h" type="int" visibility="public" isStatic="true"/>
+        <Field name="inFocus" type="boolean" visibility="public" isStatic="true"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="start" returnType="void" visibility="public">
+          <Argument type="Stage" name="primaryStage"/>
+        </Method>
+        <Method name="main" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String[]" name="args"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="GameWorld" package="pkg.engine" visibility="public" xPosition="1128.0" yPosition="20.0">
+      <Fields>
+        <Field name="terrain" type="Terrain" visibility="public" isStatic="true"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="CREATE" returnType="void" visibility="public" isStatic="true"/>
+        <Method name="UPDATE" returnType="void" visibility="public" isStatic="true"/>
+      </Methods>
+    </Class>
+    <Class name="Input" package="pkg.engine" visibility="public" xPosition="1319.0" yPosition="20.0">
+      <Fields>
+        <Field name="mouse_x" type="double" visibility="public" isStatic="true"/>
+        <Field name="mbCheck" type="boolean" visibility="public" isStatic="true"/>
+        <Field name="mouse_x_read" type="double" visibility="package" isStatic="true"/>
+        <Field name="mbCheck_read" type="boolean" visibility="package" isStatic="true"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="CREATE" returnType="void" visibility="public" isStatic="true"/>
+        <Method name="UPDATE" returnType="void" visibility="public" isStatic="true"/>
+        <Method name="mouseClear" returnType="void" visibility="public" isStatic="true"/>
+      </Methods>
+    </Class>
+    <Class name="Inventory" package="pkg.engine" visibility="public" xPosition="1557.0" yPosition="20.0">
+      <Fields>
+        <Field name="recipes" type="Item[][]" visibility="public" isStatic="true"/>
+        <Field name="inv" type="List&lt;Item&gt;" visibility="public"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="addItem" returnType="void" visibility="public">
+          <Argument type="Item" name="item"/>
+        </Method>
+        <Method name="removeItem" returnType="void" visibility="public">
+          <Argument type="Item" name="item"/>
+        </Method>
+        <Method name="removeItem" returnType="void" visibility="public">
+          <Argument type="int" name="index"/>
+        </Method>
+        <Method name="contains" returnType="boolean" visibility="public">
+          <Argument type="Item" name="item"/>
+        </Method>
+        <Method name="checkRecipe" returnType="boolean" visibility="public">
+          <Argument type="Item[]" name="recipe"/>
+        </Method>
+        <Method name="craft" returnType="void" visibility="public">
+          <Argument type="Item[]" name="recipe"/>
+        </Method>
+        <Method name="getInvPlaceNumber" returnType="int" visibility="public">
+          <Argument type="Item" name="item"/>
+        </Method>
+        <Method name="showInv" returnType="String" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Mathe" package="pkg.engine" visibility="public" xPosition="1820.0" yPosition="20.0">
+      <Fields>
+        <Field name="rotate_x" type="int" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="rotate_y" type="int" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="rotated_x" type="int" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="rotated_y" type="int" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="pi" type="double" visibility="public" isStatic="true"/>
+        <Field name="randomizers" type="Stack&lt;Random&gt;" visibility="private" isStatic="true"/>
+        <Field name="randomizerSeeds" type="Stack&lt;Long&gt;" visibility="private" isStatic="true"/>
+        <Field name="randomizer" type="Random" visibility="package" isStatic="true"/>
+        <Field name="randomizerSeed" type="long" visibility="package" isStatic="true"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="rotateConvert" returnType="int" visibility="public" isStatic="true">
+          <Argument type="int" name="x"/>
+          <Argument type="int" name="y"/>
+        </Method>
+        <Method name="zerosign" returnType="double" visibility="public" isStatic="true">
+          <Argument type="double" name="x"/>
+        </Method>
+        <Method name="lerp" returnType="double" visibility="public" isStatic="true">
+          <Argument type="double" name="xp"/>
+          <Argument type="double" name="x"/>
+          <Argument type="double" name="xf"/>
+        </Method>
+        <Method name="pointInRectangle" returnType="boolean" visibility="public" isStatic="true">
+          <Argument type="double" name="xm"/>
+          <Argument type="double" name="ym"/>
+          <Argument type="double" name="x1"/>
+          <Argument type="double" name="y1"/>
+          <Argument type="double" name="x2"/>
+          <Argument type="double" name="y2"/>
+        </Method>
+        <Method name="rectangleInRectangle" returnType="boolean" visibility="public" isStatic="true">
+          <Argument type="double" name="x1a"/>
+          <Argument type="double" name="y1a"/>
+          <Argument type="double" name="x2a"/>
+          <Argument type="double" name="y2a"/>
+          <Argument type="double" name="x1b"/>
+          <Argument type="double" name="y1b"/>
+          <Argument type="double" name="x2b"/>
+          <Argument type="double" name="y2b"/>
+        </Method>
+        <Method name="lcos" returnType="double" visibility="public" isStatic="true">
+          <Argument type="double" name="len"/>
+          <Argument type="double" name="dir"/>
+        </Method>
+        <Method name="lsin" returnType="double" visibility="public" isStatic="true">
+          <Argument type="double" name="len"/>
+          <Argument type="double" name="dir"/>
+        </Method>
+        <Method name="pointDistance" returnType="double" visibility="public" isStatic="true">
+          <Argument type="double" name="x1"/>
+          <Argument type="double" name="y1"/>
+          <Argument type="double" name="x2"/>
+          <Argument type="double" name="y2"/>
+        </Method>
+        <Method name="pointDirection" returnType="double" visibility="public" isStatic="true">
+          <Argument type="double" name="x1"/>
+          <Argument type="double" name="y1"/>
+          <Argument type="double" name="x2"/>
+          <Argument type="double" name="y2"/>
+        </Method>
+        <Method name="angleDifference" returnType="double" visibility="public" isStatic="true">
+          <Argument type="double" name="ang1"/>
+          <Argument type="double" name="ang2"/>
+        </Method>
+        <Method name="randomize" returnType="void" visibility="public" isStatic="true"/>
+        <Method name="randomSetSeed" returnType="void" visibility="public" isStatic="true">
+          <Argument type="long" name="seed"/>
+        </Method>
+        <Method name="randomGetSeed" returnType="long" visibility="public" isStatic="true"/>
+        <Method name="randomPush" returnType="void" visibility="public" isStatic="true"/>
+        <Method name="randomPop" returnType="void" visibility="public" isStatic="true"/>
+        <Method name="random" returnType="double" visibility="public" isStatic="true"/>
+        <Method name="random" returnType="double" visibility="public" isStatic="true">
+          <Argument type="double" name="x"/>
+        </Method>
+        <Method name="random" returnType="double" visibility="public" isStatic="true">
+          <Argument type="double" name="x1"/>
+          <Argument type="double" name="x2"/>
+        </Method>
+        <Method name="irandom" returnType="int" visibility="public" isStatic="true">
+          <Argument type="int" name="x"/>
+        </Method>
+        <Method name="irandom" returnType="int" visibility="public" isStatic="true">
+          <Argument type="int" name="x1"/>
+          <Argument type="int" name="x2"/>
+        </Method>
+        <Method name="choose" returnType="T" visibility="public" isStatic="true">
+          <Argument type="T" name="arr"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Obj" package="pkg.engine" visibility="public" xPosition="2660.0" yPosition="20.0">
+      <Fields>
+        <Field name="objects" type="ArrayList&lt;GameObject&gt;" visibility="public" isStatic="true"/>
+        <Field name="objectsAm" type="double" visibility="public" isStatic="true"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="UPDATE" returnType="void" visibility="public" isStatic="true"/>
+        <Method name="objDestroy" returnType="void" visibility="public" isStatic="true">
+          <Argument type="GameObject" name="obj"/>
+        </Method>
+        <Method name="objCount" returnType="int" visibility="public" isStatic="true">
+          <Argument type="Class" name="c"/>
+        </Method>
+        <Method name="objIndexCmp" returnType="boolean" visibility="public" isStatic="true">
+          <Argument type="GameObject" name="obj"/>
+          <Argument type="Class" name="id"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="ObjIter" package="pkg.engine" visibility="public" xPosition="43.0" yPosition="946.0">
+      <Fields>
+        <Field name="counter" type="double" visibility="package"/>
+        <Field name="type" type="Class" visibility="package"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="Class" name="type_arg"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="get" returnType="GameObject" visibility="public"/>
+        <Method name="end" returnType="boolean" visibility="public"/>
+        <Method name="inc" returnType="void" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Spr" package="pkg.engine" visibility="public" xPosition="478.0" yPosition="1022.0">
+      <Fields>
+        <Field name="resPath" type="String" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="peasant" type="Sprite" visibility="public" isStatic="true" isFinal="true"/>
+      </Fields>
+      <Constructors/>
+      <Methods/>
+    </Class>
+    <Class name="Sprite" package="pkg.engine" visibility="public" xPosition="395.0" yPosition="588.0">
+      <Fields>
+        <Field name="img" type="ImageView" visibility="public" isFinal="true"/>
+        <Field name="frames_h" type="int" visibility="package" isFinal="true"/>
+        <Field name="frames_v" type="int" visibility="package" isFinal="true"/>
+        <Field name="offset_x" type="int" visibility="package"/>
+        <Field name="offset_y" type="int" visibility="package"/>
+        <Field name="centerDir" type="double" visibility="package"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="img_arg"/>
+          <Argument type="int" name="frh_arg"/>
+          <Argument type="int" name="frv_arg"/>
+          <Argument type="int" name="offx_arg"/>
+          <Argument type="int" name="offy_arg"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="Sprite" name="spr_arg"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="setOffset" returnType="void" visibility="public" isFinal="true">
+          <Argument type="int" name="offx_arg"/>
+          <Argument type="int" name="offy_arg"/>
+        </Method>
+        <Method name="getWidth" returnType="double" visibility="public" isFinal="true"/>
+        <Method name="getHeight" returnType="double" visibility="public" isFinal="true"/>
+        <Method name="setBlendMode" returnType="void" visibility="public">
+          <Argument type="BlendMode" name="blend"/>
+        </Method>
+        <Method name="setAlpha" returnType="void" visibility="public">
+          <Argument type="double" name="alpha"/>
+        </Method>
+        <Method name="setFrame" returnType="void" visibility="public">
+          <Argument type="double" name="frame"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Entity" package="pkg" visibility="public" xPosition="1168.0" yPosition="257.0">
+      <Fields>
+        <Field name="tileStored" type="int" visibility="package"/>
+        <Field name="passable" type="boolean" visibility="public"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="double" name="x_arg"/>
+          <Argument type="double" name="y_arg"/>
+          <Argument type="boolean" name="passable_arg"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="tileStore" returnType="void" visibility="public"/>
+        <Method name="tileRestore" returnType="void" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="GameObject" package="pkg" visibility="public" xPosition="1272.0" yPosition="477.0">
+      <Fields>
+        <Field name="x" type="double" visibility="public"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="double" name="x_arg"/>
+          <Argument type="double" name="y_arg"/>
+        </Constructor>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="STEP_BEGIN" returnType="void" visibility="public"/>
+        <Method name="STEP" returnType="void" visibility="public"/>
+        <Method name="STEP_END" returnType="void" visibility="public"/>
+        <Method name="DRAW_BEGIN" returnType="void" visibility="public"/>
+        <Method name="DRAW" returnType="void" visibility="public"/>
+        <Method name="DRAW_END" returnType="void" visibility="public"/>
+        <Method name="DRAW_GUI" returnType="void" visibility="public"/>
+        <Method name="DESTROY" returnType="void" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Lobby" package="pkg" visibility="public" xPosition="1596.0" yPosition="420.0">
+      <Fields>
+        <Field name="buttons" type="Sprite[]" visibility="package"/>
+        <Field name="buttonsAm" type="int" visibility="package"/>
+        <Field name="state" type="int" visibility="package"/>
+        <Field name="cam_y" type="double" visibility="package"/>
+        <Field name="timerEn" type="boolean" visibility="package"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="STEP" returnType="void" visibility="public"/>
+        <Method name="DRAW_GUI" returnType="void" visibility="public"/>
+        <Method name="createLocalGame" returnType="boolean" visibility="private"/>
+        <Method name="createBotGame" returnType="void" visibility="private"/>
+        <Method name="createAutomaticGame" returnType="void" visibility="private"/>
+      </Methods>
+    </Class>
+    <Class name="MatchResult" package="pkg" visibility="public" xPosition="2660.0" yPosition="236.0">
+      <Fields>
+        <Field name="bscrAl" type="double" visibility="package"/>
+        <Field name="mode" type="int" visibility="package"/>
+        <Field name="drawResults" type="boolean" visibility="package"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="int" name="mode_arg"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="STEP" returnType="void" visibility="public"/>
+        <Method name="DRAW_GUI" returnType="void" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Paper" package="pkg" visibility="public" xPosition="2753.0" yPosition="506.0">
+      <Fields>
+        <Field name="spr" type="Sprite" visibility="package"/>
+        <Field name="disappear" type="boolean" visibility="public"/>
+        <Field name="disappearSpd" type="int" visibility="package"/>
+        <Field name="depth" type="int" visibility="package"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="double" name="x_arg"/>
+          <Argument type="double" name="y_arg"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="STEP" returnType="void" visibility="public"/>
+        <Method name="DRAW_GUI" returnType="void" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="PathCell" package="pkg.pathfinder" visibility="public" xPosition="20.0" yPosition="1285.0">
+      <Fields>
+        <Field name="x" type="//Cell coordinates. int" visibility="public"/>
+        <Field name="surrounders" type="PathCell[]" visibility="package"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="package">
+          <Argument type="int" name="x_arg"/>
+          <Argument type="int" name="y_arg"/>
+          <Argument type="int" name="ds_arg"/>
+          <Argument type="int" name="df_arg"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getValue" returnType="int" visibility="package"/>
+      </Methods>
+    </Class>
+    <Class name="Pathfinder" package="pkg.pathfinder" visibility="public" xPosition="370.0" yPosition="1285.0">
+      <Fields>
+        <Field name="wallGrid" type="int[][]" visibility="package"/>
+        <Field name="grid_w" type="int" visibility="package"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="int[][]" name="grid_arg"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="pathFind" returnType="PathPoint" visibility="public">
+          <Argument type="int" name="sx"/>
+          <Argument type="int" name="sy"/>
+          <Argument type="int" name="fx"/>
+          <Argument type="int" name="fy"/>
+        </Method>
+        <Method name="pathConstruct" returnType="PathPoint" visibility="package">
+          <Argument type="PathCell" name="ptStart"/>
+        </Method>
+        <Method name="listFindLesser" returnType="PathCell" visibility="package">
+          <Argument type="ArrayList&lt;PathCell&gt;" name="list"/>
+        </Method>
+        <Method name="getDist" returnType="int" visibility="package">
+          <Argument type="int" name="sx"/>
+          <Argument type="int" name="sy"/>
+          <Argument type="int" name="fx"/>
+          <Argument type="int" name="fy"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="PathPoint" package="pkg.pathfinder" visibility="public" xPosition="649.0" yPosition="1022.0">
+      <Fields>
+        <Field name="x" type="int" visibility="public"/>
+        <Field name="next" type="PathPoint" visibility="public"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="int" name="x_arg"/>
+          <Argument type="int" name="y_arg"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="add" returnType="PathPoint" visibility="public">
+          <Argument type="int" name="x_arg"/>
+          <Argument type="int" name="y_arg"/>
+        </Method>
+        <Method name="last" returnType="PathPoint" visibility="public"/>
+        <Method name="length" returnType="int" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Peasant" package="pkg" visibility="public" xPosition="920.0" yPosition="820.0">
+      <Fields>
+        <Field name="myPlayer" type="Player" visibility="public"/>
+        <Field name="command" type="Cmd" visibility="public"/>
+        <Field name="inventory" type="Inventory" visibility="public"/>
+        <Field name="initiative" type="boolean" visibility="public"/>
+        <Field name="tid" type="int" visibility="public"/>
+        <Field name="pathList" type="PathPoint" visibility="public"/>
+        <Field name="target_x" type="int" visibility="package"/>
+        <Field name="moving" type="boolean" visibility="public"/>
+        <Field name="x_prev" type="double" visibility="package"/>
+        <Field name="z" type="double" visibility="package"/>
+        <Field name="xscale" type="double" visibility="package"/>
+        <Field name="cx_prev" type="int" visibility="public"/>
+        <Field name="moveSpd" type="double" visibility="package"/>
+        <Field name="spr" type="Sprite" visibility="package"/>
+        <Field name="invPosX" type="int[]" visibility="package"/>
+        <Field name="invPosY" type="int[]" visibility="package"/>
+        <Field name="invScale" type="int[]" visibility="package"/>
+        <Field name="invDepth" type="int[]" visibility="package"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="double" name="x_arg"/>
+          <Argument type="double" name="y_arg"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="STEP" returnType="void" visibility="public"/>
+        <Method name="DRAW" returnType="void" visibility="public"/>
+        <Method name="DESTROY" returnType="void" visibility="public"/>
+        <Method name="staminaRefill" returnType="void" visibility="public"/>
+        <Method name="interact" returnType="void" visibility="package"/>
+        <Method name="pathCheck" returnType="boolean" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Terrain" package="pkg.terrain" visibility="public" xPosition="1220.0" yPosition="820.0">
+      <Fields>
+        <Field name="terrain" type="int[][]" visibility="public" isStatic="true"/>
+        <Field name="terrainTile" type="int[][]" visibility="public" isStatic="true"/>
+        <Field name="terrainSpr" type="Sprite[][]" visibility="public" isStatic="true"/>
+        <Field name="turnManager" type="TurnManager" visibility="package"/>
+        <Field name="terrain_w" type="int" visibility="public" isStatic="true"/>
+        <Field name="basePt1_x" type="int" visibility="package"/>
+        <Field name="seed" type="long" visibility="package"/>
+        <Field name="c_water" type="Color" visibility="package"/>
+        <Field name="bkg" type="Rectangle" visibility="package"/>
+        <Field name="chunk" type="Canvas[][]" visibility="package"/>
+        <Field name="chunkSize" type="int" visibility="package"/>
+        <Field name="cam_mx" type="double" visibility="package"/>
+        <Field name="camMove" type="boolean" visibility="public" isStatic="true"/>
+        <Field name="camDragAl" type="int" visibility="package"/>
+        <Field name="endturn" type="boolean" visibility="public" isStatic="true"/>
+        <Field name="uiBlock" type="boolean" visibility="public"/>
+        <Field name="uiHide" type="double" visibility="package"/>
+        <Field name="uiHideTar" type="double" visibility="package"/>
+        <Field name="timerEn" type="boolean" visibility="public"/>
+        <Field name="timerTime" type="int" visibility="package"/>
+        <Field name="RECIPE_GUI" type="boolean" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="long" name="seed_arg"/>
+          <Argument type="TurnManager" name="turnManager_arg"/>
+          <Argument type="boolean" name="timerEn_arg"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="STEP" returnType="void" visibility="public"/>
+        <Method name="DRAW" returnType="void" visibility="public"/>
+        <Method name="DRAW_GUI" returnType="void" visibility="public"/>
+        <Method name="drawItems" returnType="void" visibility="private">
+          <Argument type="Peasant" name="p_active"/>
+        </Method>
+        <Method name="drawRecipies" returnType="void" visibility="private"/>
+        <Method name="DESTROY" returnType="void" visibility="public"/>
+        <Method name="terrainRender" returnType="void" visibility="package" isFinal="true"/>
+        <Method name="terrainChunkRender" returnType="void" visibility="package">
+          <Argument type="int" name="x"/>
+          <Argument type="int" name="y"/>
+        </Method>
+        <Method name="terrainCreate" returnType="void" visibility="private">
+          <Argument type="long" name="seed"/>
+        </Method>
+        <Method name="tget" returnType="int" visibility="public" isStatic="true">
+          <Argument type="int" name="x"/>
+          <Argument type="int" name="y"/>
+        </Method>
+        <Method name="get" returnType="int" visibility="public" isStatic="true">
+          <Argument type="int[][]" name="terr"/>
+          <Argument type="int" name="x"/>
+          <Argument type="int" name="y"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="TerrainGenerator" package="pkg.terrain" visibility="public" xPosition="1952.0" yPosition="1096.0">
+      <Fields>
+        <Field name="islandCenters" type="ArrayList&lt;int[]&gt;" visibility="package"/>
+        <Field name="terrain_w" type="int" visibility="package"/>
+        <Field name="pow2" type="int[]" visibility="package"/>
+        <Field name="seed" type="long" visibility="package"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="package">
+          <Argument type="int" name="w"/>
+          <Argument type="int" name="h"/>
+          <Argument type="long" name="seed_arg"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="islandAdd" returnType="void" visibility="package">
+          <Argument type="int" name="x"/>
+          <Argument type="int" name="y"/>
+          <Argument type="int" name="h"/>
+        </Method>
+        <Method name="terrainGenerate" returnType="int[][]" visibility="package">
+          <Argument type="int" name="w"/>
+          <Argument type="int" name="h"/>
+        </Method>
+        <Method name="terrainIslandSpineGenerate" returnType="void" visibility="package">
+          <Argument type="int[][]" name="terr"/>
+          <Argument type="int" name="spineDir"/>
+          <Argument type="int" name="bones"/>
+          <Argument type="double" name="x0"/>
+          <Argument type="double" name="y0"/>
+          <Argument type="int" name="hMax"/>
+        </Method>
+        <Method name="terrainSpineGenerate" returnType="void" visibility="package">
+          <Argument type="int[][]" name="terr"/>
+        </Method>
+        <Method name="terrainBeefup" returnType="void" visibility="package">
+          <Argument type="int[][]" name="terr"/>
+        </Method>
+        <Method name="terrainAutotile" returnType="int[][]" visibility="package">
+          <Argument type="int[][]" name="terr"/>
+          <Argument type="Sprite[][]" name="terrSpr"/>
+        </Method>
+        <Method name="terrainBridgeAdd" returnType="void" visibility="package">
+          <Argument type="int[][]" name="terr"/>
+          <Argument type="int" name="sx"/>
+          <Argument type="int" name="sy"/>
+          <Argument type="int" name="fx"/>
+          <Argument type="int" name="fy"/>
+        </Method>
+        <Method name="treesGenerate" returnType="void" visibility="package">
+          <Argument type="int[][]" name="terr"/>
+        </Method>
+        <Method name="generateForestWall" returnType="void" visibility="private">
+          <Argument type="int[][]" name="terr"/>
+        </Method>
+        <Method name="chooseObject" returnType="int" visibility="private"/>
+      </Methods>
+    </Class>
+    <Class name="TileProp" package="pkg.terrain" visibility="public" xPosition="1950.0" yPosition="820.0">
+      <Fields>
+        <Field name="tiles" type="ArrayList&lt;Tile&gt;" visibility="package" isStatic="true"/>
+        <Field name="PASSABLE" type="boolean" visibility="package" isStatic="true" isFinal="true"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="init" returnType="void" visibility="public" isStatic="true"/>
+        <Method name="tileAdd" returnType="void" visibility="package" isStatic="true" isFinal="true">
+          <Argument type="boolean" name="ground"/>
+          <Argument type="boolean" name="passable"/>
+          <Argument type="Sprite" name="spr"/>
+          <Argument type="int" name="depth"/>
+        </Method>
+        <Method name="tileAdd" returnType="void" visibility="package" isStatic="true" isFinal="true">
+          <Argument type="boolean" name="ground"/>
+          <Argument type="boolean" name="passable"/>
+        </Method>
+        <Method name="getSpr" returnType="Sprite" visibility="public" isStatic="true">
+          <Argument type="int" name="i"/>
+        </Method>
+        <Method name="getDepth" returnType="int" visibility="public" isStatic="true">
+          <Argument type="int" name="i"/>
+        </Method>
+        <Method name="isPassable" returnType="boolean" visibility="public" isStatic="true">
+          <Argument type="int" name="i"/>
+        </Method>
+        <Method name="isGround" returnType="boolean" visibility="public" isStatic="true">
+          <Argument type="int" name="i"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="TreeFallingEffect" package="pkg" visibility="public" xPosition="2413.0" yPosition="820.0">
+      <Fields>
+        <Field name="spr" type="Sprite" visibility="package"/>
+        <Field name="alpha" type="double" visibility="package"/>
+        <Field name="ang" type="double" visibility="package"/>
+        <Field name="angAdd" type="double" visibility="package"/>
+        <Field name="side" type="int" visibility="package"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="double" name="x_arg"/>
+          <Argument type="double" name="y_arg"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="DRAW" returnType="void" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="BotPlayer" package="pkg.turns" visibility="public" xPosition="36.0" yPosition="1559.0">
+      <Fields>
+        <Field name="moved" type="boolean" visibility="package"/>
+        <Field name="delayAl" type="int" visibility="package"/>
+        <Field name="delayTime" type="int" visibility="package"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="STEP" returnType="void" visibility="public"/>
+        <Method name="AI" returnType="void" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Cmd" package="pkg.turns" visibility="public" xPosition="237.0" yPosition="1559.0">
+      <Fields>
+        <Field name="command" type="String" visibility="package"/>
+        <Field name="args" type="double[]" visibility="package"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="command_arg"/>
+          <Argument type="double" name="args_arg"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="cmp" returnType="boolean" visibility="public">
+          <Argument type="String" name="command_arg"/>
+        </Method>
+        <Method name="get" returnType="String" visibility="public"/>
+        <Method name="get" returnType="double" visibility="public">
+          <Argument type="int" name="i"/>
+        </Method>
+        <Method name="size" returnType="int" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="LocalPlayer" package="pkg.turns" visibility="public" xPosition="560.0" yPosition="1559.0">
+      <Fields/>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="STEP" returnType="void" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Player" package="pkg.turns" visibility="public" xPosition="920.0" yPosition="1417.0">
+      <Fields>
+        <Field name="turnManager" type="TurnManager" visibility="public"/>
+        <Field name="tid" type="int" visibility="public"/>
+        <Field name="peasants" type="ArrayList&lt;Peasant&gt;" visibility="package"/>
+        <Field name="peasantCur" type="int" visibility="package"/>
+        <Field name="initiative" type="boolean" visibility="public"/>
+        <Field name="firstTurn" type="boolean" visibility="package"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="STEP" returnType="void" visibility="public"/>
+        <Method name="DESTROY" returnType="void" visibility="public"/>
+        <Method name="peasantAdd" returnType="void" visibility="public">
+          <Argument type="Peasant" name="peasant"/>
+        </Method>
+        <Method name="peasantRemove" returnType="void" visibility="public">
+          <Argument type="Peasant" name="peasant"/>
+        </Method>
+        <Method name="initiativeGive" returnType="void" visibility="package"/>
+        <Method name="endTurn" returnType="void" visibility="public"/>
+        <Method name="isMyTurn" returnType="boolean" visibility="package"/>
+        <Method name="getCurrentPeasant" returnType="Peasant" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="TurnManager" package="pkg.turns" visibility="public" xPosition="1709.0" yPosition="820.0">
+      <Fields>
+        <Field name="players" type="ArrayList&lt;Player&gt;" visibility="package"/>
+        <Field name="playerCur" type="int" visibility="package"/>
+        <Field name="initiative" type="boolean" visibility="package"/>
+        <Field name="kekAl" type="int" visibility="package"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="STEP" returnType="void" visibility="public"/>
+        <Method name="DESTROY" returnType="void" visibility="public"/>
+        <Method name="playerAdd" returnType="void" visibility="public">
+          <Argument type="Player" name="player"/>
+        </Method>
+        <Method name="playerGet" returnType="Player" visibility="public">
+          <Argument type="int" name="i"/>
+        </Method>
+        <Method name="initiativeGive" returnType="void" visibility="package"/>
+        <Method name="initiativeTake" returnType="void" visibility="package"/>
+        <Method name="getCurrentPeasant" returnType="Peasant" visibility="public"/>
+        <Method name="isCurrentPlayerLocal" returnType="boolean" visibility="public"/>
+      </Methods>
+    </Class>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations>
+    <IsRelation name="is" source="pkg.TreeFallingEffect" target="pkg.Entity"/>
+    <IsRelation name="is" source="pkg.Peasant" target="pkg.Entity"/>
+    <UseRelation source="pkg.pathfinder.PathPoint" target="pkg.pathfinder.PathPoint" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <IsRelation name="is" source="pkg.Paper" target="pkg.GameObject"/>
+    <HasRelation name="turnManager" source="pkg.turns.Player" target="pkg.turns.TurnManager" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="peasants" source="pkg.turns.Player" target="pkg.Peasant" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="ArrayList&lt;Peasant&gt;"/>
+    <IsRelation name="is" source="pkg.Lobby" target="pkg.GameObject"/>
+    <HasRelation name="turnManager" source="pkg.terrain.Terrain" target="pkg.turns.TurnManager" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="next" source="pkg.pathfinder.PathPoint" target="pkg.pathfinder.PathPoint" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <IsRelation name="is" source="pkg.turns.Player" target="pkg.GameObject"/>
+    <HasRelation name="pathList" source="pkg.Peasant" target="pkg.pathfinder.PathPoint" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="pkg.terrain.TileProp" target="pkg.engine.Sprite" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <IsRelation name="is" source="pkg.MatchResult" target="pkg.GameObject"/>
+    <HasRelation name="spr" source="pkg.Peasant" target="pkg.engine.Sprite" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="terrain" source="pkg.engine.GameWorld" target="pkg.terrain.Terrain" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <IsRelation name="is" source="pkg.turns.TurnManager" target="pkg.GameObject"/>
+    <IsRelation name="is" source="pkg.turns.LocalPlayer" target="pkg.turns.Player"/>
+    <HasRelation name="spr" source="pkg.TreeFallingEffect" target="pkg.engine.Sprite" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="spr" source="pkg.Paper" target="pkg.engine.Sprite" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="viewer" source="pkg.engine.Camera" target="pkg.GameObject" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="pkg.turns.TurnManager" target="pkg.turns.Player" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="pkg.engine.Draw" target="pkg.engine.Sprite" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="pkg.terrain.Terrain" target="pkg.Peasant" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="pkg.terrain.TerrainGenerator" target="pkg.engine.Sprite" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="pkg.pathfinder.Pathfinder" target="pkg.pathfinder.PathPoint" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="pkg.engine.Obj" target="pkg.GameObject" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="myPlayer" source="pkg.Peasant" target="pkg.turns.Player" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="pkg.turns.Player" target="pkg.Peasant" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="pkg.engine.ObjIter" target="pkg.GameObject" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="pkg.pathfinder.Pathfinder" target="pkg.pathfinder.PathCell" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <IsRelation name="is" source="pkg.turns.BotPlayer" target="pkg.turns.Player"/>
+    <HasRelation name="command" source="pkg.Peasant" target="pkg.turns.Cmd" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="inventory" source="pkg.Peasant" target="pkg.engine.Inventory" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="objects" source="pkg.engine.Obj" target="pkg.GameObject" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="ArrayList&lt;GameObject&gt;"/>
+    <HasRelation name="players" source="pkg.turns.TurnManager" target="pkg.turns.Player" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="ArrayList&lt;Player&gt;"/>
+    <IsRelation name="is" source="pkg.terrain.Terrain" target="pkg.GameObject"/>
+    <IsRelation name="is" source="pkg.Entity" target="pkg.GameObject"/>
+    <HasRelation name="peasant" source="pkg.engine.Spr" target="pkg.engine.Sprite" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="pkg.turns.TurnManager" target="pkg.Peasant" sourceCardinality="1..1" targetCardinality="1..1"/>
+  </ClassDiagramRelations>
+</ClassDiagram>
