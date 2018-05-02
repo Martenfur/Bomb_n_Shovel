@@ -327,7 +327,7 @@ public class Peasant extends Entity
 				moveStamina = moveStamina - 1;
 			}
 
-			if (tile == 4)
+			if (tile == 4 && toolLvl[pickaxe] >= 1)
 			{
 				Terrain.terrain[cx_prev][cy_prev] = 0;
 				Terrain.terrainSpr[cx_prev][cy_prev] = null;
@@ -336,7 +336,7 @@ public class Peasant extends Entity
 				moveStamina = moveStamina - 1;
 			}
 
-			if (tile == 5)
+			if (tile == 5 && toolLvl[pickaxe] >= 2)
 			{
 				Terrain.terrain[cx_prev][cy_prev] = 0;
 				Terrain.terrainSpr[cx_prev][cy_prev] = null;
