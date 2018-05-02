@@ -19,6 +19,7 @@ public class Peasant extends Entity
 	public boolean initiative = false;
 	public int tid = -1;
 	public PathPoint pathList;
+	public int hp = 5;
 
 	//Movement.
 	int target_x, target_y;
@@ -43,7 +44,9 @@ public class Peasant extends Entity
 	//0 - bare hands
 	//1 - wooden tool
 	//2 - stone tool
-	int[] toolLvl = new int[3]; 
+	int[] toolLvl = new int[3];
+	
+	int[] swordDamage = {1, 2, 3};
 	
 	int sword = 0,
 		axe = 1,
@@ -297,11 +300,16 @@ public class Peasant extends Entity
 			//Entity actions.
 			if (intEntity instanceof Peasant)
 			{
-				if (((Peasant) intEntity).tid != tid)
-				{
-					Obj.objDestroy(intEntity);
-					moveStamina = 0;
-				}
+			    Peasant intPeasant = (Peasant) intEntity;	
+                            if (intPeasant.tid != tid)
+			    {
+				intPeasant.hp -= swordDamage[toolLvl[sword]];
+                                if (intPeasant.hp <= 0)
+                                {
+                                    Obj.objDestroy(intPeasant);
+                                }
+			        moveStamina = 0;
+			    }
 			}
 			//Entity actions.
 		}
